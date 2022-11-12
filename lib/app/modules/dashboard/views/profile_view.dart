@@ -27,7 +27,7 @@ class ProfileView extends GetView {
                 height: 150,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: context.isSmallTablet
+                  mainAxisAlignment: context.isPhone
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.spaceEvenly,
                   children: [
@@ -75,7 +75,7 @@ class ProfileView extends GetView {
                     ]),
               ),
               SizedBox(
-                height: 30,
+                height: 100,
               ),
               ProfileButton(
                   icon: const FaIcon(
@@ -137,7 +137,7 @@ class ProfileButton extends StatelessWidget {
               width: 30,
               child: icon,
             ),
-            SizedBox(
+            const SizedBox(
               width: 30,
             ),
             Text(

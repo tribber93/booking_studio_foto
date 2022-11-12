@@ -17,7 +17,7 @@ class HomeView extends GetView<HomeController> {
       appBar: AppBar(
         title: const Text('QM Photo Studio'),
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        // automaticallyImplyLeading: false,
       ),
       backgroundColor: Color.fromARGB(132, 232, 232, 232),
       body: SingleChildScrollView(
@@ -27,7 +27,7 @@ class HomeView extends GetView<HomeController> {
             Container(
               padding: EdgeInsets.all(20),
               alignment: Alignment.centerLeft,
-              height: 150,
+              height: 100,
               child: Text(
                 "Hello, Yoni",
                 style: TextStyle(fontSize: 24),
@@ -54,7 +54,7 @@ class HomeView extends GetView<HomeController> {
               style: TextStyle(fontSize: 18),
             ),
             Container(
-              height: 300.0,
+              height: 350.0,
               child: ListView.builder(
                   // physics: const ClampingScrollPhysics(),
                   shrinkWrap: true,
