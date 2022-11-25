@@ -191,17 +191,24 @@ class DetailPaketView extends GetView<DetailPaketController> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
+                        mainAxisSpacing: 15,
                         mainAxisExtent: 25,
                       ),
                       itemBuilder: (_, index) {
                         return Container(
-                          color: Colors.amber,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            color: Colors.amber,
+                          ),
+                          child: Center(child: Text("9.30")),
                         );
                       },
-                      itemCount: 4,
+                      itemCount: 10,
                     ),
-                  )
+                  ),
+                  Center(
+                      child: ElevatedButton(
+                          onPressed: () {}, child: Text("Checkout")))
                 ],
               ),
             ));
