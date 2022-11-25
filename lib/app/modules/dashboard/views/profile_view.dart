@@ -76,7 +76,7 @@ class ProfileView extends GetView {
                     ]),
               ),
               SizedBox(
-                height: 100,
+                height: 50,
               ),
               ProfileButton(
                   onTap: () {
@@ -101,7 +101,9 @@ class ProfileView extends GetView {
                 thickness: 2,
               ),
               ProfileButton(
-                  onTap: () {},
+                  onTap: () {
+                    Get.toNamed(Routes.LOGIN);
+                  },
                   icon: const FaIcon(
                     FontAwesomeIcons.arrowRightFromBracket,
                     size: 30,

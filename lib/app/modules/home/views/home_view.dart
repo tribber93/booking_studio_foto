@@ -10,7 +10,44 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
 
-  List paket = ["Solo", "Wedding", "Graduate", "Keluaga"];
+  List paket = [
+    {
+      "nama": "Solo",
+      "image": [
+        "assets/images/paket/solo1.jpg",
+        "assets/images/paket/solo2.jpg",
+        "assets/images/paket/solo3.jpg"
+      ],
+      "maks": 1
+    },
+    {
+      "nama": "Wedding",
+      "image": [
+        "assets/images/paket/wed1.jpg",
+        "assets/images/paket/wed2.jpg",
+        "assets/images/paket/wed3.jpg",
+      ],
+      "maks": 2
+    },
+    {
+      "nama": "Graduate",
+      "image": [
+        "assets/images/paket/grad3.jpg",
+        "assets/images/paket/grad2.jpg",
+        "assets/images/paket/grad1.jpg",
+      ],
+      "maks": 1
+    },
+    {
+      "nama": "Keluarga",
+      "image": [
+        "assets/images/paket/fam3.jpg",
+        "assets/images/paket/fam2.jpg",
+        "assets/images/paket/fam1.jpg",
+      ],
+      "maks": 5
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -65,21 +102,49 @@ class HomeView extends GetView<HomeController> {
                     return GestureDetector(
                       onTap: () {
                         Get.toNamed(
-                            '${Routes.DETAIL_PAKET}/paket${paket[index]}',
+                            '${Routes.DETAIL_PAKET}/paket${paket[index]["nama"]}',
                             arguments: paket[index]);
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(10),
-                        width: 250,
-                        child: Card(
-                          child: Center(
-                            child: Text('Paket ${paket[index]}'),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          image: DecorationImage(
+                            colorFilter: ColorFilter.mode(
+                              Color.fromARGB(93, 0, 0, 0),
+                              BlendMode.darken,
+                            ),
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              paket[index]["image"][0],
+                            ),
                           ),
                         ),
+                        width: 250,
+                        child: Center(
+                          child: Text(
+                            'Paket ${paket[index]["nama"]}',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        // Card(
+                        //   child: Center(
+                        //     child: Text('Paket ${paket[index]["nama"]}'),
+                        //   ),
+                        // ),
                       ),
                     );
                   }),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  debugPrint(paket[0]["image"][2]);
+                },
+                child: Text("image"))
           ],
         ),
       ),
