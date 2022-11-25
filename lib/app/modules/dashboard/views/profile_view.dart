@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/app/routes/app_pages.dart';
 
 class ProfileView extends GetView {
   const ProfileView({Key? key}) : super(key: key);
@@ -78,6 +79,9 @@ class ProfileView extends GetView {
                 height: 100,
               ),
               ProfileButton(
+                  onTap: () {
+                    Get.toNamed(Routes.PROFILE_LENGKAP);
+                  },
                   icon: const FaIcon(
                     FontAwesomeIcons.user,
                     size: 30,
@@ -87,6 +91,7 @@ class ProfileView extends GetView {
                 thickness: 2,
               ),
               ProfileButton(
+                  onTap: () {},
                   icon: const FaIcon(
                     FontAwesomeIcons.receipt,
                     size: 30,
@@ -96,6 +101,7 @@ class ProfileView extends GetView {
                 thickness: 2,
               ),
               ProfileButton(
+                  onTap: () {},
                   icon: const FaIcon(
                     FontAwesomeIcons.arrowRightFromBracket,
                     size: 30,
@@ -115,11 +121,13 @@ class ProfileView extends GetView {
 class ProfileButton extends StatelessWidget {
   Widget icon;
   String label;
+  void Function() onTap;
 
   ProfileButton({
     Key? key,
     required this.icon,
     required this.label,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -129,7 +137,7 @@ class ProfileButton extends StatelessWidget {
       height: 50,
       child: TextButton(
         style: TextButton.styleFrom(foregroundColor: Colors.black),
-        onPressed: () {},
+        onPressed: onTap,
         child: Row(
           children: [
             SizedBox(

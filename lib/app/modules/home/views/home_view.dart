@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
 
-  List paket = ["Solo", "Wedding", "Graduate", "Keluaga Besar"];
+  List paket = ["Solo", "Wedding", "Graduate", "Keluaga"];
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +62,19 @@ class HomeView extends GetView<HomeController> {
                   scrollDirection: Axis.horizontal,
                   itemCount: paket.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      padding: const EdgeInsets.all(10),
-                      width: 250,
-                      child: Card(
-                        child: Center(
-                          child: Text('Paket ${paket[index]}'),
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(
+                            '${Routes.DETAIL_PAKET}/paket${paket[index]}',
+                            arguments: paket[index]);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        width: 250,
+                        child: Card(
+                          child: Center(
+                            child: Text('Paket ${paket[index]}'),
+                          ),
                         ),
                       ),
                     );

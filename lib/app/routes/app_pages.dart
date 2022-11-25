@@ -8,6 +8,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/profile_lengkap/bindings/profile_lengkap_binding.dart';
+import '../modules/profile_lengkap/views/profile_lengkap_view.dart';
 
 part 'app_routes.dart';
 
@@ -34,8 +36,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_PAKET,
-      page: () => const DetailPaketView(),
+      page: () => DetailPaketView(),
       binding: DetailPaketBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_LENGKAP,
+      page: () => const ProfileLengkapView(),
+      binding: ProfileLengkapBinding(),
     ),
   ];
 }

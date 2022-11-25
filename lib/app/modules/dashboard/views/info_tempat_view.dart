@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InfoTempatView extends GetView {
-  InfoTempatView({Key? key}) : super(key: key);
-  bool _pinned = true;
-  bool _snap = false;
-  bool _floating = false;
+  const InfoTempatView({Key? key}) : super(key: key);
+
+  static final Uri _urlWhatsapp =
+      Uri.parse("https://wa.me/+6285864571300?text=Hello%20Jingan");
+  static final Uri _urlInstagram =
+      Uri.parse("https://www.instagram.com/yonitribber93/");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            pinned: _pinned,
-            snap: _snap,
-            floating: _floating,
+            pinned: true,
+            snap: false,
+            floating: false,
             automaticallyImplyLeading: false,
             expandedHeight: 300.0,
             flexibleSpace: FlexibleSpaceBar(
@@ -31,7 +35,7 @@ class InfoTempatView extends GetView {
                       image: DecorationImage(
                         alignment: Alignment.bottomCenter,
                         image: AssetImage("assets/images/bg_info.jpg"),
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.cover,
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -85,13 +89,17 @@ class InfoTempatView extends GetView {
                     IconButton(
                       color: Colors.green,
                       iconSize: 40,
-                      onPressed: () {},
+                      onPressed: () {
+                        _launchInBrowser(_urlWhatsapp);
+                      },
                       icon: FaIcon(FontAwesomeIcons.whatsapp),
                     ),
                     IconButton(
                       color: Colors.purple[300],
                       iconSize: 40,
-                      onPressed: () {},
+                      onPressed: () {
+                        _launchInBrowser(_urlInstagram);
+                      },
                       icon: FaIcon(FontAwesomeIcons.instagram),
                     ),
                     IconButton(
@@ -112,5 +120,14 @@ class InfoTempatView extends GetView {
         ],
       ),
     );
+  }
+}
+
+Future<void> _launchInBrowser(Uri url) async {
+  if (!await launchUrl(
+    url,
+    mode: LaunchMode.externalNonBrowserApplication,
+  )) {
+    throw 'Could not launch $url';
   }
 }
