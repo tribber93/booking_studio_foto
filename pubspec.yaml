@@ -12,10 +12,6 @@ dependencies:
     sdk: flutter
   font_awesome_flutter: ^10.2.1
   url_launcher: ^6.1.6
-  window_size:
-    git:
-      url: https://github.com/google/flutter-desktop-embedding.git
-      path: plugins/window_size
   carousel_slider: ^4.1.1
 
 dev_dependencies:

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:studio_foto/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:studio_foto/utils/myCustomScrollBehavior.dart';
-import 'package:window_size/window_size.dart';
 
 import 'app/routes/app_pages.dart';
 
