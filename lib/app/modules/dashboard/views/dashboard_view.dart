@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:studio_foto/app/modules/dashboard/views/info_tempat_view.dart';
 import 'package:studio_foto/app/modules/dashboard/views/profile_view.dart';
 import 'package:studio_foto/app/modules/home/views/home_view.dart';
+import 'package:studio_foto/utils/myColor.dart';
 
 import '../controllers/dashboard_controller.dart';
 
@@ -26,6 +27,8 @@ class DashboardView extends GetView<DashboardController> {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
+            selectedLabelStyle: TextStyle(color: Colors.black),
+            selectedItemColor: primaryColor,
             onTap: controller.changeTabIndex,
             currentIndex: controller.tabIndex,
             showUnselectedLabels: false,

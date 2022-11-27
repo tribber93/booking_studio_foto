@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/utils/myColor.dart';
 
 import '../controllers/profile_lengkap_controller.dart';
 
@@ -10,6 +11,7 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: primaryColor,
           title: Text('Profile Lengkap'),
           centerTitle: true,
         ),

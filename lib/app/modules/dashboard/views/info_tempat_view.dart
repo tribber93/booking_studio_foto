@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/utils/myColor.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoTempatView extends GetView {
@@ -11,6 +12,7 @@ class InfoTempatView extends GetView {
       Uri.parse("https://wa.me/+6285864571300?text=Hello%20Jingan");
   static final Uri _urlInstagram =
       Uri.parse("https://www.instagram.com/yonitribber93/");
+  static final Uri _urlMap = Uri.parse("https://goo.gl/maps/U3MxMb994Dmmq5xq7");
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class InfoTempatView extends GetView {
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
+            backgroundColor: primaryColor,
             pinned: true,
             snap: false,
             floating: false,
@@ -25,7 +28,10 @@ class InfoTempatView extends GetView {
             expandedHeight: 300.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: const Text('QM Studio Foto'),
+              title: const Text(
+                'QM Studio Foto',
+                style: TextStyle(color: Colors.white),
+              ),
               background: Stack(
                 alignment: const Alignment(0, -0.5),
                 children: [
@@ -37,12 +43,6 @@ class InfoTempatView extends GetView {
                         image: AssetImage("assets/images/bg_info.jpg"),
                         fit: BoxFit.cover,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 40,
-                          offset: Offset(2, 4),
-                        ),
-                      ],
                     ),
                   ),
                   const CircleAvatar(
@@ -105,7 +105,9 @@ class InfoTempatView extends GetView {
                     IconButton(
                       color: Colors.red[600],
                       iconSize: 40,
-                      onPressed: () {},
+                      onPressed: () {
+                        _launchInBrowser(_urlMap);
+                      },
                       icon: FaIcon(FontAwesomeIcons.locationDot),
                     ),
                   ],
