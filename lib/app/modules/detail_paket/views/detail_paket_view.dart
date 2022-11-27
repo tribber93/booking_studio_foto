@@ -2,52 +2,65 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/utils/myColor.dart';
 
 import '../controllers/detail_paket_controller.dart';
 
 class DetailPaketView extends GetView<DetailPaketController> {
   DetailPaketView({Key? key}) : super(key: key);
 
-  final title = Get.arguments;
-
-  final galeri = [
-    "assets/images/paket/IMG_0676-1365x2048.jpg",
-    "assets/images/paket/IMG_0670-1365x2048 .jpg",
-    "assets/images/paket/IMG_0119-1365x2048.jpg"
-  ];
+  final info = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: SingleChildScrollView(
-          child: Stack(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: FaIcon(FontAwesomeIcons.arrowLeft),
-                color: Colors.white,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    alignment: context.isPhone
-                        ? Alignment.topCenter
-                        : Alignment.center,
-                    image: AssetImage('assets/images/work.png'),
-                  ),
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
+              backgroundColor: primaryColor,
+              pinned: true,
+              snap: false,
+              floating: false,
+              // automaticallyImplyLeading: false,
+              expandedHeight: 250.0,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text(
+                  "Paket ${info["nama"]}",
+                  style: TextStyle(color: Colors.white),
                 ),
-                height: 350,
-                width: double.infinity,
+                background: Stack(
+                  alignment: const Alignment(0, -0.5),
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        // borderRadius: BorderRadius.circular(20),
+                        image: DecorationImage(
+                          // alignment: Alignment.bottomCenter,
+                          colorFilter: ColorFilter.mode(
+                            Color.fromARGB(111, 0, 0, 0),
+                            BlendMode.darken,
+                          ),
+                          image: AssetImage(info["image"][0]),
+                          fit: BoxFit.cover,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 40,
+                            offset: Offset(2, 4),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                //padding: EdgeInsets.only(bottom: 100),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 225),
-                child: Container(
+            ),
+            SliverList(
+              delegate: SliverChildListDelegate([
+                Container(
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50)),
                     color: Colors.white,
                   ),
                   // height: 500,
@@ -57,16 +70,6 @@ class DetailPaketView extends GetView<DetailPaketController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Center(
-                        child: Text(
-                          "Paket foto $title",
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       Text(
                         "Deskripsi",
                         style: TextStyle(
@@ -75,11 +78,11 @@ class DetailPaketView extends GetView<DetailPaketController> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text('Nama Paket   : Paket $title'),
+                      Text('Nama Paket   : Paket ${info["nama"]}'),
                       SizedBox(
                         height: 10,
                       ),
-                      Text('Maks. Orang  : 2 Orang'),
+                      Text('Maks. Orang  : ${info["maks"]} Orang'),
                       SizedBox(
                         height: 10,
                       ),
@@ -88,15 +91,20 @@ class DetailPaketView extends GetView<DetailPaketController> {
                         height: 10,
                       ),
                       Text('Keterangan     :'),
+                      SizedBox(
+                        height: 8,
+                      ),
                       Text(
-                          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'),
+                        'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                        style: TextStyle(height: 1.5, wordSpacing: 1.5),
+                      ),
                       Container(
                         height: 350.0,
                         child: ListView.builder(
                             // physics: const ClampingScrollPhysics(),
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: galeri.length,
+                            itemCount: info["image"].length,
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 onTap: () {},
@@ -107,7 +115,7 @@ class DetailPaketView extends GetView<DetailPaketController> {
                                     // semanticContainer: true,
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
                                     child: Image.asset(
-                                      galeri[index],
+                                      info["image"][index],
                                       fit: BoxFit.fill,
                                     ),
                                     shape: RoundedRectangleBorder(
@@ -122,11 +130,122 @@ class DetailPaketView extends GetView<DetailPaketController> {
                       ),
                     ],
                   ),
-                ),
-              )
-            ],
-          ),
-        )),
+                )
+              ]),
+              // child:
+            )
+          ],
+        ),
+        // SafeArea(
+        //     child: SingleChildScrollView(
+        //   child: Stack(
+        //     children: [
+        //       Container(
+        //         decoration: BoxDecoration(
+        //           image: DecorationImage(
+        //             colorFilter: ColorFilter.mode(
+        //                 Color.fromARGB(93, 0, 0, 0), BlendMode.darken),
+        //             fit: BoxFit.cover,
+        //             image: AssetImage(info["image"][0]),
+        //           ),
+        //         ),
+        //         child: Center(
+        //           child: Text(
+        //             "Paket foto ${info["nama"]}",
+        //             style: TextStyle(
+        //                 fontSize: 24,
+        //                 fontWeight: FontWeight.w700,
+        //                 color: Colors.white),
+        //           ),
+        //         ),
+        //         height: 350,
+        //         width: double.infinity,
+        //       ),
+        //       IconButton(
+        //         onPressed: () {
+        //           Get.back();
+        //         },
+        //         icon: FaIcon(FontAwesomeIcons.arrowLeft),
+        //         color: Colors.white,
+        //       ),
+        //       Padding(
+        //         padding: const EdgeInsets.only(top: 225),
+        //         child: Container(
+        //           decoration: const BoxDecoration(
+        //             color: Colors.white,
+        //           ),
+        //           // height: 500,
+        //           width: double.infinity,
+        //           padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+        //           child: Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             mainAxisSize: MainAxisSize.max,
+        //             children: [
+        //               Text(
+        //                 "Deskripsi",
+        //                 style: TextStyle(
+        //                     fontSize: 18, fontWeight: FontWeight.w500),
+        //               ),
+        //               SizedBox(
+        //                 height: 20,
+        //               ),
+        //               Text('Nama Paket   : Paket ${info["nama"]}'),
+        //               SizedBox(
+        //                 height: 10,
+        //               ),
+        //               Text('Maks. Orang  : ${info["maks"]} Orang'),
+        //               SizedBox(
+        //                 height: 10,
+        //               ),
+        //               Text('Harga              : Rp. 100.000/15 Menit'),
+        //               SizedBox(
+        //                 height: 10,
+        //               ),
+        //               Text('Keterangan     :'),
+        //               SizedBox(
+        //                 height: 8,
+        //               ),
+        //               Text(
+        //                 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+        //                 style: TextStyle(height: 1.5, wordSpacing: 1.5),
+        //               ),
+        //               Container(
+        //                 height: 350.0,
+        //                 child: ListView.builder(
+        //                     // physics: const ClampingScrollPhysics(),
+        //                     shrinkWrap: true,
+        //                     scrollDirection: Axis.horizontal,
+        //                     itemCount: info["image"].length,
+        //                     itemBuilder: (BuildContext context, int index) {
+        //                       return GestureDetector(
+        //                         onTap: () {},
+        //                         child: Container(
+        //                           padding: const EdgeInsets.all(10),
+        //                           width: 250,
+        //                           child: Card(
+        //                             // semanticContainer: true,
+        //                             clipBehavior: Clip.antiAliasWithSaveLayer,
+        //                             child: Image.asset(
+        //                               info["image"][index],
+        //                               fit: BoxFit.fill,
+        //                             ),
+        //                             shape: RoundedRectangleBorder(
+        //                               borderRadius: BorderRadius.circular(10.0),
+        //                             ),
+        //                             elevation: 5,
+        //                             // margin: EdgeInsets.all(10),
+        //                           ),
+        //                         ),
+        //                       );
+        //                     }),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // )),
         bottomNavigationBar: InkWell(
           onTap: () {
             Get.bottomSheet(Container(
@@ -145,7 +264,7 @@ class DetailPaketView extends GetView<DetailPaketController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: Text("Paket $title")),
+                  Center(child: Text("Paket ${info["nama"]}")),
                   Text("Pilih Tanggal"),
                   SizedBox(
                     height: 75,
@@ -214,7 +333,7 @@ class DetailPaketView extends GetView<DetailPaketController> {
             ));
           },
           child: Container(
-            color: Colors.blue,
+            color: primaryColor,
             height: 60,
             child: Center(
                 child: Text(
