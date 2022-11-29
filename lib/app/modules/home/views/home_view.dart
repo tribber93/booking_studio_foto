@@ -82,7 +82,7 @@ class HomeView extends GetView<HomeController> {
               'Pilih Paketmu',
               style: TextStyle(fontSize: 18),
             ),
-            Container(
+            SizedBox(
               height: 350.0,
               child: ListView.builder(
                   // physics: const ClampingScrollPhysics(),
@@ -131,6 +131,23 @@ class HomeView extends GetView<HomeController> {
                     );
                   }),
             ),
+            Flexible(
+              child: ListView.builder(
+                clipBehavior: Clip.antiAlias,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 8,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      color: Colors.red,
+                      height: 100,
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

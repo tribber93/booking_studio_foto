@@ -6,7 +6,8 @@ List paket = [
       "assets/images/paket/solo2.jpg",
       "assets/images/paket/solo3.jpg"
     ],
-    "maks": 1
+    "maks": 1,
+    "icon": "assets/images/self-photo.png"
   },
   {
     "nama": "Wedding",
@@ -15,7 +16,8 @@ List paket = [
       "assets/images/paket/wed2.jpg",
       "assets/images/paket/wed3.jpg",
     ],
-    "maks": 2
+    "maks": 2,
+    "icon": "assets/images/prewedding.png"
   },
   {
     "nama": "Graduate",
@@ -24,7 +26,8 @@ List paket = [
       "assets/images/paket/grad2.jpg",
       "assets/images/paket/grad1.jpg",
     ],
-    "maks": 1
+    "maks": 1,
+    "icon": "assets/images/graduate.png"
   },
   {
     "nama": "Keluarga",
@@ -33,6 +36,7 @@ List paket = [
       "assets/images/paket/fam3.jpg",
       "assets/images/paket/fam1.jpg",
     ],
-    "maks": 5
+    "maks": 5,
+    "icon": "assets/images/family.png"
   }
 ];

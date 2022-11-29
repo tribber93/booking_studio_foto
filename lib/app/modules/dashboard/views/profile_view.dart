@@ -91,7 +91,9 @@ class ProfileView extends GetView {
                     ),
                     label: "Profile Lengkap"),
                 ProfileButton(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(Routes.TRANSAKSI);
+                    },
                     icon: const FaIcon(
                       FontAwesomeIcons.receipt,
                       size: 30,

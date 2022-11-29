@@ -1,23 +1,14 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class TransaksiController extends GetxController {
   //TODO: Implement TransaksiController
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  var tabIndex = 0;
 
-  @override
-  void onReady() {
-    super.onReady();
+  void changeTabIndex(int index) {
+    tabIndex = index;
+    update();
+    debugPrint("ini ke-$index");
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

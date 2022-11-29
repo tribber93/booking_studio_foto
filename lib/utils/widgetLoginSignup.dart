@@ -29,6 +29,7 @@ class BgLoginSignup extends StatelessWidget {
         )),
         child: Center(
           child: SingleChildScrollView(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
             child: Padding(
               padding: const EdgeInsets.all(35),
               child: SizedBox(
