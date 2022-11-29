@@ -12,6 +12,8 @@ import '../modules/profile_lengkap/bindings/profile_lengkap_binding.dart';
 import '../modules/profile_lengkap/views/profile_lengkap_view.dart';
 import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
+import '../modules/transaksi/bindings/transaksi_binding.dart';
+import '../modules/transaksi/views/transaksi_view.dart';
 
 part 'app_routes.dart';
 
@@ -40,6 +42,7 @@ class AppPages {
       name: _Paths.DETAIL_PAKET,
       page: () => DetailPaketView(),
       binding: DetailPaketBinding(),
+      transition: Transition.leftToRightWithFade,
     ),
     GetPage(
       name: _Paths.PROFILE_LENGKAP,
@@ -50,6 +53,12 @@ class AppPages {
       name: _Paths.SIGNUP,
       page: () => const SignupView(),
       binding: SignupBinding(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: _Paths.TRANSAKSI,
+      page: () => const TransaksiView(),
+      binding: TransaksiBinding(),
     ),
   ];
 }

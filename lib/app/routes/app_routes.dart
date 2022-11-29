@@ -9,6 +9,7 @@ abstract class Routes {
   static const DETAIL_PAKET = _Paths.DETAIL_PAKET;
   static const PROFILE_LENGKAP = _Paths.PROFILE_LENGKAP;
   static const SIGNUP = _Paths.SIGNUP;
+  static const TRANSAKSI = _Paths.TRANSAKSI;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const DETAIL_PAKET = '/detail-paket';
   static const PROFILE_LENGKAP = '/profile-lengkap';
   static const SIGNUP = '/signup';
+  static const TRANSAKSI = '/transaksi';
 }

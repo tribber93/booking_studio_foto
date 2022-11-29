@@ -280,9 +280,18 @@ class DetailPaketView extends GetView<DetailPaketController> {
                               height: 20,
                               width: 80,
                               decoration: BoxDecoration(
-                                  color: Colors.amberAccent,
-                                  border: Border.all(
-                                      color: Colors.black, width: 2)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black45,
+                                    blurRadius: 0.1,
+                                    spreadRadius: 0.3,
+                                    offset: Offset(1, 1),
+                                  )
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: Colors.grey[100],
+                              ),
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -306,28 +315,73 @@ class DetailPaketView extends GetView<DetailPaketController> {
                     height: 20,
                   ),
                   Expanded(
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 15,
-                        mainAxisExtent: 25,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          crossAxisSpacing: 15,
+                          mainAxisSpacing: 15,
+                          mainAxisExtent: 25,
+                        ),
+                        itemBuilder: (_, index) {
+                          return InkWell(
+                            onTap: () {},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black45,
+                                    blurRadius: 0.5,
+                                    spreadRadius: 0.2,
+                                  ),
+                                ],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                                color: Colors.white,
+                              ),
+                              child: Center(child: Text("09.30")),
+                            ),
+                          );
+                        },
+                        itemCount: 10,
                       ),
-                      itemBuilder: (_, index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(50)),
-                            color: Colors.amber,
-                          ),
-                          child: Center(child: Text("9.30")),
-                        );
-                      },
-                      itemCount: 10,
                     ),
                   ),
-                  Center(
-                      child: ElevatedButton(
-                          onPressed: () {}, child: Text("Checkout")))
+                  Container(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text("Rp. dbiabcoa"),
+                        ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll<Color>(
+                                        primaryColor)),
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                FaIcon(
+                                  FontAwesomeIcons.cartShopping,
+                                  size: 15,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text("Checkout"),
+                              ],
+                            )),
+                      ],
+                    ),
+                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text("Rp. 100.000"),
+                  //     ElevatedButton(onPressed: () {}, child: Text("Checkout")),
+                  //   ],
+                  // ),
                 ],
               ),
             ));

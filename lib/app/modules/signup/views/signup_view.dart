@@ -65,7 +65,7 @@ class SignupView extends GetView<SignupController> {
                   Text("Sudah punya akun?", style: TextStyle(color: smallText)),
                   TextButton(
                       onPressed: () {
-                        Get.offAllNamed(Routes.LOGIN);
+                        Get.back();
                       },
                       child: Text(
                         "Login",
