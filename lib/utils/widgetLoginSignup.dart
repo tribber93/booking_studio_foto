@@ -28,13 +28,19 @@ class BgLoginSignup extends StatelessWidget {
           ],
         )),
         child: Center(
-          child: SingleChildScrollView(
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            child: Padding(
-              padding: const EdgeInsets.all(35),
-              child: SizedBox(
-                width: double.infinity,
-                child: isi,
+          child: NotificationListener<OverscrollIndicatorNotification>(
+            onNotification: (overscroll) {
+              overscroll.disallowIndicator();
+              return true;
+            },
+            child: SingleChildScrollView(
+              // clipBehavior: Clip.antiAliasWithSaveLayer,
+              child: Padding(
+                padding: const EdgeInsets.all(35),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: isi,
+                ),
               ),
             ),
           ),

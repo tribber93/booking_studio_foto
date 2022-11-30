@@ -16,6 +16,7 @@ dependencies:
   ticket_widget: ^0.0.1
   empty_widget: ^0.0.5
   ticket_material: ^0.3.1
+  flutter_native_splash: ^2.2.16
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -27,3 +28,18 @@ flutter:
   assets:
     - assets/images/
     - assets/images/paket/
+# flutter_native_splash:
+#   color: "#1a1a1a"
+#   image: assets/images/logo_qm.jpg
+#   android: true
+#   ios: true
+#   android_gravity: fill
+
+#   android_12:
+#     color: "#1a1a1a"
+#     image: assets/images/logo_qm.jpg
+#     android: true
+#     ios: true
+#     android_gravity: fill
+
+#   web: false

@@ -38,5 +38,15 @@ List paket = [
     ],
     "maks": 5,
     "icon": "assets/images/family.png"
+  },
+  {
+    "nama": "Couple",
+    "image": [
+      "assets/images/paket/couple3.jpg",
+      "assets/images/paket/couple1.jpg",
+      "assets/images/paket/couple2.jpg",
+    ],
+    "maks": 2,
+    "icon": "assets/images/couple.png"
   }
 ];
