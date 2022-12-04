@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
 
+import '../modules/admin/adminLogin/bindings/admin_login_binding.dart';
+import '../modules/admin/adminLogin/views/admin_login_view.dart';
+import '../modules/admin/adminDashboard/bindings/admin_dashboard_binding.dart';
+import '../modules/admin/adminDashboard/views/admin_dashboard_view.dart';
 import '../modules/user/dashboard/bindings/dashboard_binding.dart';
 import '../modules/user/dashboard/views/dashboard_view.dart';
 import '../modules/user/detail_paket/bindings/detail_paket_binding.dart';
@@ -25,6 +29,7 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),
       binding: DashboardBinding(),
+      transition: Transition.fade,
     ),
     GetPage(
       name: _Paths.LOGIN,
@@ -41,6 +46,7 @@ class AppPages {
       name: _Paths.PROFILE_LENGKAP,
       page: () => const ProfileLengkapView(),
       binding: ProfileLengkapBinding(),
+      transition: Transition.leftToRightWithFade,
     ),
     GetPage(
       name: _Paths.SIGNUP,
@@ -50,8 +56,19 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.TRANSAKSI,
-      page: () => const TransaksiView(),
+      page: () => TransaksiView(),
       binding: TransaksiBinding(),
+      transition: Transition.leftToRightWithFade,
+    ),
+    GetPage(
+      name: _Paths.ADMIN_LOGIN,
+      page: () => const AdminLoginView(),
+      binding: AdminLoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADMIN_DASHBOARD,
+      page: () => const AdminDashboardView(),
+      binding: AdminDashboardBinding(),
     ),
   ];
 }

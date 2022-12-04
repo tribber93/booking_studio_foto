@@ -27,10 +27,9 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
                       child: Column(
                         children: [
                           const CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(
-                                "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/02/08/3489974160.png"),
-                          ),
+                              radius: 50,
+                              backgroundImage:
+                                  AssetImage("assets/icons/userProfile.png")),
                           SizedBox(
                             height: 5,
                           ),

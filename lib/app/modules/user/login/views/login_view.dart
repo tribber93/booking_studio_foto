@@ -46,19 +46,27 @@ class LoginView extends GetView<LoginController> {
             autocorrect: false,
           ),
           Center(
-            child: ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll<Color>(Colors.grey.shade800)),
-                onPressed: () {
-                  Get.offAllNamed(Routes.DASHBOARD);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Login"),
-                  ],
-                )),
+            child: Container(
+              alignment: Alignment.center,
+              width: 300,
+              height: 60,
+              child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(
+                          Colors.grey.shade800)),
+                  onPressed: () {
+                    Get.offAllNamed(Routes.DASHBOARD);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Login"),
+                    ],
+                  )),
+            ),
+          ),
+          SizedBox(
+            height: 10,
           ),
           Center(
             child: Row(
@@ -75,6 +83,9 @@ class LoginView extends GetView<LoginController> {
                     ))
               ],
             ),
+          ),
+          SizedBox(
+            height: 20,
           ),
           Row(children: <Widget>[
             Expanded(
@@ -100,48 +111,51 @@ class LoginView extends GetView<LoginController> {
             height: 10,
           ),
           Center(
-            child: Column(
-              children: [
-                ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll<Color>(Colors.white)),
-                    onPressed: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Image.asset("assets/images/google.png"),
-                          Text(
-                            "Masuk dengan Google",
-                            style: TextStyle(color: Colors.black87),
-                          ),
-                        ],
+            child: SizedBox(
+              width: 300,
+              child: Column(
+                children: [
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
                       ),
-                    )),
-                SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll<Color>(Colors.white)),
-                    onPressed: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Image.asset("assets/images/fb.png"),
-                          Text(
-                            "Masuk dengan Facebook",
-                            style: TextStyle(color: Colors.black87),
-                          ),
-                        ],
-                      ),
-                    )),
-              ],
+                      onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Image.asset("assets/images/google.png"),
+                            Text(
+                              "Masuk dengan Google",
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                          ],
+                        ),
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll<Color>(Colors.white)),
+                      onPressed: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Image.asset("assets/images/fb.png"),
+                            Text(
+                              "Masuk dengan Facebook",
+                              style: TextStyle(color: Colors.black87),
+                            ),
+                          ],
+                        ),
+                      )),
+                ],
+              ),
             ),
           )
         ],

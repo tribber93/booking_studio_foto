@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/utils/myColor.dart';
+import 'package:studio_foto/utils/widget/myCheckbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class InfoTempatView extends GetView {
+class InfoTempatView extends GetView<MyController> {
   const InfoTempatView({Key? key}) : super(key: key);
 
-  static final Uri _urlWhatsapp =
-      Uri.parse("https://wa.me/+6285864571300?text=Hello%20Jingan");
+  static final Uri _urlWhatsapp = Uri.parse("https://wa.me/+6283149857944");
   static final Uri _urlInstagram =
-      Uri.parse("https://www.instagram.com/yonitribber93/");
+      Uri.parse("https://www.instagram.com/qm_studiophoto");
   static final Uri _urlMap = Uri.parse("https://goo.gl/maps/U3MxMb994Dmmq5xq7");
 
   @override
   Widget build(BuildContext context) {
+    MyController controller = Get.put(MyController());
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -28,9 +30,8 @@ class InfoTempatView extends GetView {
             expandedHeight: 300.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: const Text(
+              title: Text(
                 'QM Studio Foto',
-                style: TextStyle(color: Colors.white),
               ),
               background: Stack(
                 alignment: const Alignment(0, -0.5),
@@ -70,16 +71,18 @@ class InfoTempatView extends GetView {
                 padding: EdgeInsets.all(20),
                 height: 600,
                 width: double.infinity,
-                child: RichText(
-                  text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: const [
-                        TextSpan(
-                            text:
-                                "When you try your best, but you don't succeed.\nWhen you get what you want, but not what you need.\nWhen you feel so tired, but you can't sleep.\nStuck in reverse",
-                            style: TextStyle(fontSize: 18)),
-                      ]),
-                ),
+                child: Column(children: [
+                  RichText(
+                    text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: const [
+                          TextSpan(
+                              text:
+                                  "When you try your best, but you don't succeed.\nWhen you get what you want, but not what you need.\nWhen you feel so tired, but you can't sleep.\nStuck in reverse",
+                              style: TextStyle(fontSize: 18)),
+                        ]),
+                  ),
+                ]),
               ),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),

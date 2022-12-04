@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
+import 'package:studio_foto/main.dart';
 import 'package:studio_foto/utils/myColor.dart';
+import 'package:studio_foto/utils/myThemeData.dart';
 
 class ProfileView extends GetView {
   const ProfileView({Key? key}) : super(key: key);
@@ -36,8 +39,8 @@ class ProfileView extends GetView {
                     children: [
                       const CircleAvatar(
                         radius: 50,
-                        backgroundImage: NetworkImage(
-                            "https://assets.pikiran-rakyat.com/crop/0x0:0x0/x/photo/2022/02/08/3489974160.png"),
+                        backgroundImage:
+                            AssetImage("assets/icons/userProfile.png"),
                       ),
                       const SizedBox(
                         height: 80,
@@ -64,17 +67,18 @@ class ProfileView extends GetView {
                 ),
                 RichText(
                   text: TextSpan(
-                      style: DefaultTextStyle.of(context).style,
-                      children: const [
+                      style: myTextTheme(context).titleLarge,
+                      children: [
                         TextSpan(
                             text: 'Yoni\n',
-                            style: TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.bold)),
+                            style: GoogleFonts.montserrat(
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black)),
                         TextSpan(
                             text: 'Tribber',
                             style: TextStyle(
-                              fontSize: 32,
-                            )),
+                                fontSize: 32, color: Colors.grey.shade600)),
                       ]),
                 ),
                 SizedBox(
@@ -84,27 +88,27 @@ class ProfileView extends GetView {
                     onTap: () {
                       Get.toNamed(Routes.PROFILE_LENGKAP);
                     },
-                    icon: const FaIcon(
-                      FontAwesomeIcons.user,
-                      size: 30,
+                    icon: Image.asset(
+                      "assets/icons/userButton.png",
+                      height: 30,
                     ),
                     label: "Profile Lengkap"),
                 ProfileButton(
                     onTap: () {
                       Get.toNamed(Routes.TRANSAKSI);
                     },
-                    icon: const FaIcon(
-                      FontAwesomeIcons.receipt,
-                      size: 30,
+                    icon: Image.asset(
+                      "assets/icons/ticket.png",
+                      height: 30,
                     ),
                     label: "Transaksi Saya"),
                 ProfileButton(
                     onTap: () {
                       Get.offAllNamed(Routes.LOGIN);
                     },
-                    icon: const FaIcon(
-                      FontAwesomeIcons.arrowRightFromBracket,
-                      size: 30,
+                    icon: Image.asset(
+                      "assets/icons/logout.png",
+                      height: 25,
                     ),
                     label: "Keluar"),
               ],

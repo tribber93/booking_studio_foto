@@ -50,7 +50,9 @@ class SignupView extends GetView<SignupController> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll<Color>(
                           Colors.grey.shade800)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(Routes.ADMIN_LOGIN);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

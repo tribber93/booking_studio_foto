@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:studio_foto/app/modules/user/dashboard/views/info_tempat_view.dart';
 import 'package:studio_foto/app/modules/user/dashboard/views/profile_view.dart';
 import 'package:studio_foto/app/modules/user/dashboard/views/home_view.dart';
@@ -26,30 +27,44 @@ class DashboardView extends GetView<DashboardController> {
               ],
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedLabelStyle: TextStyle(color: Colors.black),
-            selectedItemColor: primaryColor,
-            onTap: controller.changeTabIndex,
-            currentIndex: controller.tabIndex,
-            showUnselectedLabels: false,
-            items: [
-              _bottomNavigationBarItem(
-                  const FaIcon(FontAwesomeIcons.house), "Home"),
-              _bottomNavigationBarItem(
-                  const FaIcon(FontAwesomeIcons.info), "Info Tempat"),
-              _bottomNavigationBarItem(
-                  const FaIcon(FontAwesomeIcons.solidUser), "Profile"),
-            ],
+          bottomNavigationBar: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: SalomonBottomBar(
+              currentIndex: controller.tabIndex,
+              onTap: (index) => controller.changeTabIndex(index),
+              items: [
+                SalomonBottomBarItem(
+                  icon: Image.asset(
+                    "assets/icons/home.png",
+                    height: 25,
+                    width: 25,
+                  ),
+                  title: Text("Home"),
+                  selectedColor: primaryColor,
+                ),
+                SalomonBottomBarItem(
+                  icon: Image.asset(
+                    "assets/icons/info.png",
+                    height: 25,
+                    width: 25,
+                  ),
+                  title: Text("Info Tempat"),
+                  selectedColor: primaryColor,
+                ),
+                SalomonBottomBarItem(
+                  icon: Image.asset(
+                    "assets/icons/userButton.png",
+                    height: 25,
+                    width: 25,
+                  ),
+                  title: Text("Profile"),
+                  selectedColor: primaryColor,
+                ),
+              ],
+            ),
           ),
         );
       },
-    );
-  }
-
-  _bottomNavigationBarItem(Widget icon, String label) {
-    return BottomNavigationBarItem(
-      icon: icon,
-      label: label,
     );
   }
 }

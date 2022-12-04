@@ -1,12 +1,16 @@
+import 'dart:math' as math;
+
+import 'package:animated_widgets/animated_widgets.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:studio_foto/app/modules/user/dashboard/controllers/home_controller.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
-import 'package:studio_foto/utils/dataPaket.dart';
+import 'package:studio_foto/app/data/dataPaket.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 final List<String> imgList = [
@@ -26,7 +30,9 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: const Text('QM Photo Studio'),
+        title: Text(
+          'QM Photo Studio',
+        ),
         automaticallyImplyLeading: false,
       ),
       backgroundColor: Color.fromARGB(132, 232, 232, 232),
@@ -39,12 +45,17 @@ class HomeView extends GetView<HomeController> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     text: 'Hello, \n',
                     style: TextStyle(color: Colors.black87, fontSize: 22),
-                    children: <TextSpan>[
+                    children: [
                       TextSpan(
-                          text: "Yoni Tribber", style: TextStyle(fontSize: 30)),
+                        text: "Yoni Tribber",
+                        style: GoogleFonts.montserrat(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black),
+                      ),
                     ],
                   ),
                 ),
@@ -80,67 +91,100 @@ class HomeView extends GetView<HomeController> {
               'Pilih Paketmu',
               style: TextStyle(fontSize: 18),
             ),
-            SizedBox(
-              height: 350.0,
-              child: ListView.builder(
-                  // physics: const ClampingScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: paket.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed(
-                            '${Routes.DETAIL_PAKET}/paket${paket[index]["nama"]}',
-                            arguments: paket[index]);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                            colorFilter: ColorFilter.mode(
-                              Color.fromARGB(111, 0, 0, 0),
-                              BlendMode.darken,
-                            ),
-                            fit: BoxFit.cover,
-                            image: AssetImage(
-                              paket[index]["image"][0],
-                            ),
-                          ),
-                        ),
-                        width: 250,
-                        child: Center(
-                          child: Text(
-                            'Paket ${paket[index]["nama"]}',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                        // Card(
-                        //   child: Center(
-                        //     child: Text('Paket ${paket[index]["nama"]}'),
-                        //   ),
-                        // ),
-                      ),
-                    );
-                  }),
-            ),
             Flexible(
-              child: ListView.builder(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  // crossAxisSpacing: 10,
+                  mainAxisExtent: 320,
+                ),
                 clipBehavior: Clip.antiAlias,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 8,
+                itemCount: paket.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      color: Colors.red,
-                      height: 100,
+                  return Card(
+                    margin: EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    colorFilter: ColorFilter.mode(
+                                      Color.fromARGB(111, 0, 0, 0),
+                                      BlendMode.darken,
+                                    ),
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage(paket[index]["image"][0])),
+                                color: Colors.brown,
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(15),
+                                ),
+                              ),
+                              height: 190,
+                              child: Center(
+                                  child: Text(
+                                paket[index]["nama"],
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500),
+                              )),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Rp. 15.000',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 18),
+                                  children: [
+                                    TextSpan(
+                                        text: ' /Orang\n',
+                                        style: TextStyle(fontSize: 12)),
+                                    TextSpan(
+                                        text: 'Aku adalah anak gembala',
+                                        style: TextStyle(fontSize: 12))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          constraints: BoxConstraints(minHeight: 50),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
+                            color: primaryColor,
+                          ),
+                          width: double.infinity,
+                          child: TextButton(
+                              onPressed: () {
+                                String path =
+                                    paket[index]["nama"].replaceAll(" ", "-");
+                                Get.toNamed(
+                                  '${Routes.DETAIL_PAKET}/$path',
+                                  // arguments: paket[index],
+                                );
+                              },
+                              child: Text(
+                                "Detail",
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              )),
+                        )
+                      ],
                     ),
                   );
                 },
