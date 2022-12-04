@@ -67,21 +67,39 @@ class MyTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextFormField(
+        TextField(
           obscureText: obscureText,
           enableSuggestions: enableSuggestions,
-          autocorrect: enableSuggestions,
+          autocorrect: autocorrect,
           decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 248, 222, 181), width: 2.0),
-                borderRadius: BorderRadius.circular(25.0),
-              ),
-              hintText: hint),
+            labelStyle: TextStyle(color: Colors.grey),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 248, 222, 181), width: 2.0),
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(25.0),
+            ),
+            labelText: hint,
+          ),
         ),
+        // TextFormField(
+        //   obscureText: obscureText,
+        //   enableSuggestions: enableSuggestions,
+        //   autocorrect: autocorrect,
+        //   decoration:
+        //   InputDecoration(
+        //       border: OutlineInputBorder(
+        //         borderRadius: BorderRadius.circular(25.0),
+        //       ),
+        //       focusedBorder: OutlineInputBorder(
+        //         borderSide: const BorderSide(
+        //             color: Color.fromARGB(255, 248, 222, 181), width: 2.0),
+        //         borderRadius: BorderRadius.circular(25.0),
+        //       ),
+        //       hintText: hint),
+        // ),
         SizedBox(
           height: 20,
         ),
