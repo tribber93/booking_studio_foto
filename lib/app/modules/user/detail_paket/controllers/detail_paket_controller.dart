@@ -1,23 +1,16 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:studio_foto/app/data/dataPaket.dart';
+import 'package:studio_foto/app/routes/app_pages.dart';
 
 class DetailPaketController extends GetxController {
   //TODO: Implement DetailPaketController
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  var tabIndex = 0;
 
-  @override
-  void onReady() {
-    super.onReady();
+  void changeTabIndex(int index) {
+    tabIndex = index;
+    update();
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }
