@@ -6,7 +6,11 @@ TextTheme myTextTheme(context) => Theme.of(context).textTheme;
 ThemeData myThemedata = ThemeData(
   fontFamily: 'Poppins',
   textTheme: const TextTheme(
-    titleLarge: TextStyle(),
+    titleLarge: TextStyle(
+        fontFamily: 'Montserrat',
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
+        color: Colors.white),
   ),
   appBarTheme: const AppBarTheme(
     color: primaryColor,

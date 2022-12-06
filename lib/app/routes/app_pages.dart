@@ -67,7 +67,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADMIN_DASHBOARD,
-      page: () => const AdminDashboardView(),
+      page: () => AdminDashboardView(),
       binding: AdminDashboardBinding(),
     ),
   ];
