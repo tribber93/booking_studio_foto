@@ -39,6 +39,7 @@ class TransaksiView extends GetView<TransaksiController> {
                   children: [
                     MyButtonItem(
                       gap: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       index: 0,
                       child: Row(
                         children: [
@@ -55,6 +56,7 @@ class TransaksiView extends GetView<TransaksiController> {
                     ),
                     MyButtonItem(
                       gap: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       index: 1,
                       child: Row(
                         children: [
@@ -71,6 +73,7 @@ class TransaksiView extends GetView<TransaksiController> {
                     ),
                     MyButtonItem(
                       gap: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       index: 2,
                       child: Row(
                         children: [

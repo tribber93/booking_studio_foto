@@ -72,15 +72,19 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(50))),
-                  hintText: 'Cari Paket',
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 70),
+              child: SizedBox(
+                height: 40,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintStyle: TextStyle(fontSize: 12),
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50))),
+                    hintText: 'Cari Paket',
+                  ),
                 ),
               ),
             ),
@@ -96,7 +100,7 @@ class HomeView extends GetView<HomeController> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   // crossAxisSpacing: 10,
-                  mainAxisExtent: 320,
+                  mainAxisExtent: 340,
                 ),
                 clipBehavior: Clip.antiAlias,
                 shrinkWrap: true,
@@ -109,56 +113,52 @@ class HomeView extends GetView<HomeController> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    colorFilter: ColorFilter.mode(
-                                      Color.fromARGB(111, 0, 0, 0),
-                                      BlendMode.darken,
-                                    ),
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage(paket[index]["image"][0])),
-                                color: Colors.brown,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(15),
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                colorFilter: ColorFilter.mode(
+                                  Color.fromARGB(111, 0, 0, 0),
+                                  BlendMode.darken,
                                 ),
-                              ),
-                              height: 190,
-                              child: Center(
-                                  child: Text(
-                                paket[index]["nama"],
+                                fit: BoxFit.cover,
+                                image: AssetImage(paket[index]["image"][0])),
+                            color: Colors.brown,
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                            ),
+                          ),
+                          height: 190,
+                          child: Center(
+                              child: Text(
+                            paket[index]["nama"],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500),
+                          )),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: RichText(
+                              text: TextSpan(
+                                text: '  Mulai dari\n',
                                 style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w500),
-                              )),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Rp. 15.000',
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                  children: [
-                                    TextSpan(
-                                        text: ' /Orang\n',
-                                        style: TextStyle(fontSize: 12)),
-                                    TextSpan(
-                                        text: 'Aku adalah anak gembala',
-                                        style: TextStyle(fontSize: 12))
-                                  ],
-                                ),
+                                    color: Colors.black, fontSize: 12),
+                                children: [
+                                  TextSpan(
+                                      text: ' Rp. 15.000',
+                                      style: TextStyle(fontSize: 18)),
+                                  TextSpan(
+                                      text: ' /Orang\n',
+                                      style: TextStyle(fontSize: 12)),
+                                ],
                               ),
                             ),
-                          ],
+                          ),
                         ),
                         Container(
                           constraints: BoxConstraints(minHeight: 50),
@@ -202,32 +202,33 @@ final List<Widget> imageSliders = imgList
           child: Container(
             margin: EdgeInsets.all(5.0),
             child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Image.network(item, fit: BoxFit.cover, width: 1000.0),
-                    Positioned(
-                      bottom: 0.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(200, 0, 0, 0),
-                              Color.fromARGB(0, 0, 0, 0)
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
+              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Image.network(item, fit: BoxFit.cover, width: 1000.0),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
                         ),
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0),
-                        child: null,
                       ),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: null,
                     ),
-                  ],
-                )),
+                  ),
+                ],
+              ),
+            ),
           ),
         ))
     .toList();

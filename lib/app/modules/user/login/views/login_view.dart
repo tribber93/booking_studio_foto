@@ -119,7 +119,9 @@ class LoginView extends GetView<LoginController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.ADMIN_DASHBOARD);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Row(

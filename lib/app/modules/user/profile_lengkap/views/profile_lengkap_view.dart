@@ -57,6 +57,8 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
                       isi: "10 November 2022",
                     ),
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: primaryColor),
                         onPressed: () {
                           Get.bottomSheet(Container(
                             height: Get.height,
