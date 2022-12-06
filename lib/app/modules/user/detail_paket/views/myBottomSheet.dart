@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:studio_foto/app/controller/myController.dart';
+import 'package:studio_foto/app/data/dataPaket.dart';
+import 'package:studio_foto/app/modules/user/detail_paket/controllers/detail_paket_controller.dart';
+import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myButtonItem.dart';
 import 'package:studio_foto/utils/myColor.dart';
-import 'package:studio_foto/utils/widget/myCheckbox.dart';
+import 'package:studio_foto/utils/widget/extraWidget.dart';
 
-class MyBottomSheet extends StatelessWidget {
-  const MyBottomSheet({
-    Key? key,
-    required this.info,
-  }) : super(key: key);
-
+class MyBottomSheet extends GetView<MyController> {
+  const MyBottomSheet({Key? key, required this.info}) : super(key: key);
   final info;
 
   @override
   Widget build(BuildContext context) {
-    final myController = Get.put(MyController());
+    DateTime sekarang = DateTime.now();
+    addDate(int tambah) {
+      return DateTime(sekarang.year, sekarang.month, sekarang.day + tambah);
+    }
+
     return InkWell(
       onTap: () {
         Get.bottomSheet(
@@ -74,137 +78,59 @@ class MyBottomSheet extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Pilih Tanggal"),
-                        // SizedBox(
-                        //   height: 75,
-                        //   child: ListView.builder(
-                        //       // padding: EdgeInsets.all(8),
-                        //       shrinkWrap: true,
-                        //       scrollDirection: Axis.horizontal,
-                        //       itemCount: 6,
-                        //       itemBuilder: (context, index) {
-                        //         return Padding(
-                        //           padding: const EdgeInsets.all(8.0),
-                        //           child: Container(
-                        //             height: 20,
-                        //             width: 80,
-                        //             decoration: BoxDecoration(
-                        //               boxShadow: [
-                        //                 BoxShadow(
-                        //                   color: Colors.black45,
-                        //                   blurRadius: 0.1,
-                        //                   spreadRadius: 0.3,
-                        //                   offset: Offset(1, 1),
-                        //                 )
-                        //               ],
-                        //               borderRadius:
-                        //                   BorderRadius.all(Radius.circular(10)),
-                        //               color: Colors.grey[100],
-                        //             ),
-                        //             child: Column(
-                        //                 crossAxisAlignment:
-                        //                     CrossAxisAlignment.center,
-                        //                 mainAxisAlignment:
-                        //                     MainAxisAlignment.center,
-                        //                 children: [
-                        //                   Text(
-                        //                     "10 Nov",
-                        //                     style: TextStyle(fontSize: 11),
-                        //                   ),
-                        //                   Text("Hari Ini")
-                        //                 ]),
-                        //           ),
-                        //         );
-                        //       }),
-                        // ),
                         Container(
-                          // color: Colors.amber,
-                          height: 90,
+                          height: 75,
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          margin: const EdgeInsets.symmetric(vertical: 5),
                           child: Center(
-                            child: ListView(
+                            child: ListView.builder(
+                              itemCount: 5,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              children: [
-                                MyButtonItem(
-                                  index: 0,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 1,
-                                      offset: Offset(0, 0),
-                                    ),
-                                  ],
-                                  gap: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      text: "Hari ini\n",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w700),
-                                      children: [
-                                        TextSpan(
-                                            text: "Minggu",
-                                            style: TextStyle(fontSize: 15)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                MyButtonItem(
-                                  index: 1,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 1,
-                                      offset: Offset(0, 0),
-                                    ),
-                                  ],
-                                  gap: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      text: "5 Des\n",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w700),
-                                      children: [
-                                        TextSpan(
-                                            text: "Senin",
-                                            style: TextStyle(fontSize: 15)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                MyButtonItem(
-                                  index: 2,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 1,
-                                      offset: Offset(0, 0),
-                                    ),
-                                  ],
-                                  gap: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      text: "6 Des\n",
-                                      style: TextStyle(
-                                          color: Colors.black54,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w700),
-                                      children: [
-                                        TextSpan(
-                                            text: "Selasa",
-                                            style: TextStyle(fontSize: 15)),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              itemBuilder: (context, index) {
+                                if (DateFormat("EEEE", "id_ID")
+                                        .format(addDate(index)) !=
+                                    "Jumat") {
+                                  index - 1;
+                                }
+                                return DateFormat("EEEE", "id_ID")
+                                            .format(addDate(index)) !=
+                                        "Jumat"
+                                    ? MyButtonItem(
+                                        gap: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 10),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        index: index,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 1,
+                                            offset: Offset(0, 0),
+                                          ),
+                                        ],
+                                        child: Center(
+                                          child: RichText(
+                                            textAlign: TextAlign.center,
+                                            text: TextSpan(
+                                              text:
+                                                  "${DateFormat("d MMM", "id_ID").format(addDate(index))}\n",
+                                              style: TextStyle(
+                                                  color: Colors.black54,
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w700),
+                                              children: [
+                                                TextSpan(
+                                                    text:
+                                                        "${DateFormat("EEEE", "id_ID").format(addDate(index))}",
+                                                    style: TextStyle(
+                                                        fontSize: 15)),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Libur();
+                              },
                             ),
                           ),
                         ),
@@ -216,134 +142,120 @@ class MyBottomSheet extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              crossAxisSpacing: 15,
-                              mainAxisSpacing: 15,
-                              mainAxisExtent: 25,
-                            ),
-                            itemBuilder: (_, index) {
-                              return InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black45,
-                                        blurRadius: 0.5,
-                                        spreadRadius: 0.2,
-                                      ),
-                                    ],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50)),
-                                    color: Colors.white,
-                                  ),
-                                  child: Center(child: Text("09.30")),
-                                ),
-                              );
-                            },
-                            itemCount: 10,
-                          ),
+                        GetBuilder<MyController>(
+                          builder: (myController) {
+                            return Container(
+                              height: 200,
+                              width: double.infinity,
+                              child: Center(
+                                child: [
+                                  Text("Satu"),
+                                  Text("Dua"),
+                                  Text("Tiga"),
+                                  Text("Empat"),
+                                  Text("Lima"),
+                                ][myController.tabIndex],
+                              ),
+                            );
+                          },
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        //   children: [
-                        //     GetX<MyController>(
-                        //       builder: (_) => Text(
-                        //           'Harga              : ${myController.count}'),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(10),
+                        //   child: GridView.builder(
+                        //     shrinkWrap: true,
+                        //     physics: const NeverScrollableScrollPhysics(),
+                        //     gridDelegate:
+                        //         SliverGridDelegateWithFixedCrossAxisCount(
+                        //       crossAxisCount: 4,
+                        //       crossAxisSpacing: 15,
+                        //       mainAxisSpacing: 15,
+                        //       mainAxisExtent: 25,
                         //     ),
-                        //     ElevatedButton.icon(
-                        //         onPressed: () => myController.increment(),
-                        //         icon: FaIcon(FontAwesomeIcons.plus),
-                        //         label: Text("tambah")),
-                        //   ],
+                        //     itemBuilder: (_, index) {
+                        //       return [
+                        //         Text("Satu"),
+                        //         Text("Dua"),
+                        //         Text("Tiga")
+                        //       ][controller.tabIndex];
+                        //       // InkWell(
+                        //       //   onTap: () {},
+                        //       //   child: Container(
+                        //       //     decoration: BoxDecoration(
+                        //       //       boxShadow: [
+                        //       //         BoxShadow(
+                        //       //           color: Colors.black45,
+                        //       //           blurRadius: 0.5,
+                        //       //           spreadRadius: 0.2,
+                        //       //         ),
+                        //       //       ],
+                        //       //       borderRadius:
+                        //       //           BorderRadius.all(Radius.circular(50)),
+                        //       //       color: Colors.white,
+                        //       //     ),
+                        //       //     child: Center(child: Text("09.30")),
+                        //       //   ),
+                        //       // );
+                        //     },
+                        //     itemCount: 10,
+                        //   ),
                         // ),
+
                         SizedBox(
                           height: 20,
                         ),
-                        GetBuilder<MyController>(
-                          builder: (_) {
-                            return ExpansionTile(
-                              // textColor: Colors.red,
-                              collapsedBackgroundColor: Colors.grey.shade200,
-                              title: Text(
-                                "Tambahan",
-                                style: Get.textTheme.bodyText1,
-                                overflow: TextOverflow.fade,
-                                softWrap: false,
-                                maxLines: 1,
-                              ),
-                              children: [
-                                myCheckbox(
-                                  controller: myController,
-                                  text: "1 softfile edit",
-                                ),
-                                myCheckbox(
-                                  controller: myController,
-                                  text: "Ganti background",
-                                ),
-                                myCheckbox(
-                                  controller: myController,
-                                  text: "Ganti baju",
-                                ),
-                                myCheckbox(
-                                  controller: myController,
-                                  text: "Cetak 5R + laminasi",
-                                ),
-                              ],
-                            );
-                          },
-                        )
+                        info["tambahan"] != null
+                            ? ExtraWidget(
+                                info: info["tambahan"],
+                              )
+                            : SizedBox(),
                       ],
                     ),
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: context.isPhone ? Get.width * 0.5 : 200,
-                    child: Center(
-                      child: Text(
-                        "Rp. 100000",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: primaryColor,
-                    width: context.isPhone ? Get.width * 0.5 : 300,
-                    height: 60,
-                    child: TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(
-                          foregroundColor: Colors.white,
+              GetX<MyController>(
+                builder: (myController) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: context.isPhone ? Get.width * 0.5 : 200,
+                        child: Center(
+                          child: Text(
+                            "Rp. ${myController.total}",
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.cartShopping,
-                              size: 20,
+                      ),
+                      Container(
+                        color: primaryColor,
+                        width: context.isPhone ? Get.width * 0.5 : 300,
+                        height: 60,
+                        child: TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.white,
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Checkout",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        )),
-                  ),
-                ],
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FaIcon(
+                                  FontAwesomeIcons.cartShopping,
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Checkout",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ],
+                  );
+                },
               ),
             ]),
           ),
@@ -360,6 +272,28 @@ class MyBottomSheet extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class Libur extends StatelessWidget {
+  const Libur({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      height: 50,
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+          blurRadius: 1,
+          offset: Offset(0, 0),
+        ),
+      ], borderRadius: BorderRadius.circular(20), color: Colors.red[50]),
+      child: Center(child: Text("Libur")),
     );
   }
 }

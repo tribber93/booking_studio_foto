@@ -153,6 +153,8 @@ class DetailPaketView extends GetView<DetailPaketController> {
             )
           ],
         ),
-        bottomNavigationBar: MyBottomSheet(info: data()));
+        bottomNavigationBar: MyBottomSheet(
+          info: data(),
+        ));
   }
 }
