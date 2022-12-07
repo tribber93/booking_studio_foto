@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:studio_foto/app/data/dataPaket.dart';
+import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:ticket_material/ticket_material.dart';
 import 'package:ticket_widget/ticket_widget.dart';
 
@@ -13,7 +13,7 @@ class Tiket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: paketReversed.length,
+        itemCount: paketClassReversed.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Padding(
@@ -63,7 +63,7 @@ class Tiket extends StatelessWidget {
                             style: TextStyle(color: Colors.black, fontSize: 10),
                             children: [
                               TextSpan(
-                                text: paketReversed[index]["nama"],
+                                text: paketClassReversed[index].nama,
                                 style: TextStyle(fontSize: 15),
                               ),
                             ],
@@ -106,8 +106,8 @@ class Tiket extends StatelessWidget {
                 rightChild: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(paketReversed[index]["icon"]),
-                    Text(paketReversed[index]["nama"]),
+                    Image.asset(paketClassReversed[index].icon),
+                    Text(paketClassReversed[index].nama),
                   ],
                 )),
           );

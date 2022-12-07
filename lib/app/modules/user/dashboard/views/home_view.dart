@@ -8,9 +8,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/app/modules/user/dashboard/controllers/home_controller.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
-import 'package:studio_foto/app/data/dataPaket.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 final List<String> imgList = [
@@ -105,7 +105,7 @@ class HomeView extends GetView<HomeController> {
                 clipBehavior: Clip.antiAlias,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: paket.length,
+                itemCount: paketClass.length,
                 itemBuilder: (context, index) {
                   return Card(
                     margin: EdgeInsets.all(10),
@@ -116,6 +116,7 @@ class HomeView extends GetView<HomeController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
+                          padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
                             image: DecorationImage(
                                 colorFilter: ColorFilter.mode(
@@ -123,7 +124,8 @@ class HomeView extends GetView<HomeController> {
                                   BlendMode.darken,
                                 ),
                                 fit: BoxFit.cover,
-                                image: AssetImage(paket[index]["image"][0])),
+                                image:
+                                    AssetImage(paketClass[index].gambar![0])),
                             color: Colors.brown,
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(15),
@@ -133,7 +135,8 @@ class HomeView extends GetView<HomeController> {
                           height: 190,
                           child: Center(
                               child: Text(
-                            paket[index]["nama"],
+                            paketClass[index].nama!,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -171,8 +174,9 @@ class HomeView extends GetView<HomeController> {
                           width: double.infinity,
                           child: TextButton(
                               onPressed: () {
-                                String path =
-                                    paket[index]["nama"].replaceAll(" ", "-");
+                                String path = paketClass[index]
+                                    .nama!
+                                    .replaceAll(" ", "-");
                                 Get.toNamed(
                                   '${Routes.DETAIL_PAKET}/$path',
                                   // arguments: paket[index],

@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:studio_foto/app/controller/myController.dart';
-import 'package:studio_foto/app/data/dataPaket.dart';
 import 'package:studio_foto/app/modules/user/detail_paket/controllers/detail_paket_controller.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myButtonItem.dart';
@@ -65,7 +64,7 @@ class MyBottomSheet extends GetView<MyController> {
                           // color: Colors.red,
                           width: double.infinity,
                           child: Text(
-                            "Paket ${info["nama"]}",
+                            "Paket ${info.nama}",
                             style: TextStyle(fontSize: 20),
                           )))
                 ]),
@@ -203,9 +202,9 @@ class MyBottomSheet extends GetView<MyController> {
                         SizedBox(
                           height: 20,
                         ),
-                        info["tambahan"] != null
+                        info.tambahan != null
                             ? ExtraWidget(
-                                info: info["tambahan"],
+                                info: info.tambahan,
                               )
                             : SizedBox(),
                       ],

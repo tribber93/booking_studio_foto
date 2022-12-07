@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:studio_foto/app/controller/myController.dart';
-import 'package:studio_foto/app/data/dataPaket.dart';
+import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/app/modules/user/detail_paket/views/myBottomSheet.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myButtonItem.dart';
@@ -19,8 +19,8 @@ class DetailPaketView extends GetView<DetailPaketController> {
   // dynamic info = Get.arguments;
 
   data() {
-    for (var item in paket) {
-      String path = item["nama"].replaceAll(" ", "-");
+    for (var item in paketClass) {
+      String path = item.nama!.replaceAll(" ", "-");
       if (Get.currentRoute == "${Routes.DETAIL_PAKET}/$path") {
         return item;
       }
@@ -43,7 +43,7 @@ class DetailPaketView extends GetView<DetailPaketController> {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text(
-                  "Paket ${data()["nama"]}",
+                  "Paket ${data().nama!}",
                   style: TextStyle(color: Colors.white),
                 ),
                 background: Stack(
@@ -58,7 +58,7 @@ class DetailPaketView extends GetView<DetailPaketController> {
                             Color.fromARGB(111, 0, 0, 0),
                             BlendMode.darken,
                           ),
-                          image: AssetImage(data()["image"][0]),
+                          image: AssetImage(data().gambar[0]),
                           fit: BoxFit.cover,
                         ),
                         boxShadow: [
@@ -95,11 +95,11 @@ class DetailPaketView extends GetView<DetailPaketController> {
                       SizedBox(
                         height: 20,
                       ),
-                      Text('Nama Paket   : Paket ${data()["nama"]}'),
+                      Text('Nama Paket   : Paket ${data().nama}'),
                       SizedBox(
                         height: 10,
                       ),
-                      Text('Maks. Orang  : ${data()["maks"]} Orang'),
+                      Text('Maks. Orang  : ${data().maksimal} Orang'),
                       SizedBox(
                         height: 10,
                       ),
@@ -121,7 +121,7 @@ class DetailPaketView extends GetView<DetailPaketController> {
                             // physics: const ClampingScrollPhysics(),
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: data()["image"].length,
+                            itemCount: data().gambar.length,
                             itemBuilder: (BuildContext context, int index) {
                               return GestureDetector(
                                 onTap: () {},
@@ -132,7 +132,7 @@ class DetailPaketView extends GetView<DetailPaketController> {
                                     // semanticContainer: true,
                                     clipBehavior: Clip.antiAliasWithSaveLayer,
                                     child: Image.asset(
-                                      data()["image"][index],
+                                      data().gambar[index],
                                       fit: BoxFit.fill,
                                     ),
                                     shape: RoundedRectangleBorder(

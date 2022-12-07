@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:studio_foto/app/data/dataPaket.dart';
 
 class MyController extends GetxController {
   //TODO: Implement DetailPaketController
