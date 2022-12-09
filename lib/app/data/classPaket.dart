@@ -1,7 +1,7 @@
 class Paket {
   int? harga, durasi, cetak, softFile;
   String? nama, description, maksimal, icon;
-  List? gambar, tambahan;
+  List? gambar, tambahan, tambahanCounter;
 
   Paket({
     this.nama,
@@ -14,6 +14,7 @@ class Paket {
     this.softFile,
     this.icon,
     this.tambahan,
+    this.tambahanCounter,
   });
 }
 
@@ -32,7 +33,7 @@ List<Paket> paketClass = [
     maksimal: "1-2",
     cetak: 2,
     softFile: 25,
-    icon: "assets/images/self-photo.png",
+    icon: "assets/icons/selfie.png",
     tambahan: [
       {"extra": "+orang", "harga": 15000, "isCheck": false},
       {"extra": "+cetak", "harga": 10000, "isCheck": false},
@@ -54,7 +55,7 @@ List<Paket> paketClass = [
     maksimal: "1",
     cetak: 10,
     softFile: 1,
-    icon: "assets/icons/pasfoto.png",
+    icon: "assets/icons/bussiness-man.png",
     tambahan: [
       {"extra": "1 softfile edit", "harga": 10000, "isCheck": false},
       {"extra": "Ganti background", "harga": 10000, "isCheck": false},
@@ -69,21 +70,13 @@ List<Paket> paketClass = [
     gambar: [
       "assets/images/paket/group1.jpg",
       "assets/images/paket/group3.jpg",
-      "assets/images/paket/group2.jpeg",
+      "assets/images/paket/group2.jpg",
     ],
     harga: 30000,
     durasi: 10,
     maksimal: "1",
     cetak: 1,
     softFile: 4,
-    icon: "assets/icons/pasfoto.png",
-    tambahan: [
-      {"extra": "1 softfile edit", "harga": 10000, "isCheck": false},
-      {"extra": "Ganti background", "harga": 10000, "isCheck": false},
-      {"extra": "Ganti Baju", "harga": 10000, "isCheck": false},
-      {"extra": "Tambah cetak 2x3 + laminasi", "harga": 3000, "isCheck": false},
-      {"extra": "Tambah cetak 4x6 + laminasi", "harga": 3000, "isCheck": false},
-      {"extra": "Tambah cetak 3x4 + laminasi", "harga": 3000, "isCheck": false},
-    ],
+    icon: "assets/icons/group.png",
   ),
 ];

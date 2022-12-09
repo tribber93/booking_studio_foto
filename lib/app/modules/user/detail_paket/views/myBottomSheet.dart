@@ -1,3 +1,4 @@
+import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,7 @@ import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myButtonItem.dart';
 import 'package:studio_foto/utils/myColor.dart';
 import 'package:studio_foto/utils/widget/extraWidget.dart';
+import 'package:studio_foto/utils/widget/myGroupButton.dart';
 
 class MyBottomSheet extends GetView<MyController> {
   const MyBottomSheet({Key? key, required this.info}) : super(key: key);
@@ -148,11 +150,30 @@ class MyBottomSheet extends GetView<MyController> {
                               width: double.infinity,
                               child: Center(
                                 child: [
-                                  Text("Satu"),
-                                  Text("Dua"),
-                                  Text("Tiga"),
-                                  Text("Empat"),
-                                  Text("Lima"),
+                                  DateFormat("EEEE", "id_ID")
+                                              .format(DateTime.now()) !=
+                                          "Jumat"
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: MyGroupButton(),
+                                        )
+                                      : EmptyWidget(),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: MyGroupButton(),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: MyGroupButton(),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: MyGroupButton(),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: MyGroupButton(),
+                                  ),
                                 ][myController.tabIndex],
                               ),
                             );

@@ -45,20 +45,5 @@ class MyController extends GetxController {
     } else {
       total = total - harga;
     }
-
-    // void addTotal(info, int index) {
-    //   List data = info["tambahan"];
-    //   data.forEach((index) {
-    //     int harga = index["harga"];
-    //     if (index["isCheck"] == true) {
-    //       total = total + harga;
-    //     }
-    //   });
-
-    // for(Map data in info["tambahan"]){
-    //     if(data["isCheck"] == true){
-    //       int harga = data["harga"];
-    //     }
-    //   }
   }
 }

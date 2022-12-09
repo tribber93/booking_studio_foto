@@ -21,6 +21,7 @@ dependencies:
   animated_widgets: ^1.1.0
   google_fonts: ^3.0.1
   intl: ^0.17.0
+  group_button: ^5.2.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

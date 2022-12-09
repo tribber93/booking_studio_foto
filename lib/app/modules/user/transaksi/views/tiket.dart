@@ -19,6 +19,7 @@ class Tiket extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: TicketMaterial(
+                flexLefSize: 65,
                 useAnimationScaleOnTap: false,
                 tapHandler: () => Get.dialog(
                       Center(
@@ -53,27 +54,12 @@ class Tiket extends StatelessWidget {
                 colorBackground: Colors.grey.shade100,
                 leftChild: Padding(
                   padding: const EdgeInsets.all(20),
-                  child: Container(
+                  child: SizedBox(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         RichText(
-                          text: TextSpan(
-                            text: "Paket\n",
-                            style: TextStyle(color: Colors.black, fontSize: 10),
-                            children: [
-                              TextSpan(
-                                text: paketClassReversed[index].nama,
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox.square(
-                          dimension: 8,
-                        ),
-                        RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                             text: "Tanggal\n",
                             style: TextStyle(color: Colors.black, fontSize: 10),
                             children: [
@@ -84,11 +70,11 @@ class Tiket extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox.square(
+                        const SizedBox.square(
                           dimension: 8,
                         ),
                         RichText(
-                          text: TextSpan(
+                          text: const TextSpan(
                             text: "Jam\n",
                             style: TextStyle(color: Colors.black, fontSize: 10),
                             children: [
@@ -103,12 +89,21 @@ class Tiket extends StatelessWidget {
                     ),
                   ),
                 ),
-                rightChild: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(paketClassReversed[index].icon),
-                    Text(paketClassReversed[index].nama),
-                  ],
+                rightChild: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(paketClassReversed[index].icon),
+                        Text(
+                          paketClassReversed[index].nama,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
                 )),
           );
         });

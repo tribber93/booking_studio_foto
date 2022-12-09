@@ -142,7 +142,9 @@ class LoginView extends GetView<LoginController> {
                       style: ButtonStyle(
                           backgroundColor:
                               MaterialStatePropertyAll<Color>(Colors.white)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.ADMIN_LOGIN);
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Row(

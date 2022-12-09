@@ -62,7 +62,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.ADMIN_LOGIN,
-      page: () => const AdminLoginView(),
+      page: () => AdminLoginView(),
       binding: AdminLoginBinding(),
     ),
     GetPage(
