@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "587171145883",
+    "project_id": "qm-studio-photo",
+    "storage_bucket": "qm-studio-photo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:587171145883:android:b1af3247ab8f44a4c63e3e",
+        "android_client_info": {
+          "package_name": "com.example.studio_foto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "587171145883-egr9l3iej24feojr93m34mu1a55hjqu3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.studio_foto",
+            "certificate_hash": "003dcac6a0bed773c468fea5b46422fefefc4f28"
+          }
+        },
+        {
+          "client_id": "587171145883-3h8hpfqnnbdob9m2bib0cfvno6aq2nnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNx3v-1L-MTTLWbFDBx1-HsC1VHJmVYjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "587171145883-3h8hpfqnnbdob9m2bib0cfvno6aq2nnl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "587171145883-d5u192iefpkd0a0h91hmrnd5eapg3969.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.studioFoto"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
