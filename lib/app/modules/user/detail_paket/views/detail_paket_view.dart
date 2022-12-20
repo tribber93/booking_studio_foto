@@ -33,12 +33,12 @@ class DetailPaketView extends GetView<DetailPaketController> {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              leading: myLeading,
+              // leading: myLeading,
               backgroundColor: primaryColor,
               pinned: true,
               snap: false,
               floating: false,
-              automaticallyImplyLeading: false,
+              // automaticallyImplyLeading: false,
               expandedHeight: 250.0,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,

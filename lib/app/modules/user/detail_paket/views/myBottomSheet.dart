@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +18,8 @@ class MyBottomSheet extends GetView<MyController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(MyController());
+    final myCont = Get.find<MyController>();
     DateTime sekarang = DateTime.now();
     addDate(int tambah) {
       return DateTime(sekarang.year, sekarang.month, sekarang.day + tambah);
@@ -49,9 +52,8 @@ class MyBottomSheet extends GetView<MyController> {
                       topRight: Radius.circular(30),
                       topLeft: Radius.circular(30)),
                 ),
-                height: 100,
+                height: 70,
                 width: double.infinity,
-                // color: Colors.red,
                 child: Column(children: [
                   SizedBox(
                     width: 50,
@@ -62,7 +64,7 @@ class MyBottomSheet extends GetView<MyController> {
                   Expanded(
                       child: Container(
                           alignment: Alignment.centerLeft,
-                          padding: const EdgeInsets.all(15),
+                          padding: const EdgeInsets.all(10),
                           // color: Colors.red,
                           width: double.infinity,
                           child: Text(
@@ -79,150 +81,112 @@ class MyBottomSheet extends GetView<MyController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Pilih Tanggal"),
-                        Container(
-                          height: 75,
-                          width: double.infinity,
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          child: Center(
-                            child: ListView.builder(
-                              itemCount: 5,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                if (DateFormat("EEEE", "id_ID")
-                                        .format(addDate(index)) !=
-                                    "Jumat") {
-                                  index - 1;
-                                }
-                                return DateFormat("EEEE", "id_ID")
-                                            .format(addDate(index)) !=
-                                        "Jumat"
-                                    ? MyButtonItem(
-                                        gap: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 10),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        index: index,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 1,
-                                            offset: Offset(0, 0),
-                                          ),
-                                        ],
-                                        child: Center(
-                                          child: RichText(
-                                            textAlign: TextAlign.center,
-                                            text: TextSpan(
-                                              text:
-                                                  "${DateFormat("d MMM", "id_ID").format(addDate(index))}\n",
-                                              style: TextStyle(
-                                                  color: Colors.black54,
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w700),
-                                              children: [
-                                                TextSpan(
-                                                    text:
-                                                        "${DateFormat("EEEE", "id_ID").format(addDate(index))}",
-                                                    style: TextStyle(
-                                                        fontSize: 15)),
-                                              ],
-                                            ),
+                        StreamBuilder(
+                          stream: myCont.streamJadwal(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return LinearProgressIndicator();
+                            }
+
+                            // Menampilkan list document di snapshot
+                            return Container(
+                              height: 75,
+                              width: double.infinity,
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              child: Center(
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: snapshot.data!.docs.length,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    DocumentSnapshot task =
+                                        snapshot.data!.docs[index];
+                                    return MyButtonItem(
+                                      gap: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      index: index,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          blurRadius: 1,
+                                          offset: Offset(0, 0),
+                                        ),
+                                      ],
+                                      child: Center(
+                                        child: RichText(
+                                          textAlign: TextAlign.center,
+                                          text: TextSpan(
+                                            text: "${task["hari"]}\n",
+                                            style: TextStyle(
+                                                color: Colors.black54,
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w700),
+                                            children: [
+                                              TextSpan(
+                                                  text: "${task["tanggal"]}",
+                                                  style:
+                                                      TextStyle(fontSize: 15)),
+                                            ],
                                           ),
                                         ),
-                                      )
-                                    : Libur();
-                              },
-                            ),
-                          ),
+                                      ),
+                                    );
+                                    // Text(task["tanggal"]);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         Divider(
                           thickness: 1.5,
                           color: Colors.grey,
                         ),
                         Text("Pilih Jam"),
-                        SizedBox(
-                          height: 20,
-                        ),
                         GetBuilder<MyController>(
                           builder: (myController) {
-                            return Container(
-                              height: 200,
-                              width: double.infinity,
-                              child: Center(
-                                child: [
-                                  DateFormat("EEEE", "id_ID")
-                                              .format(DateTime.now()) !=
-                                          "Jumat"
-                                      ? Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: MyGroupButton(),
-                                        )
-                                      : EmptyWidget(),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: MyGroupButton(),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: MyGroupButton(),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: MyGroupButton(),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: MyGroupButton(),
-                                  ),
-                                ][myController.tabIndex],
-                              ),
-                            );
+                            return StreamBuilder(
+                                stream: myCont.streamJadwal(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return const LinearProgressIndicator();
+                                  }
+                                  var data = snapshot.data!.docs;
+                                  return SizedBox(
+                                    width: double.infinity,
+                                    child: Center(
+                                      child: List.generate(
+                                        snapshot.data!.docs.length,
+                                        (index) => Padding(
+                                          padding: const EdgeInsets.all(5),
+                                          child: MyGroupButton(
+                                            data: data[index],
+                                            info: info,
+                                          ),
+                                        ),
+                                      )[myCont.tabIndex],
+                                    ),
+                                  );
+                                });
                           },
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.all(10),
-                        //   child: GridView.builder(
-                        //     shrinkWrap: true,
-                        //     physics: const NeverScrollableScrollPhysics(),
-                        //     gridDelegate:
-                        //         SliverGridDelegateWithFixedCrossAxisCount(
-                        //       crossAxisCount: 4,
-                        //       crossAxisSpacing: 15,
-                        //       mainAxisSpacing: 15,
-                        //       mainAxisExtent: 25,
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //   children: [
+                        //     GetX<MyController>(
+                        //       builder: (_) => Text(
+                        //           'Harga              : ${controller.count}'),
                         //     ),
-                        //     itemBuilder: (_, index) {
-                        //       return [
-                        //         Text("Satu"),
-                        //         Text("Dua"),
-                        //         Text("Tiga")
-                        //       ][controller.tabIndex];
-                        //       // InkWell(
-                        //       //   onTap: () {},
-                        //       //   child: Container(
-                        //       //     decoration: BoxDecoration(
-                        //       //       boxShadow: [
-                        //       //         BoxShadow(
-                        //       //           color: Colors.black45,
-                        //       //           blurRadius: 0.5,
-                        //       //           spreadRadius: 0.2,
-                        //       //         ),
-                        //       //       ],
-                        //       //       borderRadius:
-                        //       //           BorderRadius.all(Radius.circular(50)),
-                        //       //       color: Colors.white,
-                        //       //     ),
-                        //       //     child: Center(child: Text("09.30")),
-                        //       //   ),
-                        //       // );
-                        //     },
-                        //     itemCount: 10,
-                        //   ),
+                        //     ElevatedButton.icon(
+                        //         onPressed: () => controller.increment(),
+                        //         icon: FaIcon(FontAwesomeIcons.plus),
+                        //         label: Text("tambah")),
+                        //   ],
                         // ),
-
-                        SizedBox(
-                          height: 20,
-                        ),
+                        // SizedBox(
+                        //   height: 20,
+                        // ),
                         info.tambahan != null
                             ? ExtraWidget(
                                 info: info.tambahan,
@@ -233,47 +197,35 @@ class MyBottomSheet extends GetView<MyController> {
                   ),
                 ),
               ),
-              GetX<MyController>(
+              GetBuilder<MyController>(
                 builder: (myController) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        width: context.isPhone ? Get.width * 0.5 : 200,
-                        child: Center(
-                          child: Text(
-                            "Rp. ${myController.total}",
-                            style: TextStyle(fontSize: 16),
-                          ),
+                  return Container(
+                    color: primaryColor,
+                    width: double.infinity,
+                    height: 60,
+                    child: TextButton(
+                        onPressed: () {
+                          // Get.to(Checkout());
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
                         ),
-                      ),
-                      Container(
-                        color: primaryColor,
-                        width: context.isPhone ? Get.width * 0.5 : 300,
-                        height: 60,
-                        child: TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            FaIcon(
+                              FontAwesomeIcons.cartShopping,
+                              size: 20,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.cartShopping,
-                                  size: 20,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "Checkout",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            )),
-                      ),
-                    ],
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "Checkout",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        )),
                   );
                 },
               ),
@@ -291,6 +243,24 @@ class MyBottomSheet extends GetView<MyController> {
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Checkout extends StatelessWidget {
+  const Checkout({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Checkout"),
+      ),
+      body: Container(
+        child: Center(child: Text("Test")),
       ),
     );
   }

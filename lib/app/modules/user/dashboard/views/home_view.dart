@@ -99,7 +99,6 @@ class HomeView extends GetView<HomeController> {
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  // crossAxisSpacing: 10,
                   mainAxisExtent: 340,
                 ),
                 clipBehavior: Clip.antiAlias,
@@ -180,6 +179,7 @@ class HomeView extends GetView<HomeController> {
                                 Get.toNamed(
                                   '${Routes.DETAIL_PAKET}/$path',
                                   // arguments: paket[index],
+                                  // print("sd"); // );
                                 );
                               },
                               child: Text(

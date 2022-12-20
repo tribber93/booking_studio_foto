@@ -4,6 +4,12 @@ import 'package:studio_foto/utils/myColor.dart';
 TextTheme myTextTheme(context) => Theme.of(context).textTheme;
 
 ThemeData myThemedata = ThemeData(
+  // primaryColor: primaryColor,
+  // primarySwatch: Colors.amber,
+
+  // primaryColor: primaryColor,
+  // brightness: Brightness.dark,
+
   fontFamily: 'Poppins',
   textTheme: const TextTheme(
     titleLarge: TextStyle(

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 import '../controllers/profile_lengkap_controller.dart';
 
 class ProfileLengkapView extends GetView<ProfileLengkapController> {
-  const ProfileLengkapView({Key? key}) : super(key: key);
+  ProfileLengkapView({Key? key}) : super(key: key);
+  final myCon = Get.find<MyController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,13 +62,14 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: primaryColor),
                         onPressed: () {
-                          Get.bottomSheet(Container(
-                            height: Get.height,
-                            color: Colors.white,
-                            child: Center(
-                              child: Text("Edit Data Diri"),
-                            ),
-                          ));
+                          myCon.addUser();
+                          // Get.bottomSheet(Container(
+                          //   height: Get.height,
+                          //   color: Colors.white,
+                          //   child: Center(
+                          //     child: Text("Edit Data Diri"),
+                          //   ),
+                          // ));
                         },
                         child: Text("Ubah info data diri"))
                   ],

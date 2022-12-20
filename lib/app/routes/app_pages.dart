@@ -44,7 +44,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE_LENGKAP,
-      page: () => const ProfileLengkapView(),
+      page: () => ProfileLengkapView(),
       binding: ProfileLengkapBinding(),
       transition: Transition.leftToRightWithFade,
     ),
