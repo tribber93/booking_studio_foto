@@ -25,8 +25,17 @@ class MyBottomSheet extends GetView<MyController> {
       return DateTime(sekarang.year, sekarang.month, sekarang.day + tambah);
     }
 
-    return InkWell(
-      onTap: () {
+    return FloatingActionButton.extended(
+      label: Row(
+        children: [
+          FaIcon(FontAwesomeIcons.ticket),
+          SizedBox(width: 10),
+          Text("Pesan Sekarang"),
+        ],
+      ),
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.grey[100],
+      onPressed: () {
         Get.bottomSheet(
           backgroundColor: Colors.transparent,
           isScrollControlled: true,
@@ -85,7 +94,8 @@ class MyBottomSheet extends GetView<MyController> {
                           stream: myCont.streamJadwal(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {
-                              return LinearProgressIndicator();
+                              return const Center(
+                                  child: CircularProgressIndicator());
                             }
 
                             // Menampilkan list document di snapshot
@@ -144,33 +154,109 @@ class MyBottomSheet extends GetView<MyController> {
                           color: Colors.grey,
                         ),
                         Text("Pilih Jam"),
+                        // Waktu(myCont: myCont),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Waktu(myCont: myCont),
+                        ),
                         GetBuilder<MyController>(
-                          builder: (myController) {
-                            return StreamBuilder(
-                                stream: myCont.streamJadwal(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const LinearProgressIndicator();
-                                  }
-                                  var data = snapshot.data!.docs;
-                                  return SizedBox(
-                                    width: double.infinity,
-                                    child: Center(
-                                      child: List.generate(
-                                        snapshot.data!.docs.length,
-                                        (index) => Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: MyGroupButton(
-                                            data: data[index],
-                                            info: info,
-                                          ),
-                                        ),
-                                      )[myCont.tabIndex],
-                                    ),
-                                  );
-                                });
+                          builder: (_) {
+                            return Text('Jam yang dipilih: ${myCont.jam}');
                           },
                         ),
+
+                        // Column(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     ElevatedButton(
+                        //       style: ElevatedButton.styleFrom(
+                        //           backgroundColor: myCont.jam == 'jam1'
+                        //               ? Colors.blue
+                        //               : Colors.grey[200]),
+                        //       child: Text(
+                        //         'Jam 1',
+                        //         style: TextStyle(
+                        //             color: myCont.jam == 'jam1'
+                        //                 ? Colors.white
+                        //                 : Colors.black),
+                        //       ),
+                        //       onPressed: () {
+                        //         myCont.jam = 'jam1';
+                        //       },
+                        //     ),
+                        //     ElevatedButton(
+                        //       style: ElevatedButton.styleFrom(
+                        //           backgroundColor: myCont.jam == 'jam2'
+                        //               ? Colors.blue
+                        //               : Colors.grey[200]),
+                        //       child: Text(
+                        //         'Jam 2',
+                        //         style: TextStyle(
+                        //             color: myCont.jam == 'jam2'
+                        //                 ? Colors.white
+                        //                 : Colors.black),
+                        //       ),
+                        //       onPressed: () {
+                        //         myCont.jam = 'jam2';
+                        //       },
+                        //     ),
+                        //     ElevatedButton(
+                        //       style: ElevatedButton.styleFrom(
+                        //           backgroundColor: myCont.jam == 'jam3'
+                        //               ? Colors.blue
+                        //               : Colors.grey[200]),
+                        //       child: Text(
+                        //         'Jam 3',
+                        //         style: TextStyle(
+                        //             color: myCont.jam == 'jam3'
+                        //                 ? Colors.white
+                        //                 : Colors.black),
+                        //       ),
+                        //       onPressed: () {
+                        //         myCont.jam = 'jam3';
+                        //       },
+                        //     ),
+                        //     Text('Jam yang dipilih: ${myCont.jam}'),
+                        //   ],
+                        // ),
+
+                        // Column(
+                        //   children: [
+                        //     GetBuilder<MyController>(
+                        //       builder: (myController) {
+                        //         return StreamBuilder(
+                        //             stream: myCont.streamJadwal(),
+                        //             builder: (context, snapshot) {
+                        //               if (!snapshot.hasData) {
+                        //                 return const CircularProgressIndicator();
+                        //               }
+                        //               var data = snapshot.data!.docs;
+                        //               return SizedBox(
+                        //                 width: double.infinity,
+                        //                 child: Center(
+                        //                   child: List.generate(
+                        //                     snapshot.data!.docs.length,
+                        //                     (index) => Padding(
+                        //                       padding: const EdgeInsets.all(5),
+                        //                       child: MyGroupButton(
+                        //                         data: data[index],
+                        //                         info: info,
+                        //                       ),
+                        //                     ),
+                        //                   )[myCont.tabIndex],
+                        //                 ),
+                        //               );
+                        //             });
+                        //       },
+                        //     ),
+                        info.tambahan != null
+                            ? ExtraWidget(
+                                info: info.tambahan,
+                              )
+                            : SizedBox(),
+                        //   ],
+                        // ),
+                        // batas jam
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.spaceAround,
                         //   children: [
@@ -187,11 +273,6 @@ class MyBottomSheet extends GetView<MyController> {
                         // SizedBox(
                         //   height: 20,
                         // ),
-                        info.tambahan != null
-                            ? ExtraWidget(
-                                info: info.tambahan,
-                              )
-                            : SizedBox(),
                       ],
                     ),
                   ),
@@ -206,6 +287,7 @@ class MyBottomSheet extends GetView<MyController> {
                     child: TextButton(
                         onPressed: () {
                           // Get.to(Checkout());
+                          Get.toNamed(Routes.CHECKOUT);
                         },
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.white,
@@ -233,17 +315,91 @@ class MyBottomSheet extends GetView<MyController> {
           ),
         );
       },
-      child: Container(
-        color: primaryColor,
-        height: 60,
-        child: Center(
-          child: Text(
-            "Pesan Sekarang",
-            style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
-          ),
-        ),
-      ),
+      // child: Container(
+      //   // constraints: BoxConstraints(minWidth: 120, maxWidth: Get.width * 0.4),
+      //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      //   decoration: BoxDecoration(
+      //     color: primaryColor,
+      //     borderRadius: BorderRadius.circular(20),
+      //   ),
+      //   child: Text(
+      //     "Pesan",
+      //     style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+      //   ),
+      // ),
+    );
+  }
+}
+
+class Waktu extends StatelessWidget {
+  const Waktu({
+    Key? key,
+    required this.myCont,
+  }) : super(key: key);
+
+  final MyController myCont;
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<MyController>(
+      builder: (_) {
+        return StreamBuilder(
+            stream: myCont.streamJadwal(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              var data = snapshot.data!.docs;
+              return SizedBox(
+                child: data.isEmpty
+                    ? Center(
+                        child: Text(
+                        "Belum ada jadwal terkini",
+                        style: TextStyle(color: Colors.red),
+                      ))
+                    : List.generate(data.length, (index) {
+                        return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              crossAxisSpacing: 15,
+                              childAspectRatio: 2,
+                              mainAxisSpacing: 20,
+                            ),
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: data[index]["waktu"].length,
+                            shrinkWrap: true,
+                            itemBuilder: ((context, indexWaktu) {
+                              var waktu = data[index]["waktu"][indexWaktu];
+
+                              return GetBuilder<MyController>(
+                                builder: (_) {
+                                  return ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        disabledBackgroundColor: Colors.black12,
+                                        disabledForegroundColor: Colors.black,
+                                        backgroundColor:
+                                            myCont.jam == '${waktu['jam']}'
+                                                ? primaryColor
+                                                : Colors.grey[100]),
+                                    child: Text(
+                                      '${waktu['jam']}',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: myCont.jam == '${waktu['jam']}'
+                                              ? Colors.black
+                                              : Colors.black),
+                                    ),
+                                    onPressed: myCont.checkWaktu(
+                                        waktu, data[index]['timeStamp']),
+                                  );
+                                },
+                              );
+                            }));
+                      })[myCont.tabIndex],
+              );
+            });
+      },
     );
   }
 }

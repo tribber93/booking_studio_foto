@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:group_button/group_button.dart';
 import 'package:intl/intl.dart';
+// import 'package:studio_foto/app/controller/buttonController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
@@ -35,6 +36,7 @@ class MyGroupButton extends StatelessWidget {
             var isBooked = data!["jadwal"];
 
             return GroupButton(
+              enableDeselect: true,
               // isRadio: false,
               buttons: jadwal,
               controller: GroupButtonController(

@@ -15,14 +15,17 @@ class MyController extends GetxController {
   var count = 1.obs;
   RxInt total = 0.obs;
   DateTime tanggalSekarang = DateTime.now();
+  String? jam;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  late TextEditingController tanggalController;
+  late TextEditingController tanggalController, jamController, extraController;
 
   @override
   void onInit() {
     super.onInit();
     tanggalController = TextEditingController();
+    jamController = TextEditingController();
+    extraController = TextEditingController();
   }
 
   @override
@@ -34,6 +37,8 @@ class MyController extends GetxController {
   void onClose() {
     super.onClose();
     tanggalController.dispose();
+    jamController.dispose();
+    extraController.dispose();
   }
 
   void increment() {
@@ -51,18 +56,13 @@ class MyController extends GetxController {
     update();
   }
 
-  void radioButton(val, i, selected, info) {
-    debugPrint('Button: $val index: $i $selected');
-    debugPrint(info.harga.toString());
-  }
-
   void addTotal(info, int index) {
-    int harga = info[index]["harga"];
-    if (info[index]["isCheck"] == true) {
-      total = total + harga;
-    } else {
-      total = total - harga;
-    }
+    // int harga = info[index]["harga"];
+    // if (info[index]["isCheck"] == true) {
+    //   total = total + harga;
+    // } else {
+    //   total = total - harga;
+    // }
   }
 
   addUser() async {
@@ -97,9 +97,22 @@ class MyController extends GetxController {
       "timeStamp": ts,
       "hari": hari,
       "tanggal": tgl,
-      "jadwal": jadwal,
+      "waktu": FieldValue.arrayUnion(jadwal),
     }).whenComplete(() => Get.snackbar("Berhasil", "Jadwal sudah digenerate",
         backgroundColor: Colors.green));
+  }
+
+  Future<bool> checkIfDocExists(String? docId) async {
+    try {
+      // Get reference to Firestore collection
+      var collectionRef = db.collection('jadwal');
+
+      var doc = await collectionRef.doc(docId).get();
+      // debugPrint("id --> ${doc}" + doc.exists.toString());
+      return doc.exists;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Stream<QuerySnapshot> streamJadwal() {
@@ -115,17 +128,39 @@ class MyController extends GetxController {
         .snapshots();
   }
 
-  Future<bool> checkIfDocExists(String? docId) async {
-    try {
-      // Get reference to Firestore collection
-      var collectionRef = db.collection('jadwal');
+  radioButton(val, i, selected, info) {
+    debugPrint('Button: $val index: $i $selected');
+    debugPrint(info.harga.toString());
+    return val;
+    // jamController = val;
+  }
 
-      var doc = await collectionRef.doc(docId).get();
-      // debugPrint("id --> ${doc}" + doc.exists.toString());
-      return doc.exists;
-    } catch (e) {
-      rethrow;
-    }
+  checkWaktu(Map waktu, Timestamp data) {
+    final timestampInMilliseconds = data.millisecondsSinceEpoch;
+
+// Membuat objek DateTime dari timestamp
+    final dateTime =
+        DateTime.fromMillisecondsSinceEpoch(timestampInMilliseconds);
+
+// Menentukan format tanggal dan waktu
+    final dateFormat = DateFormat('dd MMM yyyy HH:mm:ss');
+
+// Merubah DateTime ke string dengan format yang ditentukan
+    final formattedDateTime = dateFormat.format(dateTime);
+
+    var format = DateFormat("HH:mm");
+    var sekarang = format.format(DateTime.now());
+    var jamdb = format.parse(waktu["jam"]);
+    bool hasil = jamdb.isBefore(format.parse(sekarang)) ? true : false;
+    var comparison = data.compareTo(Timestamp.fromDate(DateTime.now()));
+    return waktu['isBooked'] == true || hasil == true && comparison < 0
+        ? null
+        : () {
+            jam = '${waktu['jam']}';
+            update();
+            // print(data);
+            print(formattedDateTime); // Output: "29 Dec 2021 12:00:00"
+          };
   }
 }
 

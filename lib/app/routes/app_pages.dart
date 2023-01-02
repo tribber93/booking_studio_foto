@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 
-import '../modules/admin/adminLogin/bindings/admin_login_binding.dart';
-import '../modules/admin/adminLogin/views/admin_login_view.dart';
 import '../modules/admin/adminDashboard/bindings/admin_dashboard_binding.dart';
 import '../modules/admin/adminDashboard/views/admin_dashboard_view.dart';
+import '../modules/admin/adminLogin/bindings/admin_login_binding.dart';
+import '../modules/admin/adminLogin/views/admin_login_view.dart';
+import '../modules/user/checkout/bindings/checkout_binding.dart';
+import '../modules/user/checkout/views/checkout_view.dart';
 import '../modules/user/dashboard/bindings/dashboard_binding.dart';
 import '../modules/user/dashboard/views/dashboard_view.dart';
 import '../modules/user/detail_paket/bindings/detail_paket_binding.dart';
@@ -69,6 +71,11 @@ class AppPages {
       name: _Paths.ADMIN_DASHBOARD,
       page: () => AdminDashboardView(),
       binding: AdminDashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.CHECKOUT,
+      page: () => const CheckoutView(),
+      binding: CheckoutBinding(),
     ),
   ];
 }

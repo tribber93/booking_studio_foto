@@ -33,8 +33,8 @@ class MyButtonItem extends StatelessWidget {
         child: InkWell(
           onTap: () {
             controller.changeTabIndex(index);
-            // debugPrint(
-            //     DateFormat("EEE, d MMM yyyy", "id_ID").format(addDate(index)));
+            debugPrint(
+                DateFormat("EEE, d MMM yyyy", "id_ID").format(addDate(index)));
           },
           child: Container(
             padding: padding,
