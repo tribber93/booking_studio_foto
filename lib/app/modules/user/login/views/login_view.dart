@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/widgetLoginSignup.dart';
 
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+  final authC = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     Color smallText = Colors.grey.shade600;
@@ -119,9 +120,7 @@ class LoginView extends GetView<LoginController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),
-                      onPressed: () {
-                        Get.toNamed(Routes.ADMIN_DASHBOARD);
-                      },
+                      onPressed: () => authC.signInWithGoogle(),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Row(
@@ -143,7 +142,7 @@ class LoginView extends GetView<LoginController> {
                           backgroundColor:
                               MaterialStatePropertyAll<Color>(Colors.white)),
                       onPressed: () {
-                        Get.toNamed(Routes.ADMIN_LOGIN);
+                        Get.toNamed(Routes.ADMIN_DASHBOARD);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8),

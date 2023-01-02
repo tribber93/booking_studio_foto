@@ -3,13 +3,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/main.dart';
 import 'package:studio_foto/utils/myColor.dart';
 import 'package:studio_foto/utils/myThemeData.dart';
 
 class ProfileView extends GetView {
-  const ProfileView({Key? key}) : super(key: key);
+  final auth = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +105,7 @@ class ProfileView extends GetView {
                     label: "Transaksi Saya"),
                 ProfileButton(
                     onTap: () {
-                      Get.offAllNamed(Routes.LOGIN);
+                      auth.logout();
                     },
                     icon: Image.asset(
                       "assets/icons/logout.png",

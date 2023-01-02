@@ -27,6 +27,8 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   date_time_picker: ^2.1.0
+  firebase_auth: ^4.2.4
+  google_sign_in: ^5.4.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0
