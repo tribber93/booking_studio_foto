@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -79,7 +80,12 @@ class ProfileView extends GetView {
                                         radius: 50,
                                         backgroundColor: Colors.white,
                                         backgroundImage:
-                                            NetworkImage(dataUser['photo']),
+                                            CachedNetworkImageProvider(
+                                          dataUser['photo'],
+                                          errorListener: () =>
+                                              Icon(Icons.error),
+                                        ),
+                                        // NetworkImage(dataUser['photo']),
                                       ),
                                 SizedBox(
                                   width: 20,

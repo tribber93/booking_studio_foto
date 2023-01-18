@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -69,8 +70,10 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
                                 ? CircleAvatar(
                                     radius: 80,
                                     backgroundColor: Colors.transparent,
-                                    backgroundImage:
-                                        NetworkImage(dataUser['photo']),
+                                    backgroundImage: CachedNetworkImageProvider(
+                                      dataUser['photo'],
+                                      errorListener: () => Icon(Icons.error),
+                                    ),
                                     child: Align(
                                         alignment: Alignment(1, 1),
                                         child: CircleAvatar(

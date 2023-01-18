@@ -67,25 +67,25 @@ class LoginView extends GetView<LoginController> {
                   )),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Belum punya akun?", style: TextStyle(color: smallText)),
-                TextButton(
-                    onPressed: () {
-                      Get.toNamed(Routes.SIGNUP);
-                    },
-                    child: Text(
-                      "Daftar",
-                      style: TextStyle(color: Colors.grey.shade900),
-                    ))
-              ],
-            ),
-          ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Center(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Text("Belum punya akun?", style: TextStyle(color: smallText)),
+          //       TextButton(
+          //           onPressed: () {
+          //             Get.toNamed(Routes.SIGNUP);
+          //           },
+          //           child: Text(
+          //             "Daftar",
+          //             style: TextStyle(color: Colors.grey.shade900),
+          //           ))
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             height: 20,
           ),
@@ -146,14 +146,11 @@ class LoginView extends GetView<LoginController> {
                         Get.offAllNamed(Routes.DASHBOARD);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 13),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: const [
-                            Image(
-                                image: AssetImage(
-                              'assets/icons/guest.png',
-                            )),
                             Text(
                               "Masuk sebagai Tamu",
                               style: TextStyle(color: Colors.black87),
