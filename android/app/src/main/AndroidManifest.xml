@@ -16,7 +16,7 @@
     </queries>
 
    <application
-        android:label="studio_foto"
+        android:label="QM Studio Photo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

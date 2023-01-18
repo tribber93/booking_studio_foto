@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/app/modules/user/dashboard/controllers/home_controller.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
@@ -24,6 +25,7 @@ final List<String> imgList = [
 
 class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
+  final authC = Get.find<AuthController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,7 @@ class HomeView extends GetView<HomeController> {
         backgroundColor: primaryColor,
         title: Text(
           'QM Photo Studio',
+          style: TextStyle(color: Colors.white),
         ),
         automaticallyImplyLeading: false,
       ),
@@ -40,27 +43,50 @@ class HomeView extends GetView<HomeController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: RichText(
-                  text: TextSpan(
-                    text: 'Hello, \n',
-                    style: TextStyle(color: Colors.black87, fontSize: 22),
-                    children: [
-                      TextSpan(
-                        text: "Yoni Tribber",
-                        style: GoogleFonts.montserrat(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            StreamBuilder(
+                stream: null,
+                builder: (context, snapshot) {
+                  return Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: authC.auth.currentUser == null
+                          ? Text(
+                              'Hello, \nSelamat Datang',
+                              style: TextStyle(
+                                  color: Colors.black87, fontSize: 22),
+                            )
+                          : StreamBuilder(
+                              stream: authC.streamUsers(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+
+                                Map dataUser = (snapshot.data!.data()
+                                    as Map<String, dynamic>);
+
+                                return RichText(
+                                  text: TextSpan(
+                                    text: 'Hello, \n',
+                                    style: TextStyle(
+                                        color: Colors.black87, fontSize: 22),
+                                    children: [
+                                      TextSpan(
+                                        text: dataUser['name'],
+                                        style: GoogleFonts.montserrat(
+                                            fontSize: 28,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }),
+                    ),
+                  );
+                }),
             Container(
               child: CarouselSlider(
                 options: CarouselOptions(

@@ -29,6 +29,9 @@ dependencies:
   date_time_picker: ^2.1.0
   firebase_auth: ^4.2.4
   google_sign_in: ^5.4.2
+  firebase_storage: ^11.0.10
+  image_picker: ^0.8.6
+  flutter_launcher_icons: ^0.11.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -58,3 +61,20 @@ flutter:
         - asset: fonts/montserrat/Montserrat.ttf
         - asset: fonts/montserrat/Montserrat-SemiBold.ttf
           weight: 600
+
+flutter_icons:
+  image_path_android: "assets/images/logo_qm.jpg"
+  image_path_ios: "assets/images/logo_qm.jpg"
+  android: true
+  ios: true
+  # image_path: "assets/images/logo_qm.jpg"
+  min_sdk_android: 19
+  web:
+    generate: true
+    image_path: "assets/images/logo_qm.jpg"
+  windows:
+    generate: true
+    image_path: "assets/images/logo_qm.jpg"
+  macos:
+    generate: true
+    image_path: "assets/images/logo_qm.jpg"

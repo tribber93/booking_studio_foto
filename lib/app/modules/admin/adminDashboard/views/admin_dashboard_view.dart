@@ -28,6 +28,9 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              ElevatedButton(
+                  onPressed: () => controller.uploadImage(),
+                  child: Text("Test")),
               DateTimePicker(
                 locale: const Locale('id', 'ID'),
                 firstDate: DateTime.now(),

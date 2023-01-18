@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:studio_foto/app/controller/authController.dart';
@@ -56,7 +57,7 @@ class LoginView extends GetView<LoginController> {
                       backgroundColor: MaterialStatePropertyAll<Color>(
                           Colors.grey.shade800)),
                   onPressed: () {
-                    Get.offAllNamed(Routes.DASHBOARD);
+                    Get.toNamed(Routes.ADMIN_DASHBOARD);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -142,16 +143,19 @@ class LoginView extends GetView<LoginController> {
                           backgroundColor:
                               MaterialStatePropertyAll<Color>(Colors.white)),
                       onPressed: () {
-                        Get.toNamed(Routes.ADMIN_DASHBOARD);
+                        Get.offAllNamed(Routes.DASHBOARD);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Image.asset("assets/images/fb.png"),
+                          children: const [
+                            Image(
+                                image: AssetImage(
+                              'assets/icons/guest.png',
+                            )),
                             Text(
-                              "Masuk dengan Facebook",
+                              "Masuk sebagai Tamu",
                               style: TextStyle(color: Colors.black87),
                             ),
                           ],

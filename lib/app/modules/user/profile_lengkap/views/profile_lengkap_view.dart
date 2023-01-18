@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
@@ -9,75 +13,132 @@ import '../controllers/profile_lengkap_controller.dart';
 class ProfileLengkapView extends GetView<ProfileLengkapController> {
   ProfileLengkapView({Key? key}) : super(key: key);
   final myCon = Get.find<MyController>();
+  final authC = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: primaryColor,
-          title: Text('Profile Lengkap'),
-          centerTitle: true,
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Get.bottomSheet(
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                      Container(
+                        color: Colors.amber,
+                        height: Get.height * 0.6,
+                      ));
+                },
+                child: Text(
+                  "Ubah Data",
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
         ),
-        body: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                child: Column(
-                  children: [
-                    Center(
-                      child: Column(
-                        children: [
-                          const CircleAvatar(
-                              radius: 50,
-                              backgroundImage:
-                                  AssetImage("assets/icons/userProfile.png")),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text('✏️ Ubah Foto')
-                        ],
+        body: controller.isUpload
+            ? Positioned.fill(
+                child: Container(
+                  color: Colors.black45,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              )
+            : StreamBuilder(
+                stream: authC.streamUsers(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  Map dataUser =
+                      (snapshot.data!.data() as Map<String, dynamic>);
+                  DateTime dt = (dataUser['createdAt'] as Timestamp).toDate();
+                  String tglDaftar =
+                      DateFormat('dd MMMM yyyy', 'id_ID').format(dt);
+
+                  return SafeArea(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 20),
+                        child: Column(
+                          children: [
+                            dataUser['photo'] != ""
+                                ? CircleAvatar(
+                                    radius: 80,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage:
+                                        NetworkImage(dataUser['photo']),
+                                    child: Align(
+                                        alignment: Alignment(1, 1),
+                                        child: CircleAvatar(
+                                          backgroundColor: primaryColor,
+                                          radius: 22,
+                                          child: IconButton(
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.camera,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              controller.isUpload = true;
+                                              controller.update();
+                                              controller.uploadImage(
+                                                  dataUser['photo']);
+                                              controller.isUpload = false;
+                                              controller.update();
+                                            },
+                                          ),
+                                        )),
+                                  )
+                                : CircleAvatar(
+                                    radius: 80,
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: AssetImage(
+                                        'assets/icons/userProfile.png'),
+                                    child: Align(
+                                        alignment: Alignment(1, 1),
+                                        child: CircleAvatar(
+                                          backgroundColor: primaryColor,
+                                          radius: 22,
+                                          child: IconButton(
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.camera,
+                                              color: Colors.white,
+                                            ),
+                                            onPressed: () {
+                                              controller.uploadImage(
+                                                  dataUser['photo']);
+                                            },
+                                          ),
+                                        )),
+                                  ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            ProfileInfo(
+                              title: "Nama Lengkap",
+                              isi: dataUser['name'],
+                            ),
+                            ProfileInfo(
+                              title: "E-mail",
+                              isi: dataUser['email'],
+                            ),
+                            ProfileInfo(
+                              title: "No. Hp",
+                              isi: "+62 858 6457 1300",
+                            ),
+                            ProfileInfo(
+                              title: "Tanggal dibuat",
+                              isi: tglDaftar,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    ProfileInfo(
-                      title: "Nama Lengkap",
-                      isi: "Yoni Tribber",
-                    ),
-                    ProfileInfo(
-                      title: "E-mail",
-                      isi: "tribberyoni5@gmail.com",
-                    ),
-                    ProfileInfo(
-                      title: "No. Hp",
-                      isi: "+62 858 6457 1300",
-                    ),
-                    ProfileInfo(
-                      title: "Tanggal dibuat",
-                      isi: "10 November 2022",
-                    ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor),
-                        onPressed: () {
-                          myCon.addUser();
-                          // Get.bottomSheet(Container(
-                          //   height: Get.height,
-                          //   color: Colors.white,
-                          //   child: Center(
-                          //     child: Text("Edit Data Diri"),
-                          //   ),
-                          // ));
-                        },
-                        child: Text("Ubah info data diri"))
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ));
+                  );
+                }));
   }
 }
 

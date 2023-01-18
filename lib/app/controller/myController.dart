@@ -158,7 +158,6 @@ class MyController extends GetxController {
         : () {
             jam = '${waktu['jam']}';
             update();
-            // print(data);
             print(formattedDateTime); // Output: "29 Dec 2021 12:00:00"
           };
   }

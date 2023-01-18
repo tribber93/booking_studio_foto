@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "firebase": "^9.15.0"
+  },
+  "scripts": {
+    "web": "flutter run -d chrome --web-renderer html --web-hostname localhost --web-port 5000",
+    "adb": "adb connect localhost:5555",
+    "tcpip": "adb -d tcpip 5555",
+    "build": "flutter build apk --release"
+  }
+}

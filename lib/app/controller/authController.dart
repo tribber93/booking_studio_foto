@@ -40,7 +40,7 @@ class AuthController extends GetxController {
         'uid': _userCredential!.user!.uid,
         'name': googleUser.displayName,
         'email': googleUser.email,
-        'photo': googleUser.photoUrl,
+        'photo': '',
         'createdAt': _userCredential!.user!.metadata.creationTime,
         'lastLoginAt': _userCredential!.user!.metadata.lastSignInTime,
       }).then((value) async {
@@ -68,5 +68,9 @@ class AuthController extends GetxController {
     await auth.signOut();
     await GoogleSignIn().signOut();
     Get.offAllNamed(Routes.LOGIN);
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUsers() {
+    return db.collection('users').doc(auth.currentUser!.email).snapshots();
   }
 }
