@@ -35,9 +35,13 @@ class InfoTempatView extends GetView<MyController> {
             expandedHeight: 300.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Text(
+              title: const Text(
                 'QM Studio Foto',
-                style: myTextTheme(context).titleLarge,
+                style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                    color: Colors.white),
               ),
               background: Stack(
                 alignment: const Alignment(0, -0.5),

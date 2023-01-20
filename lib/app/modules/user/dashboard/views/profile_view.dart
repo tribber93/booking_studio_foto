@@ -19,40 +19,89 @@ class ProfileView extends GetView {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: const Text(
-          'Profil Saya',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Profil Saya'),
         automaticallyImplyLeading: false,
       ),
-      body: authC.auth.currentUser == null
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("login duls"),
-                  ElevatedButton(
-                    onPressed: () => Get.offAllNamed(Routes.LOGIN),
-                    child: Text("Gas"),
-                  )
-                ],
-              ),
-            )
-          : StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-              stream: authC.streamUsers(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+      body: Center(
+        child: SingleChildScrollView(
+          child: authC.auth.currentUser == null
+              ? Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Kamu Belum Login",
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      Text("Yuk Login dulu!"),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Image(
+                          height: 300,
+                          image: AssetImage("assets/images/log-in.png")),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      GestureDetector(
+                        onTap: () => Get.offAllNamed(Routes.LOGIN),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          constraints: BoxConstraints(maxWidth: 200),
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    offset: Offset(0, 1),
+                                    spreadRadius: 0.0001,
+                                    blurRadius: 0.3)
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.arrow_back),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text('Ke halaman Login')
+                            ],
+                          ),
+                        ),
+                      )
+                      // ElevatedButton(
+                      //     style: ElevatedButton.styleFrom(
+                      //         backgroundColor: Colors.white),
+                      //     onPressed: () {
+                      //       Get.offAllNamed(Routes.LOGIN);
+                      //     },
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.symmetric(
+                      //           horizontal: 8, vertical: 13),
+                      //       child: Text(
+                      //         "Ke halaman Login",
+                      //         style: TextStyle(color: Colors.black87),
+                      //       ),
+                      //     )),
+                    ],
+                  ),
+                )
+              : StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                  stream: authC.streamUsers(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                Map dataUser = (snapshot.data!.data() as Map<String, dynamic>);
-                List nama = dataUser['name'].split(" ");
-                DateTime dt = (dataUser['createdAt'] as Timestamp).toDate();
-                String tglDaftar =
-                    DateFormat('dd MMMM yyyy', 'id_ID').format(dt);
-                return Center(
-                  child: SingleChildScrollView(
-                    child: Padding(
+                    Map dataUser =
+                        (snapshot.data!.data() as Map<String, dynamic>);
+                    List nama = dataUser['name'].split(" ");
+                    DateTime dt = (dataUser['createdAt'] as Timestamp).toDate();
+                    String tglDaftar =
+                        DateFormat('dd MMMM yyyy', 'id_ID').format(dt);
+                    return Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 40,
                       ),
@@ -149,9 +198,7 @@ class ProfileView extends GetView {
                               ),
                               label: "Profile Lengkap"),
                           ProfileButton(
-                              onTap: () {
-                                Get.toNamed(Routes.TRANSAKSI);
-                              },
+                              onTap: () => Get.toNamed(Routes.TRANSAKSI),
                               icon: Image.asset(
                                 "assets/icons/ticket.png",
                                 height: 30,
@@ -168,10 +215,10 @@ class ProfileView extends GetView {
                               label: "Keluar"),
                         ],
                       ),
-                    ),
-                  ),
-                );
-              }),
+                    );
+                  }),
+        ),
+      ),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:studio_foto/app/controller/adminController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/utils/myColor.dart';
@@ -15,8 +16,8 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
   AdminDashboardView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.put(MyController());
-    final myCont = Get.find<MyController>();
+    Get.put(AdminController());
+    final adminC = Get.find<AdminController>();
     return Scaffold(
       appBar: AppBar(
         title: Text('AdminDashboardView'),
@@ -52,7 +53,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                controller: myCont.tanggalController,
+                controller: adminC.tanggalController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Can not be empty';
@@ -66,7 +67,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                 onPressed: () {
-                  String tanggal = myCont.tanggalController.text;
+                  String tanggal = adminC.tanggalController.text;
                   DateTime parseDate = DateFormat("yyyy-MM-dd").parse(tanggal);
                   DateTime inputDate = DateTime.parse(parseDate.toString());
                   DateFormat idFormat = DateFormat("EEEE, d MMM yyyy", "id_ID");
@@ -79,7 +80,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
                       Timestamp.fromDate(DateTime.parse(tanggal));
                   // print(idDate);
 
-                  myCont.addJadwal(
+                  adminC.addJadwal(
                       docId: idDate, hari: hari, tgl: tgl, ts: timestamp);
                   // myCont.getIdJadwal();
                   // myCont.streamJadwal;

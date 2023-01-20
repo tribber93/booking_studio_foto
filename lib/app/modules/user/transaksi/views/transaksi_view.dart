@@ -1,4 +1,6 @@
+import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
 import 'package:empty_widget/empty_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,101 +17,77 @@ import '../controllers/transaksi_controller.dart';
 import 'tiket.dart';
 
 class TransaksiView extends GetView<TransaksiController> {
-  const TransaksiView({Key? key}) : super(key: key);
-
+  TransaksiView({Key? key}) : super(key: key);
+  int tab = 0;
   @override
   Widget build(BuildContext context) {
     Get.put(MyController());
     return Scaffold(
-      appBar: AppBar(
-        title: Text('TransaksiView'),
-      ),
-      backgroundColor: Colors.grey.shade300,
-      body: GetBuilder<MyController>(
-        builder: (controller) {
-          return Column(
-            children: [
-              Container(
-                height: 85,
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: ListView(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    MyButtonItem(
-                      gap: const EdgeInsets.symmetric(horizontal: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      index: 0,
-                      child: Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.moneyBillTransfer,
-                            color: Colors.green[700],
+        appBar: AppBar(
+          title: Text('TransaksiView'),
+        ),
+        body: GetBuilder<MyController>(
+          builder: (controller) {
+            return Container(
+              margin: const EdgeInsets.all(8),
+              child: Column(
+                children: [
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: CustomSlidingSegmentedControl<int>(
+                      innerPadding: const EdgeInsets.all(5),
+                      initialValue: 0,
+                      children: {
+                        0: Text('Belum dibayar'),
+                        1: Text('Transaksi berhasil'),
+                        2: Text('Transaksi batal'),
+                      },
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.lightBackgroundGray,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      thumbDecoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(6),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.3),
+                            blurRadius: 4.0,
+                            spreadRadius: 1.0,
+                            offset: Offset(
+                              0.0,
+                              2.0,
+                            ),
                           ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text("Belum dibayar")
                         ],
                       ),
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.easeInToLinear,
+                      onValueChanged: (v) {
+                        tab = v;
+                        controller.update();
+                      },
                     ),
-                    MyButtonItem(
-                      gap: const EdgeInsets.symmetric(horizontal: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      index: 1,
-                      child: Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.circleCheck,
-                            color: Colors.green[700],
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text("Sudah dibayar"),
-                        ],
-                      ),
-                    ),
-                    MyButtonItem(
-                      gap: const EdgeInsets.symmetric(horizontal: 10),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      index: 2,
-                      child: Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.ban,
-                            color: Colors.red[700],
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          Text("Batal"),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: <Widget>[
-                  Tiket(),
-                  myEmptyWidget(
-                    title: 'Belum ada Transaksi',
-                    subTitle: 'Silakan buat transaksi pertamamu',
-                    packageImage: PackageImage.Image_1,
                   ),
-                  myEmptyWidget(
-                    title: 'Belum ada Transaksi Batal',
-                    subTitle: 'Silakan buat transaksi pertamamu',
-                    packageImage: PackageImage.Image_2,
+                  Expanded(
+                    child: [
+                      Tiket(),
+                      myEmptyWidget(
+                        title: 'Belum ada Transaksi',
+                        subTitle: 'Silakan buat transaksi pertamamu',
+                        packageImage: PackageImage.Image_1,
+                      ),
+                      myEmptyWidget(
+                        title: 'Belum ada Transaksi Batal',
+                        subTitle: 'Silakan buat transaksi pertamamu',
+                        packageImage: PackageImage.Image_2,
+                      ),
+                    ][tab],
                   ),
-                ][controller.tabIndex],
+                ],
               ),
-            ],
-          );
-        },
-      ),
-    );
+            );
+          },
+        ));
   }
 }

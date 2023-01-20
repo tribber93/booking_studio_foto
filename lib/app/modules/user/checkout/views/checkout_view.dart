@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:studio_foto/app/controller/myController.dart';
 
 import '../controllers/checkout_controller.dart';
 
-class CheckoutView extends GetView<CheckoutController> {
-  const CheckoutView({Key? key}) : super(key: key);
+class CheckoutView extends GetView<MyController> {
+  CheckoutView({Key? key}) : super(key: key);
+  final myC = Get.find<MyController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,11 +16,18 @@ class CheckoutView extends GetView<CheckoutController> {
         title: Text('CheckoutView'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
-          'CheckoutView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Tanggal : ' + myC.tanggalTerpilih,
+            style: TextStyle(fontSize: 20),
+          ),
+          Text(
+            'Jam : ' + myC.jamTerpilih,
+            style: TextStyle(fontSize: 20),
+          ),
+        ],
       ),
     );
   }

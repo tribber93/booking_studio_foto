@@ -33,10 +33,7 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text(
-          'QM Photo Studio',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: Text('QM Photo Studio'),
         automaticallyImplyLeading: false,
       ),
       backgroundColor: Color.fromARGB(132, 232, 232, 232),

@@ -40,7 +40,8 @@ Future<void> main() async {
             constraints: const BoxConstraints(maxWidth: 600),
             child: GetMaterialApp(
               localizationsDelegates: const [
-                GlobalMaterialLocalizations.delegate
+                GlobalMaterialLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [Locale('id'), Locale('en')],
               theme: myThemedata,
