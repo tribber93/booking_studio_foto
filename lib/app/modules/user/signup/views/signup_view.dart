@@ -36,11 +36,11 @@ class SignupView extends GetView<SignupController> {
             const SizedBox(
               height: 40,
             ),
-            MyTextField(hint: "Nama Lengkap"),
-            MyTextField(hint: "No. Handphone"),
-            MyTextField(hint: "E-mail"),
+            MyTextField(label: "Nama Lengkap"),
+            MyTextField(label: "No. Handphone"),
+            MyTextField(label: "E-mail"),
             MyTextField(
-              hint: "Password",
+              label: "Password",
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,

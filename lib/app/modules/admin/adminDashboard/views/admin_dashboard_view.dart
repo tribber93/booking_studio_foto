@@ -8,12 +8,16 @@ import 'package:intl/intl.dart';
 import 'package:studio_foto/app/controller/adminController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/data/classPaket.dart';
+import 'package:studio_foto/app/modules/admin/adminDashboard/views/tambah_paket.dart';
+import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 import '../controllers/admin_dashboard_controller.dart';
 
-class AdminDashboardView extends GetView<AdminDashboardController> {
+class AdminDashboardView extends GetView<AdminController> {
   AdminDashboardView({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     Get.put(AdminController());
@@ -30,8 +34,12 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                  onPressed: () => controller.uploadImage(),
-                  child: Text("Test")),
+                  onPressed: () {
+                    Get.to(() => TambahPaketView(),
+                        routeName: "${Routes.ADMIN_DASHBOARD}/tambah-paket");
+                    adminC.reset();
+                  },
+                  child: Text("Tambah Paket")),
               DateTimePicker(
                 locale: const Locale('id', 'ID'),
                 firstDate: DateTime.now(),
@@ -67,23 +75,7 @@ class AdminDashboardView extends GetView<AdminDashboardController> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                 onPressed: () {
-                  String tanggal = adminC.tanggalController.text;
-                  DateTime parseDate = DateFormat("yyyy-MM-dd").parse(tanggal);
-                  DateTime inputDate = DateTime.parse(parseDate.toString());
-                  DateFormat idFormat = DateFormat("EEEE, d MMM yyyy", "id_ID");
-                  DateFormat hariFormat = DateFormat("EEEE", "id_ID");
-                  DateFormat tanggalFormat = DateFormat("d MMM", "id_ID");
-                  String idDate = idFormat.format(inputDate);
-                  String hari = hariFormat.format(inputDate);
-                  String tgl = tanggalFormat.format(inputDate);
-                  Timestamp timestamp =
-                      Timestamp.fromDate(DateTime.parse(tanggal));
-                  // print(idDate);
-
-                  adminC.addJadwal(
-                      docId: idDate, hari: hari, tgl: tgl, ts: timestamp);
-                  // myCont.getIdJadwal();
-                  // myCont.streamJadwal;
+                  adminC.addJadwal();
                 },
                 child: Text("Generate Jadwal"),
               ),

@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:studio_foto/app/controller/adminController.dart';
 import 'package:studio_foto/app/controller/authController.dart';
 import 'firebase_options.dart';
 // import 'package:intl/date_symbol_data_local.dart';
@@ -19,6 +20,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Get.put(AuthController(), permanent: true);
+  Get.put(AdminController(), permanent: true);
 
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // await initializeDateFormatting('id_ID', null).then((_) =>
@@ -37,7 +39,7 @@ Future<void> main() async {
 
         return Center(
           child: Container(
-            constraints: const BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 768),
             child: GetMaterialApp(
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,

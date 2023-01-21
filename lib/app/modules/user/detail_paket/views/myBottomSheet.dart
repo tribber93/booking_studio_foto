@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/modules/user/detail_paket/controllers/detail_paket_controller.dart';
@@ -233,11 +235,14 @@ class MyBottomSheet extends GetView<MyController> {
                           child: TextButton(
                               onPressed: () {
                                 // Get.to(Checkout());
-                                myCont.jamTerpilih != null
+                                myCont.jamTerpilih != ""
                                     ? Get.toNamed(Routes.CHECKOUT)
-                                    : Get.snackbar("Belum memilih jadwal",
-                                        "Pilih terlebih dahulu jadwal yang tersedia untuk melanjutkannya ya",
-                                        backgroundColor: Colors.red[200]);
+                                    : QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.warning,
+                                        text:
+                                            'Kamu harus memilih jadwal terlebih dahulu',
+                                      );
                               },
                               style: TextButton.styleFrom(
                                 foregroundColor: Colors.white,

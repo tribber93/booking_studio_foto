@@ -37,111 +37,106 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
                 ))
           ],
         ),
-        body: controller.isUpload
-            ? Positioned.fill(
-                child: Container(
-                  color: Colors.black45,
-                  child: Center(
-                    child: CircularProgressIndicator(),
+        body: StreamBuilder(
+            stream: authC.streamUsers(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              Map dataUser = (snapshot.data!.data() as Map<String, dynamic>);
+              DateTime dt = (dataUser['createdAt'] as Timestamp).toDate();
+              String tglDaftar = DateFormat('dd MMMM yyyy', 'id_ID').format(dt);
+
+              return SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 30, horizontal: 20),
+                    child: Column(
+                      children: [
+                        dataUser['photo'] != ""
+                            ? Obx(() {
+                                return controller.isUpload.isTrue
+                                    ? const CircleAvatar(
+                                        radius: 80,
+                                        backgroundColor: Colors.transparent,
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 80,
+                                        backgroundColor: Colors.transparent,
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                          dataUser['photo'],
+                                          errorListener: () =>
+                                              Icon(Icons.error),
+                                        ),
+                                        child: Align(
+                                            alignment: Alignment(1, 1),
+                                            child: CircleAvatar(
+                                              backgroundColor: primaryColor,
+                                              radius: 22,
+                                              child: IconButton(
+                                                icon: FaIcon(
+                                                  FontAwesomeIcons.camera,
+                                                  color: Colors.white,
+                                                ),
+                                                onPressed: () {
+                                                  controller.uploadImage(
+                                                      dataUser['photo']);
+                                                },
+                                              ),
+                                            )),
+                                      );
+                              })
+                            : CircleAvatar(
+                                radius: 80,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage:
+                                    AssetImage('assets/icons/userProfile.png'),
+                                child: Align(
+                                    alignment: Alignment(1, 1),
+                                    child: CircleAvatar(
+                                      backgroundColor: primaryColor,
+                                      radius: 22,
+                                      child: IconButton(
+                                        icon: FaIcon(
+                                          FontAwesomeIcons.camera,
+                                          color: Colors.white,
+                                        ),
+                                        onPressed: () {
+                                          controller
+                                              .uploadImage(dataUser['photo']);
+                                        },
+                                      ),
+                                    )),
+                              ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        ProfileInfo(
+                          title: "Nama Lengkap",
+                          isi: dataUser['name'],
+                        ),
+                        ProfileInfo(
+                          title: "E-mail",
+                          isi: dataUser['email'],
+                        ),
+                        ProfileInfo(
+                          title: "No. Hp",
+                          isi: "+62 858 6457 1300",
+                        ),
+                        ProfileInfo(
+                          title: "Tanggal dibuat",
+                          isi: tglDaftar,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              )
-            : StreamBuilder(
-                stream: authC.streamUsers(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  Map dataUser =
-                      (snapshot.data!.data() as Map<String, dynamic>);
-                  DateTime dt = (dataUser['createdAt'] as Timestamp).toDate();
-                  String tglDaftar =
-                      DateFormat('dd MMMM yyyy', 'id_ID').format(dt);
-
-                  return SafeArea(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 30, horizontal: 20),
-                        child: Column(
-                          children: [
-                            dataUser['photo'] != ""
-                                ? CircleAvatar(
-                                    radius: 80,
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: CachedNetworkImageProvider(
-                                      dataUser['photo'],
-                                      errorListener: () => Icon(Icons.error),
-                                    ),
-                                    child: Align(
-                                        alignment: Alignment(1, 1),
-                                        child: CircleAvatar(
-                                          backgroundColor: primaryColor,
-                                          radius: 22,
-                                          child: IconButton(
-                                            icon: FaIcon(
-                                              FontAwesomeIcons.camera,
-                                              color: Colors.white,
-                                            ),
-                                            onPressed: () {
-                                              controller.isUpload = true;
-                                              controller.update();
-                                              controller.uploadImage(
-                                                  dataUser['photo']);
-                                              controller.isUpload = false;
-                                              controller.update();
-                                            },
-                                          ),
-                                        )),
-                                  )
-                                : CircleAvatar(
-                                    radius: 80,
-                                    backgroundColor: Colors.transparent,
-                                    backgroundImage: AssetImage(
-                                        'assets/icons/userProfile.png'),
-                                    child: Align(
-                                        alignment: Alignment(1, 1),
-                                        child: CircleAvatar(
-                                          backgroundColor: primaryColor,
-                                          radius: 22,
-                                          child: IconButton(
-                                            icon: FaIcon(
-                                              FontAwesomeIcons.camera,
-                                              color: Colors.white,
-                                            ),
-                                            onPressed: () {
-                                              controller.uploadImage(
-                                                  dataUser['photo']);
-                                            },
-                                          ),
-                                        )),
-                                  ),
-                            SizedBox(
-                              height: 50,
-                            ),
-                            ProfileInfo(
-                              title: "Nama Lengkap",
-                              isi: dataUser['name'],
-                            ),
-                            ProfileInfo(
-                              title: "E-mail",
-                              isi: dataUser['email'],
-                            ),
-                            ProfileInfo(
-                              title: "No. Hp",
-                              isi: "+62 858 6457 1300",
-                            ),
-                            ProfileInfo(
-                              title: "Tanggal dibuat",
-                              isi: tglDaftar,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }));
+              );
+            }));
   }
 }
 

@@ -17,8 +17,8 @@ class MyController extends GetxController {
   RxInt total = 0.obs;
   DateTime tanggalSekarang = DateTime.now();
   String? jam;
-  late String jamTerpilih;
-  late String tanggalTerpilih;
+  String jamTerpilih = '';
+  String tanggalTerpilih = '';
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController extraController;

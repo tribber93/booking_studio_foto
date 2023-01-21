@@ -86,6 +86,8 @@ class HomeView extends GetView<HomeController> {
                   );
                 }),
             Container(
+              width: double.infinity,
+              height: 200,
               child: CarouselSlider(
                 options: CarouselOptions(
                   autoPlay: true,

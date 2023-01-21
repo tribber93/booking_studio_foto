@@ -1,19 +1,68 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:intl/intl.dart';
 
 class AdminController extends GetxController {
   var db = FirebaseFirestore.instance;
+  List<bool> checks = [
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  List<File> imageList = [];
+  List<String> urlImage = [];
+  List<XFile>? imageFile;
+  List<Map> extras = [];
+  RxBool isUploading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  late TextEditingController tanggalController, jamController;
+  late TextEditingController tanggalController,
+      namaController,
+      hargaController,
+      durasiController,
+      maxController,
+      cetakController,
+      softfileController,
+      keteranganController,
+      extra1,
+      hargaExtra1,
+      extra2,
+      hargaExtra2,
+      extra3,
+      hargaExtra3,
+      extra4,
+      hargaExtra4,
+      extra5,
+      hargaExtra5;
 
   @override
   void onInit() {
     super.onInit();
     tanggalController = TextEditingController();
-    jamController = TextEditingController();
+    namaController = TextEditingController();
+    hargaController = TextEditingController();
+    durasiController = TextEditingController();
+    maxController = TextEditingController();
+    cetakController = TextEditingController();
+    softfileController = TextEditingController();
+    keteranganController = TextEditingController();
+    extra1 = TextEditingController();
+    hargaExtra1 = TextEditingController();
+    extra2 = TextEditingController();
+    hargaExtra2 = TextEditingController();
+    extra3 = TextEditingController();
+    hargaExtra3 = TextEditingController();
+    extra4 = TextEditingController();
+    hargaExtra4 = TextEditingController();
+    extra5 = TextEditingController();
+    hargaExtra5 = TextEditingController();
   }
 
   @override
@@ -25,7 +74,55 @@ class AdminController extends GetxController {
   void onClose() {
     super.onClose();
     tanggalController.dispose();
-    jamController.dispose();
+    namaController.dispose();
+    hargaController.dispose();
+    durasiController.dispose();
+    maxController.dispose();
+    cetakController.dispose();
+    softfileController.dispose();
+    keteranganController.dispose();
+    extra1.dispose();
+    hargaExtra1.dispose();
+    extra2.dispose();
+    hargaExtra2.dispose();
+    extra3.dispose();
+    hargaExtra3.dispose();
+    extra4.dispose();
+    hargaExtra4.dispose();
+    extra5.dispose();
+    hargaExtra5.dispose();
+  }
+
+  void reset() {
+    urlImage = [];
+    imageList = [];
+    extras = [];
+    checks = [
+      false,
+      false,
+      false,
+      false,
+      false,
+    ];
+    tanggalController.text = "";
+    namaController.text = "";
+    hargaController.text = "";
+    durasiController.text = "";
+    maxController.text = "";
+    cetakController.text = "";
+    softfileController.text = "";
+    keteranganController.text = "";
+    extra1.text = "";
+    hargaExtra1.text = "";
+    extra2.text = "";
+    hargaExtra2.text = "";
+    extra3.text = "";
+    hargaExtra3.text = "";
+    extra4.text = "";
+    hargaExtra4.text = "";
+    extra5.text = "";
+    hargaExtra5.text = "";
+    update();
   }
 
   Future<bool> checkIfDocExists(String? docId) async {
@@ -41,13 +138,29 @@ class AdminController extends GetxController {
     }
   }
 
-  Future<void> addJadwal({
-    String? docId,
-    Timestamp? ts,
-    String? hari,
-    String? tgl,
-  }) async {
-    if (await checkIfDocExists(docId)) {
+  konversiJadwal() {
+    String tanggal = tanggalController.text;
+    DateTime parseDate = DateFormat("yyyy-MM-dd").parse(tanggal);
+    DateTime inputDate = DateTime.parse(parseDate.toString());
+    DateFormat idFormat = DateFormat("EEEE, d MMM yyyy", "id_ID");
+    DateFormat hariFormat = DateFormat("EEEE", "id_ID");
+    DateFormat tanggalFormat = DateFormat("d MMM", "id_ID");
+    String idDate = idFormat.format(inputDate);
+    String hari = hariFormat.format(inputDate);
+    String tgl = tanggalFormat.format(inputDate);
+    Timestamp timestamp = Timestamp.fromDate(DateTime.parse(tanggal));
+    Map hasil = {
+      "id": idDate,
+      "hari": hari,
+      "tanggal": tgl,
+      "timestamp": timestamp
+    };
+    return hasil;
+  }
+
+  Future<void> addJadwal() async {
+    Map hasil = konversiJadwal();
+    if (await checkIfDocExists(hasil["id"])) {
       Get.snackbar(
         "Generate Gagal",
         "Jadwal sudah ada",
@@ -56,13 +169,93 @@ class AdminController extends GetxController {
       return;
     }
 
-    db.collection("jadwal").doc(docId).set({
-      "timeStamp": ts,
-      "hari": hari,
-      "tanggal": tgl,
+    db.collection("jadwal").doc(hasil["id"]).set({
+      "timeStamp": hasil['timestamp'],
+      "hari": hasil["hari"],
+      "tanggal": hasil["tgl"],
       "waktu": FieldValue.arrayUnion(jadwal),
     }).whenComplete(() => Get.snackbar("Berhasil", "Jadwal sudah digenerate",
         backgroundColor: Colors.green));
+  }
+
+  Future getImages() async {
+    imageFile = await ImagePicker().pickMultiImage();
+    for (int i = 0; i < imageFile!.length; i++) {
+      File selectedImage = File(imageFile![i].path);
+      imageList.add(selectedImage);
+    }
+    update();
+  }
+
+  Future uploadImages() async {
+    for (var i = 0; i < imageList.length; i++) {
+      Reference storageReference = FirebaseStorage.instance
+          .ref()
+          .child('Foto Paket/${namaController.text}_${DateTime.now()}.jpg');
+      UploadTask uploadTask = storageReference.putFile(imageList[i]);
+      final downloadURL = await (await uploadTask.whenComplete(() => null))
+          .ref
+          .getDownloadURL();
+      urlImage.add(downloadURL);
+    }
+  }
+
+  mapExtras() {
+    extra1.text.isNotEmpty && hargaExtra1.text.isNotEmpty
+        ? extras.add({
+            "extra": extra1.text,
+            "harga": int.parse(hargaExtra1.text),
+            "isIterable": checks[0]
+          })
+        : null;
+    extra2.text.isNotEmpty && hargaExtra2.text.isNotEmpty
+        ? extras.add({
+            "extra": extra2.text,
+            "harga": int.parse(hargaExtra2.text),
+            "isIterable": checks[1]
+          })
+        : null;
+    extra3.text.isNotEmpty && hargaExtra3.text.isNotEmpty
+        ? extras.add({
+            "extra": extra3.text,
+            "harga": int.parse(hargaExtra3.text),
+            "isIterable": checks[2]
+          })
+        : null;
+    extra4.text.isNotEmpty && hargaExtra4.text.isNotEmpty
+        ? extras.add({
+            "extra": extra4.text,
+            "harga": int.parse(hargaExtra4.text),
+            "isIterable": checks[3]
+          })
+        : null;
+    extra5.text.isNotEmpty && hargaExtra5.text.isNotEmpty
+        ? extras.add({
+            "extra": extra5.text,
+            "harga": int.parse(hargaExtra5.text),
+            "isIterable": checks[4]
+          })
+        : null;
+  }
+
+  tambahPaket() async {
+    mapExtras();
+    isUploading.value = true;
+
+    await uploadImages();
+    db.collection("paket").add({
+      "nama": namaController.text,
+      "harga": int.parse(hargaController.text),
+      "durasi": int.parse(durasiController.text),
+      "max": maxController.text,
+      "cetak": int.parse(cetakController.text),
+      "softfile": int.parse(softfileController.text),
+      "keterangan": keteranganController.text,
+      "foto": urlImage,
+      "tambahan": extras,
+    }).whenComplete(() => isUploading.value = false);
+
+    reset();
   }
 }
 

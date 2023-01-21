@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class BgLoginSignup extends StatelessWidget {
@@ -54,23 +55,39 @@ class MyTextField extends StatelessWidget {
   final bool obscureText;
   final bool enableSuggestions;
   final bool autocorrect;
-  final String hint;
+  String? label;
+  String? Function(String?)? validator;
+  TextEditingController? controller;
+  List<TextInputFormatter>? inputFormatters;
+  TextInputType? keyboardType;
+  int? maxLines;
 
-  const MyTextField({
+  MyTextField({
     Key? key,
     this.obscureText = false,
     this.enableSuggestions = true,
     this.autocorrect = true,
-    this.hint = '',
+    this.label,
+    this.validator,
+    this.controller,
+    this.inputFormatters,
+    this.keyboardType,
+    this.maxLines = 1,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        TextFormField(
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          controller: controller,
+          validator: validator,
           obscureText: obscureText,
           enableSuggestions: enableSuggestions,
           autocorrect: autocorrect,
+          maxLines: maxLines,
           decoration: InputDecoration(
             labelStyle: TextStyle(color: Colors.grey),
             focusedBorder: OutlineInputBorder(
@@ -81,27 +98,11 @@ class MyTextField extends StatelessWidget {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(25.0),
             ),
-            labelText: hint,
+            labelText: label,
           ),
         ),
-        // TextFormField(
-        //   obscureText: obscureText,
-        //   enableSuggestions: enableSuggestions,
-        //   autocorrect: autocorrect,
-        //   decoration:
-        //   InputDecoration(
-        //       border: OutlineInputBorder(
-        //         borderRadius: BorderRadius.circular(25.0),
-        //       ),
-        //       focusedBorder: OutlineInputBorder(
-        //         borderSide: const BorderSide(
-        //             color: Color.fromARGB(255, 248, 222, 181), width: 2.0),
-        //         borderRadius: BorderRadius.circular(25.0),
-        //       ),
-        //       hintText: hint),
-        // ),
         SizedBox(
-          height: 20,
+          height: 15,
         ),
       ],
     );

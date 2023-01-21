@@ -13,16 +13,24 @@ class ProfileLengkapController extends GetxController {
   final db = FirebaseFirestore.instance;
   final storage = FirebaseStorage.instance.ref();
   XFile? imageFile;
-  bool isUpload = false;
+  RxBool isUpload = false.obs;
 
   void uploadImage(String url) async {
+    isUpload.value = true;
     imageFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (imageFile == null) {
+      isUpload.value = false;
+      return;
+    }
     File selectedImage = File(imageFile!.path);
     final photos = storage.child(
         "Photos/${auth.currentUser!.displayName.toString() + '_' + imageFile!.name}");
     final uploadTask = photos.putFile(selectedImage);
     final downloadUrl =
-        await (await uploadTask.whenComplete(() => null)).ref.getDownloadURL();
+        await (await uploadTask.whenComplete(() => isUpload.value = false))
+            .ref
+            .getDownloadURL();
+
     if (url != '') {
       final hapusImage = FirebaseStorage.instance.refFromURL(url).delete();
       hapusImage;

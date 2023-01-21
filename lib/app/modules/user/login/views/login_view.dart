@@ -38,11 +38,11 @@ class LoginView extends GetView<LoginController> {
           const SizedBox(
             height: 40,
           ),
-          const MyTextField(
-            hint: "Username",
+          MyTextField(
+            label: "Username",
           ),
-          const MyTextField(
-            hint: "Password",
+          MyTextField(
+            label: "Password",
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
