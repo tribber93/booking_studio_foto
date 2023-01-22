@@ -49,6 +49,38 @@ class MyController extends GetxController {
     update();
   }
 
+  Stream<QuerySnapshot> streamJadwal() {
+    return db
+        .collection('jadwal')
+        .where(
+          'timeStamp',
+          isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
+              tanggalSekarang.year,
+              tanggalSekarang.month,
+              tanggalSekarang.day)),
+        )
+        .snapshots();
+  }
+
+  // <DocumentSnapshot<Map<String, dynamic>>>
+  // Stream streamPaket(String idPaket) {
+  //   return db.collection('paket').get().th;
+  // }
+  getPaket() {
+    // List paket = [];
+    // final snapshot = await db.collection('paket').get();
+    // // print(snapshot.docs);
+    // snapshot.docs.map((doc) => print(doc.data()['nama']));
+    return db.collection('paket').snapshots();
+    // .listen((querySnapshot) {
+    //   querySnapshot.docs.forEach((doc) {
+    //     print(doc.data()['nama']);
+    //   });
+    // });
+    // update();
+    // print(paket.length);
+  }
+
   void checkbox(bool? value, int index, List info) {
     info[index]["isCheck"] = value;
     addTotal(info, index);
@@ -75,19 +107,6 @@ class MyController extends GetxController {
         .collection("users")
         .add(user)
         .whenComplete(() => Get.snackbar("Berhasil", "Pesan Berhasil dikirim"));
-  }
-
-  Stream<QuerySnapshot> streamJadwal() {
-    return db
-        .collection('jadwal')
-        .where(
-          'timeStamp',
-          isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
-              tanggalSekarang.year,
-              tanggalSekarang.month,
-              tanggalSekarang.day)),
-        )
-        .snapshots();
   }
 
   radioButton(val, i, selected, info) {

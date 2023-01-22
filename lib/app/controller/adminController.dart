@@ -122,6 +122,7 @@ class AdminController extends GetxController {
     hargaExtra4.text = "";
     extra5.text = "";
     hargaExtra5.text = "";
+    isUploading.value = false;
     update();
   }
 
@@ -172,7 +173,7 @@ class AdminController extends GetxController {
     db.collection("jadwal").doc(hasil["id"]).set({
       "timeStamp": hasil['timestamp'],
       "hari": hasil["hari"],
-      "tanggal": hasil["tgl"],
+      "tanggal": hasil["tanggal"],
       "waktu": FieldValue.arrayUnion(jadwal),
     }).whenComplete(() => Get.snackbar("Berhasil", "Jadwal sudah digenerate",
         backgroundColor: Colors.green));

@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:studio_foto/app/controller/adminController.dart';
+import 'package:studio_foto/app/modules/user/profile_lengkap/controllers/profile_lengkap_controller.dart';
 import 'package:studio_foto/utils/myColor.dart';
 import 'package:studio_foto/utils/widgetLoginSignup.dart';
 
@@ -15,34 +19,45 @@ class TambahPaketView extends GetView<AdminController> {
   @override
   Widget build(BuildContext context) {
     int addForm = 0;
+
     return Scaffold(
         appBar: AppBar(title: Text('Tambah Paket')),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            QuickAlert.show(
-              context: context,
-              type: QuickAlertType.confirm,
-              title: 'Lanjut?',
-              text: 'Yakin data sudah benar',
-              confirmBtnText: 'Yakin',
-              cancelBtnText: 'Cek lagi',
-              onConfirmBtnTap: () async {
-                Get.back();
-                await controller.tambahPaket();
+            bool cek =
+                controller.imageFile == null || controller.imageFile!.isEmpty;
+            print(controller.imageFile);
+
+            if (_formKey.currentState!.validate()) {
+              if (cek) {
                 QuickAlert.show(
-                  context: context,
-                  type: QuickAlertType.success,
-                  text: 'Paket baru sudah ditambahkan',
-                );
-              },
-            );
+                    context: context,
+                    type: QuickAlertType.warning,
+                    title: "Periksa kembali",
+                    text: "Setidaknya menambahkan 1 foto",
+                    autoCloseDuration: const Duration(seconds: 5));
+                return;
+              }
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.confirm,
+                title: 'Lanjut?',
+                text: 'Yakin data sudah benar',
+                confirmBtnText: 'Yakin',
+                cancelBtnText: 'Cek lagi',
+                onConfirmBtnTap: () async {
+                  Get.back();
+                  await controller.tambahPaket();
+                  QuickAlert.show(
+                    context: context,
+                    type: QuickAlertType.success,
+                    text: 'Paket baru sudah ditambahkan',
+                  );
+                },
+              );
+            }
+
             // QuickAlert.show(dva
-            // if (_formKey.currentState!.validate()) {
-            //   // If the form is valid, display a snackbar. In the real world,
-            //   // you'd often call a server or save the information in a database.
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     const SnackBar(content: Text('Processing Data')),
-            //   );}
           },
           backgroundColor: primaryColor,
           label: Row(
@@ -261,6 +276,7 @@ class TambahPaketView extends GetView<AdminController> {
                                 onPressed: () {
                                   addForm < 5 ? addForm += 1 : null;
                                   controller.update();
+                                  print(addForm.toString());
                                 },
                                 icon: const FaIcon(FontAwesomeIcons.circlePlus),
                                 label: Text("Tambah Form"),
