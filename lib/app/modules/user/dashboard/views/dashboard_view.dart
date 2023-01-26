@@ -48,7 +48,7 @@ class DashboardView extends GetView<DashboardController> {
                     height: 25,
                     width: 25,
                   ),
-                  title: Text("Info Tempat"),
+                  title: Text("Informasi"),
                   selectedColor: primaryColor,
                 ),
                 SalomonBottomBarItem(

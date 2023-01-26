@@ -103,23 +103,23 @@ class HomeView extends GetView<HomeController> {
                 items: imageSliders,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 70),
-              child: SizedBox(
-                height: 40,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintStyle: TextStyle(fontSize: 12),
-                    filled: true,
-                    fillColor: Colors.white,
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50))),
-                    hintText: 'Cari Paket',
-                  ),
-                ),
-              ),
-            ),
+            // const Padding(
+            //   padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 70),
+            //   child: SizedBox(
+            //     height: 40,
+            //     child: TextField(
+            //       decoration: InputDecoration(
+            //         hintStyle: TextStyle(fontSize: 12),
+            //         filled: true,
+            //         fillColor: Colors.white,
+            //         prefixIcon: Icon(Icons.search),
+            //         border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.all(Radius.circular(50))),
+            //         hintText: 'Cari Paket',
+            //       ),
+            //     ),
+            //   ),
+            // ),
             const Divider(
               thickness: 2,
             ),
@@ -203,8 +203,12 @@ class HomeView extends GetView<HomeController> {
                               Flexible(
                                 flex: 3,
                                 child: InkWell(
-                                  onTap: () =>
-                                      print(paket.docs[index].data()['foto']),
+                                  onTap: () {
+                                    String path =
+                                        infoPaket['nama'].replaceAll(" ", "-");
+                                    Get.toNamed('${Routes.DETAIL_PAKET}/$path');
+                                    myC.reset();
+                                  },
                                   child: Container(
                                     decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(

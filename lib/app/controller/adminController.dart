@@ -19,6 +19,8 @@ class AdminController extends GetxController {
   List<File> imageList = [];
   List<String> urlImage = [];
   List<XFile>? imageFile;
+
+  String? idJadwal;
   List<Map> extras = [];
   RxBool isUploading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -28,6 +30,7 @@ class AdminController extends GetxController {
       hargaController,
       durasiController,
       maxController,
+      minController,
       cetakController,
       softfileController,
       keteranganController,
@@ -50,6 +53,7 @@ class AdminController extends GetxController {
     hargaController = TextEditingController();
     durasiController = TextEditingController();
     maxController = TextEditingController();
+    minController = TextEditingController();
     cetakController = TextEditingController();
     softfileController = TextEditingController();
     keteranganController = TextEditingController();
@@ -78,6 +82,7 @@ class AdminController extends GetxController {
     hargaController.dispose();
     durasiController.dispose();
     maxController.dispose();
+    minController.dispose();
     cetakController.dispose();
     softfileController.dispose();
     keteranganController.dispose();
@@ -109,6 +114,7 @@ class AdminController extends GetxController {
     hargaController.text = "";
     durasiController.text = "";
     maxController.text = "";
+    minController.text = "";
     cetakController.text = "";
     softfileController.text = "";
     keteranganController.text = "";
@@ -123,6 +129,7 @@ class AdminController extends GetxController {
     extra5.text = "";
     hargaExtra5.text = "";
     isUploading.value = false;
+    idJadwal = null;
     update();
   }
 
@@ -170,12 +177,15 @@ class AdminController extends GetxController {
       return;
     }
 
-    db.collection("jadwal").doc(hasil["id"]).set({
-      "timeStamp": hasil['timestamp'],
-      "hari": hasil["hari"],
-      "tanggal": hasil["tanggal"],
-      "waktu": FieldValue.arrayUnion(jadwal),
-    }).whenComplete(() => Get.snackbar("Berhasil", "Jadwal sudah digenerate",
+    db.collection("jadwal").doc(hasil["id"]).set(
+      {
+        "idJadwal": hasil['id'],
+        "timeStamp": hasil['timestamp'],
+        "hari": hasil["hari"],
+        "tanggal": hasil["tanggal"],
+        "waktu": FieldValue.arrayUnion(jadwal),
+      },
+    ).whenComplete(() => Get.snackbar("Berhasil", "Jadwal sudah digenerate",
         backgroundColor: Colors.green));
   }
 
@@ -240,15 +250,20 @@ class AdminController extends GetxController {
   }
 
   tambahPaket() async {
+    int? minOrang;
     mapExtras();
     isUploading.value = true;
 
     await uploadImages();
+    minController.text == ''
+        ? minOrang = null
+        : minOrang = int.parse(minController.text);
     db.collection("paket").add({
       "nama": namaController.text,
       "harga": int.parse(hargaController.text),
       "durasi": int.parse(durasiController.text),
-      "max": maxController.text,
+      "max": int.parse(maxController.text),
+      "min": minOrang,
       "cetak": int.parse(cetakController.text),
       "softfile": int.parse(softfileController.text),
       "keterangan": keteranganController.text,

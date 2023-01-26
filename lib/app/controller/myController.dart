@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,19 +11,23 @@ class MyController extends GetxController {
   var db = FirebaseFirestore.instance;
   String tanggal =
       DateFormat("EEEE, d MMM yyyy", "id_ID").format(DateTime.now());
-
+  List<bool> isChecks = [];
+  List<int> counts = [];
   bool isChecked = false;
   var tabIndex = 0;
   var count = 1.obs;
-  RxInt total = 0.obs;
+  int total = 0;
   DateTime tanggalSekarang = DateTime.now();
   String? jam;
   String jamTerpilih = '';
   String tanggalTerpilih = '';
+  int age = 1;
+  Timer? timer;
+  bool longPressCanceled = false;
+  // String? idJadwal;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController extraController;
-
   @override
   void onInit() {
     super.onInit();
@@ -41,11 +46,34 @@ class MyController extends GetxController {
   }
 
   void increment() {
-    count += 3;
+    count += 1;
+    update();
+  }
+
+  void decrement() {
+    count > 0 ? count -= 1 : 0;
+    update();
   }
 
   void changeTabIndex(int index) {
     tabIndex = index;
+    update();
+  }
+
+  reset() {
+    jam = null;
+    jamTerpilih = '';
+    tanggalTerpilih = '';
+    tabIndex = 0;
+    count = 0.obs;
+    isChecks = [];
+    counts = [];
+    // idJadwal = null;
+    update();
+  }
+
+  void cancelIncrease() {
+    timer!.cancel();
     update();
   }
 
@@ -62,23 +90,8 @@ class MyController extends GetxController {
         .snapshots();
   }
 
-  // <DocumentSnapshot<Map<String, dynamic>>>
-  // Stream streamPaket(String idPaket) {
-  //   return db.collection('paket').get().th;
-  // }
   getPaket() {
-    // List paket = [];
-    // final snapshot = await db.collection('paket').get();
-    // // print(snapshot.docs);
-    // snapshot.docs.map((doc) => print(doc.data()['nama']));
     return db.collection('paket').snapshots();
-    // .listen((querySnapshot) {
-    //   querySnapshot.docs.forEach((doc) {
-    //     print(doc.data()['nama']);
-    //   });
-    // });
-    // update();
-    // print(paket.length);
   }
 
   void checkbox(bool? value, int index, List info) {
@@ -140,21 +153,58 @@ class MyController extends GetxController {
         : () {
             jam = '${waktu['jam']}';
             update();
-            tanggalTerpilih = DateFormat('dd MMM yyyy').format(dateTime);
+            tanggalTerpilih =
+                DateFormat('EEEE, d MMM yyyy', "id_ID").format(dateTime);
             jamTerpilih = waktu['jam'];
-            print(
-                'dari tanggal terpilih $tanggalTerpilih'); // Output: "29 Dec 2021 12:00:00" // Output: "29 Dec 2021 12:00:00"
-            print(
-                'dari tanggal addDate ${addDate(1)}'); // Output: "29 Dec 2021 12:00:00" // Output: "29 Dec 2021 12:00:00"
+            // print(
+            //     'dari tanggal terpilih $tanggalTerpilih'); // Output: "29 Dec 2021 12:00:00" // Output: "29 Dec 2021 12:00:00"
+            // print(
+            //     'dari tanggal addDate ${addDate(1)}'); // Output: "29 Dec 2021 12:00:00" // Output: "29 Dec 2021 12:00:00"
 
             print(jamTerpilih);
+            print(tanggalTerpilih);
           };
   }
 
   addDate(int tambah) {
     var add = DateTime(tanggalSekarang.year, tanggalSekarang.month,
         tanggalSekarang.day + tambah);
-    String formated = DateFormat('dd MMM yyyy').format(add);
+    String formated = DateFormat('EEEE, d MMM yyyy', 'id_ID').format(add);
     return formated;
+  }
+
+  sendTransaksi({String? nama, String? user, String? email}) {
+    db.collection("usersTransaction").add({
+      "userEmail": email,
+      "user": user,
+      "tanggal": tanggalTerpilih,
+      "jam": jamTerpilih,
+      "nama": nama,
+      "total": total,
+      "sukses": false,
+      "batal": false,
+    }).then((value) {
+      List waktuBaru = [];
+      db
+          .collection("jadwal")
+          .doc(tanggalTerpilih)
+          .snapshots()
+          .forEach((element) {
+        waktuBaru = element['waktu'];
+
+        for (var waktu in waktuBaru) {
+          if (waktu['jam'] == jamTerpilih) {
+            waktu['isBooked'] = true;
+          }
+        }
+        db.collection("jadwal").doc(tanggalTerpilih).update({
+          'waktu': waktuBaru,
+        });
+
+        // print(element['waktu']);
+        print(waktuBaru);
+        reset();
+      });
+    });
   }
 }

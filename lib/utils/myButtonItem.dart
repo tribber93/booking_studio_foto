@@ -5,17 +5,19 @@ import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/modules/user/detail_paket/controllers/detail_paket_controller.dart';
 import 'package:studio_foto/app/modules/user/transaksi/controllers/transaksi_controller.dart';
 
-class MyButtonItem extends StatelessWidget {
-  MyButtonItem({
-    Key? key,
-    required this.index,
-    this.child,
-    this.gap,
-    this.boxShadow,
-    this.padding,
-  }) : super(key: key);
+class MyButtonItem extends GetView<MyController> {
+  MyButtonItem(
+      {Key? key,
+      required this.index,
+      this.child,
+      this.gap,
+      this.boxShadow,
+      this.padding,
+      this.idJadwal})
+      : super(key: key);
   int index;
   Widget? child;
+  String? idJadwal;
   EdgeInsets? gap;
   List<BoxShadow>? boxShadow;
   EdgeInsetsGeometry? padding;
@@ -28,13 +30,20 @@ class MyButtonItem extends StatelessWidget {
     }
 
     return GetBuilder<MyController>(builder: (controller) {
+      // if (controller.idJadwal == null) {
+      //   controller.idJadwal =
+      //       DateFormat("EEEE, d MMM yyyy", "id_ID").format(addDate(0));
+      //   controller.update();
+      // }
+      // print(controller.idJadwal);
       return Container(
         margin: gap,
         child: InkWell(
           onTap: () {
             controller.changeTabIndex(index);
-            debugPrint(
-                DateFormat("EEE, d MMM yyyy", "id_ID").format(addDate(index)));
+            // if(controller.tanggalTerpilih == ''){
+
+            // }
           },
           child: Container(
             padding: padding,

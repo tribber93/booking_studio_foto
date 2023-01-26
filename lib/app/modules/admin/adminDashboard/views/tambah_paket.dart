@@ -31,11 +31,12 @@ class TambahPaketView extends GetView<AdminController> {
             if (_formKey.currentState!.validate()) {
               if (cek) {
                 QuickAlert.show(
-                    context: context,
-                    type: QuickAlertType.warning,
-                    title: "Periksa kembali",
-                    text: "Setidaknya menambahkan 1 foto",
-                    autoCloseDuration: const Duration(seconds: 5));
+                  context: context,
+                  type: QuickAlertType.warning,
+                  title: "Periksa kembali",
+                  text: "Setidaknya menambahkan 1 foto",
+                  // autoCloseDuration: const Duration(seconds: 5)
+                );
                 return;
               }
               QuickAlert.show(
@@ -122,16 +123,41 @@ class TambahPaketView extends GetView<AdminController> {
                               return null;
                             },
                           ),
-                          MyTextField(
-                            label:
-                                "*Max. Orang (contoh: 1 atau 1-5)", // Only numbers can be entered
-                            controller: controller.maxController,
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Masukan jumlah maksimal orang';
-                              }
-                              return null;
-                            },
+                          Container(
+                            width: double.infinity,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: MyTextField(
+                                    label: "Min (Opsional)",
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    controller: controller.minController,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: MyTextField(
+                                    label: "*Max Orang",
+                                    controller: controller.maxController,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    validator: (String? value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Masukan jumlah maksimal orang';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           MyTextField(
                             label: "*Cetak",
@@ -172,7 +198,6 @@ class TambahPaketView extends GetView<AdminController> {
                               ElevatedButton.icon(
                                   onPressed: () {
                                     controller.getImages();
-                                    // print(controller.imageList);
                                   },
                                   icon: FaIcon(FontAwesomeIcons.fileCirclePlus),
                                   label: Text("Tambah Gambar")),
@@ -263,9 +288,6 @@ class TambahPaketView extends GetView<AdminController> {
                                           )),
                                     ],
                                   );
-                                  // MyTextField(
-                                  //   label: "Tambahan ${index + 1}",
-                                  // );
                                 }),
                               );
                             },

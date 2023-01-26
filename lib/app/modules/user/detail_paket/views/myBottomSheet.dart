@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -41,6 +44,9 @@ class MyBottomSheet extends GetView<MyController> {
       backgroundColor: primaryColor,
       foregroundColor: Colors.grey[100],
       onPressed: () {
+        // print(myCont.tanggalTerpilih);
+        // myCont.cek();
+        // print(myCont.idJadwal);
         authC.auth.currentUser == null
             ? showCupertinoModalPopup<void>(
                 context: context,
@@ -105,125 +111,144 @@ class MyBottomSheet extends GetView<MyController> {
                                 // color: Colors.red,
                                 width: double.infinity,
                                 child: Text(
-                                  "Paket ${info.nama}",
+                                  "Paket ${info['nama']}",
                                   style: TextStyle(fontSize: 20),
                                 )))
                       ]),
                     ),
                     Expanded(
                       child: SingleChildScrollView(
-                        child: Container(
-                          margin: const EdgeInsets.only(
-                              top: 10, left: 10, right: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Pilih Tanggal"),
-                              StreamBuilder(
-                                stream: myCont.streamJadwal(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  }
-
-                                  // Menampilkan list document di snapshot
-                                  return Container(
-                                    height: 75,
-                                    width: double.infinity,
-                                    margin:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: Center(
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: snapshot.data!.docs.length,
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          DocumentSnapshot task =
-                                              snapshot.data!.docs[index];
-                                          return MyButtonItem(
-                                            gap: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 10),
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 15),
-                                            index: index,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                blurRadius: 1,
-                                                offset: Offset(0, 0),
+                        child: StreamBuilder(
+                            stream: myCont.streamJadwal(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+                              var data = snapshot.data!.docs;
+                              return Container(
+                                margin: const EdgeInsets.only(
+                                    top: 10, left: 10, right: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    data.isNotEmpty
+                                        ? Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Pilih Tanggal",
                                               ),
-                                            ],
-                                            child: Center(
-                                              child: RichText(
-                                                textAlign: TextAlign.center,
-                                                text: TextSpan(
-                                                  text: "${task["hari"]}\n",
-                                                  style: TextStyle(
-                                                      color: Colors.black54,
-                                                      fontSize: 11,
-                                                      fontWeight:
-                                                          FontWeight.w700),
-                                                  children: [
-                                                    TextSpan(
-                                                        text:
-                                                            "${task["tanggal"]}",
-                                                        style: TextStyle(
-                                                            fontSize: 15)),
-                                                  ],
+                                              Container(
+                                                height: 75,
+                                                width: double.infinity,
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 5),
+                                                child: Center(
+                                                  child: ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount: data.length,
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      DocumentSnapshot tanggal =
+                                                          data[index];
+
+                                                      return MyButtonItem(
+                                                        gap: const EdgeInsets
+                                                                .symmetric(
+                                                            horizontal: 10,
+                                                            vertical: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal: 15),
+                                                        index: index,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            blurRadius: 1,
+                                                            offset:
+                                                                Offset(0, 0),
+                                                          ),
+                                                        ],
+                                                        child: Center(
+                                                          child: RichText(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            text: TextSpan(
+                                                              text:
+                                                                  "${tanggal["hari"]}\n",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black54,
+                                                                  fontSize: 11,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700),
+                                                              children: [
+                                                                TextSpan(
+                                                                    text:
+                                                                        "${tanggal["tanggal"]}",
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15)),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
                                               ),
+                                              Divider(
+                                                thickness: 1.5,
+                                                color: Colors.grey,
+                                              ),
+                                              Text("Pilih Jam"),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(20),
+                                                child: Waktu(
+                                                  myCont: myCont,
+                                                  data: data,
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : SizedBox(
+                                            height: 200,
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/icons/alarm-clock.png',
+                                                    height: 150,
+                                                  ),
+                                                  const Text(
+                                                    'Belum ada jadwal',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          );
-                                          // Text(task["tanggal"]);
-                                        },
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                              Divider(
-                                thickness: 1.5,
-                                color: Colors.grey,
-                              ),
-                              Text("Pilih Jam"),
-                              // Waktu(myCont: myCont),
-                              Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Waktu(myCont: myCont),
-                              ),
-                              GetBuilder<MyController>(
-                                builder: (_) {
-                                  return Text(
-                                      'Jam yang dipilih: ${myCont.jam}');
-                                },
-                              ),
-                              info.tambahan != null
-                                  ? ExtraWidget(
-                                      info: info.tambahan,
-                                    )
-                                  : const SizedBox(),
-                              //   ],
-                              // ),
-                              // batas jam
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              //   children: [
-                              //     GetX<MyController>(
-                              //       builder: (_) => Text(
-                              //           'Harga              : ${controller.count}'),
-                              //     ),
-                              //     ElevatedButton.icon(
-                              //         onPressed: () => controller.increment(),
-                              //         icon: FaIcon(FontAwesomeIcons.plus),
-                              //         label: Text("tambah")),
-                              //   ],
-                              // ),
-                              // SizedBox(
-                              //   height: 20,
-                              // ),
-                            ],
-                          ),
-                        ),
+                                          ),
+                                    info['tambahan'] != null
+                                        ? ExtraWidget(
+                                            info: info['tambahan'],
+                                          )
+                                        : const SizedBox(),
+                                  ],
+                                ),
+                              );
+                            }),
                       ),
                     ),
                     GetBuilder<MyController>(
@@ -233,16 +258,47 @@ class MyBottomSheet extends GetView<MyController> {
                           width: double.infinity,
                           height: 60,
                           child: TextButton(
-                              onPressed: () {
-                                // Get.to(Checkout());
+                              onPressed: () async {
+                                List indexCek = [];
+                                List indexCount = [];
+                                myCont.total =
+                                    (myCont.total + info['harga']).round();
+
+                                for (var i = 0;
+                                    i < myCont.isChecks.length;
+                                    i++) {
+                                  if (myCont.isChecks[i] != false) {
+                                    myCont.total = (myCont.total +
+                                            info['tambahan'][i]['harga'])
+                                        .round();
+                                    indexCek.add(i);
+                                  }
+                                }
+                                for (var i = 0; i < myCont.counts.length; i++) {
+                                  if (myCont.counts[i] != 0) {
+                                    myCont.total = (myCont.total +
+                                            (myCont.counts[i] *
+                                                info['tambahan'][i]['harga']))
+                                        .round();
+                                    print(myCont.counts[i]);
+                                    indexCount.add(i);
+                                  }
+                                }
                                 myCont.jamTerpilih != ""
-                                    ? Get.toNamed(Routes.CHECKOUT)
+                                    ? await Get.toNamed(Routes.CHECKOUT,
+                                        arguments: {
+                                            'data': info,
+                                            'cek': indexCek,
+                                            'counter': indexCount
+                                          })
                                     : QuickAlert.show(
                                         context: context,
                                         type: QuickAlertType.warning,
                                         text:
                                             'Kamu harus memilih jadwal terlebih dahulu',
                                       );
+                                myCont.total = 0;
+                                myCont.update();
                               },
                               style: TextButton.styleFrom(
                                 foregroundColor: Colors.white,
@@ -286,95 +342,129 @@ class MyBottomSheet extends GetView<MyController> {
   }
 }
 
-class Waktu extends StatelessWidget {
-  const Waktu({
-    Key? key,
-    required this.myCont,
-  }) : super(key: key);
+class Counter extends StatelessWidget {
+  Counter(
+      {Key? key,
+      required this.controller,
+      this.onTapMinus,
+      this.onTapDownMinus,
+      this.onTapPlus,
+      this.onTapDownPlus,
+      required this.hasil})
+      : super(key: key);
 
-  final MyController myCont;
+  final MyController controller;
+  int hasil;
+  void Function()? onTapMinus;
+  void Function(TapDownDetails)? onTapDownMinus;
+  void Function()? onTapPlus;
+  void Function(TapDownDetails)? onTapDownPlus;
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<MyController>(
       builder: (_) {
-        return StreamBuilder(
-            stream: myCont.streamJadwal(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              var data = snapshot.data!.docs;
-              return SizedBox(
-                child: data.isEmpty
-                    ? Center(
-                        child: Text(
-                        "Belum ada jadwal terkini",
-                        style: TextStyle(color: Colors.red),
-                      ))
-                    : List.generate(data.length, (index) {
-                        return GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 4,
-                              crossAxisSpacing: 15,
-                              childAspectRatio: 2,
-                              mainAxisSpacing: 20,
-                            ),
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: data[index]["waktu"].length,
-                            shrinkWrap: true,
-                            itemBuilder: ((context, indexWaktu) {
-                              var waktu = data[index]["waktu"][indexWaktu];
-
-                              return GetBuilder<MyController>(
-                                builder: (_) {
-                                  return ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        disabledBackgroundColor: Colors.black12,
-                                        disabledForegroundColor: Colors.black,
-                                        backgroundColor:
-                                            myCont.jam == '${waktu['jam']}' &&
-                                                    myCont.addDate(index) ==
-                                                        myCont.tanggalTerpilih
-                                                ? primaryColor
-                                                : Colors.white),
-                                    child: Text(
-                                      '${waktu['jam']}',
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: myCont.jam == '${waktu['jam']}'
-                                              ? Colors.black
-                                              : Colors.black),
-                                    ),
-                                    onPressed: myCont.checkWaktu(
-                                        waktu, data[index]['timeStamp']),
-                                  );
-                                },
-                              );
-                            }));
-                      })[myCont.tabIndex],
-              );
-            });
+        return Container(
+          width: 100,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: onTapMinus,
+                // onTap: () => controller.decrement(),
+                onTapDown: onTapDownMinus,
+                // (TapDownDetails details) {
+                //   controller.timer =
+                //       Timer.periodic(Duration(milliseconds: 200), (t) {
+                //     // controller.decrement();
+                //     onTapDownMinus;
+                //   });
+                // },
+                onTapUp: (TapUpDetails details) {
+                  controller.cancelIncrease();
+                },
+                onTapCancel: () {
+                  controller.cancelIncrease();
+                },
+                child: const FaIcon(FontAwesomeIcons.minus),
+              ),
+              GetBuilder<MyController>(
+                builder: (_) => Text(hasil.toString()),
+              ),
+              GestureDetector(
+                onTap: onTapPlus,
+                // controller.increment(),
+                onTapDown: onTapDownPlus,
+                onTapUp: (TapUpDetails details) {
+                  controller.cancelIncrease();
+                },
+                onTapCancel: () {
+                  controller.cancelIncrease();
+                },
+                child: const FaIcon(FontAwesomeIcons.plus),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
 }
 
-class Checkout extends StatelessWidget {
-  const Checkout({
-    Key? key,
-  }) : super(key: key);
+class Waktu extends StatelessWidget {
+  const Waktu({Key? key, required this.myCont, required this.data})
+      : super(key: key);
+
+  final MyController myCont;
+  final data;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Checkout"),
-      ),
-      body: Container(
-        child: Center(child: Text("Test")),
-      ),
+    return GetBuilder<MyController>(
+      builder: (_) {
+        return SizedBox(
+          child: List.generate(data.length, (index) {
+            return GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 15,
+                  childAspectRatio: 2,
+                  mainAxisSpacing: 20,
+                ),
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: data[index]["waktu"].length,
+                shrinkWrap: true,
+                itemBuilder: ((context, indexWaktu) {
+                  var waktu = data[index]["waktu"][indexWaktu];
+
+                  return GetBuilder<MyController>(
+                    builder: (_) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            disabledBackgroundColor: Colors.black12,
+                            disabledForegroundColor: Colors.black,
+                            backgroundColor: myCont.jam == '${waktu['jam']}' &&
+                                    data[index]['idJadwal'] ==
+                                        myCont.tanggalTerpilih
+                                ? primaryColor
+                                : Colors.white),
+                        child: Text(
+                          '${waktu['jam']}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: myCont.jam == '${waktu['jam']}'
+                                  ? Colors.black
+                                  : Colors.black),
+                        ),
+                        onPressed:
+                            myCont.checkWaktu(waktu, data[index]['timeStamp']),
+                      );
+                    },
+                  );
+                }));
+          })[myCont.tabIndex],
+        );
+      },
     );
   }
 }
