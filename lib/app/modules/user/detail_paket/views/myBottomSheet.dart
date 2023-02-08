@@ -217,6 +217,11 @@ class MyBottomSheet extends GetView<MyController> {
                                                   data: data,
                                                 ),
                                               ),
+                                              info['min'] != null
+                                                  ? Counter(
+                                                      controller: controller,
+                                                      hasil: 10)
+                                                  : const SizedBox()
                                             ],
                                           )
                                         : SizedBox(

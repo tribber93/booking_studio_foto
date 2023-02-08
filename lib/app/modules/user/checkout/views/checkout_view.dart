@@ -6,6 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
+import 'package:studio_foto/app/routes/app_pages.dart';
+import 'package:studio_foto/utils/formatText.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 import '../controllers/checkout_controller.dart';
@@ -55,16 +57,7 @@ class CheckoutView extends GetView<MyController> {
               InfoPemesanan(
                 nama: "Harga Paket",
                 harga: rupiah.format(data['harga']),
-                // '${data['harga']}',
               ),
-              // Text(
-              //   'Tanggal : ' + myC.tanggalTerpilih,
-              //   style: TextStyle(fontSize: 20),
-              // ),
-              // Text(
-              //   'Jam : ' + myC.jamTerpilih,
-              //   style: TextStyle(fontSize: 20),
-              // ),
               counter.isNotEmpty || cek.isNotEmpty
                   ? const Padding(
                       padding: EdgeInsets.only(top: 8),
@@ -78,24 +71,11 @@ class CheckoutView extends GetView<MyController> {
                   ? Column(
                       children: List.generate(counter.length, (index) {
                         int ke = counter[index];
-                        // totalCounter += 1000;
-                        // //     (myC.counts[ke] * data['tambahan'][ke]['harga'])
-                        // //         .round();
-                        // // print(totalCounter);
-                        // print(total);
                         return InfoPemesanan(
                           nama: "${data['tambahan'][ke]['extra']}",
                           harga:
                               "${myC.counts[ke]} * ${rupiah.format(data['tambahan'][ke]['harga'])}",
                         );
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     Text("${data['tambahan'][ke]['extra']}"),
-                        //     Text(
-                        //         "Rp. ${data['tambahan'][ke]['harga']} * ${myC.counts[ke]}"),
-                        //   ],
-                        // );
                       }),
                     )
                   : SizedBox(),
@@ -156,6 +136,24 @@ class CheckoutView extends GetView<MyController> {
                 child: TextButton.icon(
                     clipBehavior: Clip.antiAlias,
                     onPressed: () async {
+                      List extraCek = [];
+                      List extraCounter = [];
+
+                      for (var element in cek) {
+                        extraCek.add({
+                          "extra": data['tambahan'][element]['extra'],
+                          "harga": data['tambahan'][element]['harga'],
+                        });
+                      }
+                      for (var element in counter) {
+                        // var ke =element
+                        extraCounter.add({
+                          "extra": data['tambahan'][element]['extra'],
+                          "jumlah": myC.counts[element],
+                          "harga": data['tambahan'][element]['harga'],
+                        });
+                      }
+
                       if (controller.jamTerpilih == '') {
                         QuickAlert.show(
                             context: context,
@@ -165,14 +163,21 @@ class CheckoutView extends GetView<MyController> {
                         return;
                       }
                       await myC.sendTransaksi(
-                          nama: data['nama'],
-                          user: authC.auth.currentUser!.displayName,
-                          email: authC.auth.currentUser!.email);
+                        nama: data['nama'],
+                        user: authC.auth.currentUser!.displayName,
+                        email: authC.auth.currentUser!.email,
+                        extraCek: extraCek.isEmpty ? null : extraCek,
+                        extraCounter:
+                            extraCounter.isEmpty ? null : extraCounter,
+                      );
+                      // ignore: use_build_context_synchronously
                       QuickAlert.show(
                         context: context,
                         type: QuickAlertType.success,
                         title: 'Pesanan berhasil',
                         text: 'Selanjutnya kamu bisa menghubungi admin',
+                        onConfirmBtnTap: () =>
+                            Get.offAllNamed(Routes.DASHBOARD),
                       );
                     },
                     icon: const FaIcon(
@@ -187,27 +192,6 @@ class CheckoutView extends GetView<MyController> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class InfoPemesanan extends StatelessWidget {
-  InfoPemesanan({
-    Key? key,
-    this.nama = '',
-    this.harga = '',
-  }) : super(key: key);
-  String nama;
-  String harga;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(nama), Text(harga, style: TextStyle(fontSize: 16))],
       ),
     );
   }

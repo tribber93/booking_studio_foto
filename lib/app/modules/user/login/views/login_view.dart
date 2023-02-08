@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,6 +11,8 @@ import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   final authC = Get.find<AuthController>();
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     Color smallText = Colors.grey.shade600;
@@ -38,33 +41,55 @@ class LoginView extends GetView<LoginController> {
           const SizedBox(
             height: 40,
           ),
-          MyTextField(
-            label: "Username",
-          ),
-          MyTextField(
-            label: "Password",
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-          ),
-          Center(
-            child: Container(
-              alignment: Alignment.center,
-              width: 300,
-              height: 60,
-              child: ElevatedButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll<Color>(
-                          Colors.grey.shade800)),
-                  onPressed: () {
-                    Get.toNamed(Routes.ADMIN_DASHBOARD);
+          Form(
+            key: formKey,
+            child: Column(
+              children: [
+                MyTextField(
+                  controller: controller.emailController,
+                  label: "Username",
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Email tidak boleh kosong";
+                    }
+                    return null;
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Login"),
-                    ],
-                  )),
+                ),
+                MyTextField(
+                  controller: controller.passwordController,
+                  label: "Password",
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Password tidak boleh kosong";
+                    }
+                    return null;
+                  },
+                ),
+                Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 300,
+                    height: 60,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStatePropertyAll<Color>(
+                                Colors.grey.shade800)),
+                        onPressed: () => controller.submit(formKey),
+                        // () {
+                        //   Get.toNamed(Routes.ADMIN_DASHBOARD);
+                        // },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Login"),
+                          ],
+                        )),
+                  ),
+                ),
+              ],
             ),
           ),
           // SizedBox(

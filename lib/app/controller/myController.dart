@@ -156,13 +156,6 @@ class MyController extends GetxController {
             tanggalTerpilih =
                 DateFormat('EEEE, d MMM yyyy', "id_ID").format(dateTime);
             jamTerpilih = waktu['jam'];
-            // print(
-            //     'dari tanggal terpilih $tanggalTerpilih'); // Output: "29 Dec 2021 12:00:00" // Output: "29 Dec 2021 12:00:00"
-            // print(
-            //     'dari tanggal addDate ${addDate(1)}'); // Output: "29 Dec 2021 12:00:00" // Output: "29 Dec 2021 12:00:00"
-
-            print(jamTerpilih);
-            print(tanggalTerpilih);
           };
   }
 
@@ -173,8 +166,14 @@ class MyController extends GetxController {
     return formated;
   }
 
-  sendTransaksi({String? nama, String? user, String? email}) {
-    db.collection("usersTransaction").add({
+  sendTransaksi(
+      {String? nama,
+      String? user,
+      String? email,
+      List? extraCek,
+      List? extraCounter}) {
+    db.collection("usersTransaction").doc(DateTime.now().toString()).set({
+      "timestamp": DateTime.now(),
       "userEmail": email,
       "user": user,
       "tanggal": tanggalTerpilih,
@@ -183,6 +182,8 @@ class MyController extends GetxController {
       "total": total,
       "sukses": false,
       "batal": false,
+      "extraCek": extraCek,
+      "extraCounter": extraCounter,
     }).then((value) {
       List waktuBaru = [];
       db
@@ -200,11 +201,20 @@ class MyController extends GetxController {
         db.collection("jadwal").doc(tanggalTerpilih).update({
           'waktu': waktuBaru,
         });
-
-        // print(element['waktu']);
         print(waktuBaru);
         reset();
       });
     });
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> streamTransaksi(String? user) {
+    return db
+        .collection('usersTransaction')
+        .where('userEmail', isEqualTo: user)
+        // .orderBy('timeStamp', descending: true)
+        .snapshots();
+    // .then((value) => value.docs.forEach((element) {
+    //       print(element.data());
+    //     }));
   }
 }

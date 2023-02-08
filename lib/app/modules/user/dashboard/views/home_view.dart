@@ -17,6 +17,7 @@ import 'package:studio_foto/app/controller/userController.dart';
 import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/app/modules/user/dashboard/controllers/home_controller.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
+import 'package:studio_foto/utils/formatText.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 final List<String> imgList = [
@@ -93,7 +94,7 @@ class HomeView extends GetView<HomeController> {
                 }),
             Container(
               width: double.infinity,
-              height: 200,
+              // height: 200,
               child: CarouselSlider(
                 options: CarouselOptions(
                   autoPlay: true,
@@ -127,7 +128,7 @@ class HomeView extends GetView<HomeController> {
               'Pilih Paketmu',
               style: TextStyle(fontSize: 18),
             ),
-            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+            StreamBuilder(
                 stream: myC.getPaket(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
@@ -135,6 +136,9 @@ class HomeView extends GetView<HomeController> {
                   }
                   dynamic paket = snapshot.data;
                   int jmlPaket = paket.docs.length;
+//                   final QuerySnapshot snapshot = await Firestore.instance.collection("collection_name").get();
+// List<String> documentIds = snapshot.documents.map((doc) => doc.documentID).toList();
+
                   return GridView.extent(
                       maxCrossAxisExtent: 300,
                       shrinkWrap: true,
@@ -143,6 +147,7 @@ class HomeView extends GetView<HomeController> {
                       physics: const NeverScrollableScrollPhysics(),
                       children: List.generate(jmlPaket, (index) {
                         var infoPaket = paket.docs[index].data();
+                        var id = paket.docs[index].id;
                         return Container(
                           margin: const EdgeInsets.all(10),
                           child: Column(
@@ -182,6 +187,7 @@ class HomeView extends GetView<HomeController> {
                                   color: Colors.white,
                                   width: double.infinity,
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -189,10 +195,7 @@ class HomeView extends GetView<HomeController> {
                                           style: TextStyle(
                                             fontSize: 12,
                                           )),
-                                      Text(
-                                          NumberFormat.simpleCurrency(
-                                                  locale: "id", name: 'Rp. ')
-                                              .format(infoPaket['harga']),
+                                      Text(Rupiah().format(infoPaket['harga']),
                                           style: const TextStyle(
                                             fontSize: 16,
                                           )),
@@ -206,8 +209,10 @@ class HomeView extends GetView<HomeController> {
                                   onTap: () {
                                     String path =
                                         infoPaket['nama'].replaceAll(" ", "-");
+
                                     Get.toNamed('${Routes.DETAIL_PAKET}/$path');
                                     myC.reset();
+                                    // print(id);
                                   },
                                   child: Container(
                                     decoration: const BoxDecoration(

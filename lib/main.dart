@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,13 +29,15 @@ Future<void> main() async {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         String init = Routes.LOGIN;
+
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
 
         if (snapshot.hasData) {
-          init = Routes.DASHBOARD;
-          // debugPrint("Pengguna sedang masuk: ${snapshot.data!.email}");
+          snapshot.data!.email != "admin@qmstudio.co.id"
+              ? init = Routes.DASHBOARD
+              : init = Routes.ADMIN_DASHBOARD;
         }
 
         return Center(

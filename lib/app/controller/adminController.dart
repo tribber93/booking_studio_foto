@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
 
 class AdminController extends GetxController {
   var db = FirebaseFirestore.instance;
@@ -166,14 +167,19 @@ class AdminController extends GetxController {
     return hasil;
   }
 
-  Future<void> addJadwal() async {
+  Future<void> addJadwal(context) async {
     Map hasil = konversiJadwal();
     if (await checkIfDocExists(hasil["id"])) {
-      Get.snackbar(
-        "Generate Gagal",
-        "Jadwal sudah ada",
-        backgroundColor: Colors.red,
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'Jadwal sudah ada',
       );
+      // Get.snackbar(
+      //   "Generate Gagal",
+      //   "Jadwal sudah ada",
+      //   backgroundColor: Colors.red,
+      // );
       return;
     }
 
@@ -185,8 +191,11 @@ class AdminController extends GetxController {
         "tanggal": hasil["tanggal"],
         "waktu": FieldValue.arrayUnion(jadwal),
       },
-    ).whenComplete(() => Get.snackbar("Berhasil", "Jadwal sudah digenerate",
-        backgroundColor: Colors.green));
+    ).whenComplete(() => QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Jadwal berhasil ditambahkan',
+        ));
   }
 
   Future getImages() async {
@@ -250,20 +259,16 @@ class AdminController extends GetxController {
   }
 
   tambahPaket() async {
-    int? minOrang;
     mapExtras();
     isUploading.value = true;
 
     await uploadImages();
-    minController.text == ''
-        ? minOrang = null
-        : minOrang = int.parse(minController.text);
     db.collection("paket").add({
       "nama": namaController.text,
       "harga": int.parse(hargaController.text),
       "durasi": int.parse(durasiController.text),
       "max": int.parse(maxController.text),
-      "min": minOrang,
+      "min": minController.text != '' ? int.parse(minController.text) : null,
       "cetak": int.parse(cetakController.text),
       "softfile": int.parse(softfileController.text),
       "keterangan": keteranganController.text,

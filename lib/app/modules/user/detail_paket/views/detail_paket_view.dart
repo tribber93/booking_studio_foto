@@ -123,7 +123,10 @@ class DetailPaketView extends GetView<DetailPaketController> {
                           SizedBox(
                             height: 10,
                           ),
-                          Text('Maks. Orang  : ${data()['max']} Orang'),
+                          data()['min'] != null
+                              ? Text(
+                                  'Maks. Orang  : ${data()['min']} - ${data()['max']} Orang')
+                              : Text('Maks. Orang  : ${data()['max']} Orang'),
                           SizedBox(
                             height: 10,
                           ),
