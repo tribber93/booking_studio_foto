@@ -278,6 +278,72 @@ class AdminController extends GetxController {
 
     reset();
   }
+
+  streamPesanan({String? status}) {
+    if (status == 'belum bayar') {
+      return db
+          .collection('usersTransaction')
+          .where('batal', isEqualTo: false)
+          .where('sukses', isEqualTo: false)
+          .snapshots();
+    } else if (status == 'sukses') {
+      return db
+          .collection('usersTransaction')
+          .where('sukses', isEqualTo: true)
+          .snapshots();
+    } else if (status == 'batal') {
+      return db
+          .collection('usersTransaction')
+          .where('batal', isEqualTo: true)
+          .snapshots();
+    }
+    //     .snapshots()
+    //     .forEach((element) {
+    //   print(element.docs[0]['nama']);
+    // });
+    // print(tes.data);
+  }
+
+  konfirmasiPesanan(String? id) {
+    db.collection('usersTransaction').doc(id).update({
+      "sukses": true,
+    });
+  }
+
+  batalkanPesanan({String? id, String? tanggal, String? jam}) {
+    List waktu = [];
+    db.collection('usersTransaction').doc(id).update({
+      "batal": true,
+    }).whenComplete(
+      () => db.collection('jadwal').doc(tanggal).get().then(
+        (value) {
+          for (var item in value['waktu']) {
+            waktu.add(item);
+            if (item['jam'] == jam) {
+              item['isBooked'] = false;
+            }
+          }
+          db.collection('jadwal').doc(tanggal).update({
+            'waktu': waktu,
+          });
+          // print(waktu);
+        },
+      ),
+    );
+    //db.collection('jadwal').doc(tanggal).snapshots().forEach((element) {
+    //     List jadwalJam = element['waktu'];
+    //     for (var jam in jadwalJam) {
+    //       // print(jam['jam']);
+    //       if (jam['jam'] == jam) {
+    //         jam['isBooked'] = false;
+    //         print(jadwalJam);
+    //       }
+    //     }
+    //   }),
+    // );
+
+    // print(tes);
+  }
 }
 
 List jadwal = [

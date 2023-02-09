@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 
 import '../modules/admin/adminDashboard/bindings/admin_dashboard_binding.dart';
 import '../modules/admin/adminDashboard/views/admin_dashboard_view.dart';
-import '../modules/admin/adminLogin/bindings/admin_login_binding.dart';
-import '../modules/admin/adminLogin/views/admin_login_view.dart';
 import '../modules/user/checkout/bindings/checkout_binding.dart';
 import '../modules/user/checkout/views/checkout_view.dart';
 import '../modules/user/dashboard/bindings/dashboard_binding.dart';
@@ -61,11 +59,6 @@ class AppPages {
       page: () => TransaksiView(),
       binding: TransaksiBinding(),
       transition: Transition.leftToRightWithFade,
-    ),
-    GetPage(
-      name: _Paths.ADMIN_LOGIN,
-      page: () => AdminLoginView(),
-      binding: AdminLoginBinding(),
     ),
     GetPage(
       name: _Paths.ADMIN_DASHBOARD,

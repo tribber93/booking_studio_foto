@@ -14,8 +14,8 @@ class InfoPemesanan extends StatelessWidget {
         decoration: TextDecoration.none,
         fontSize: 16,
         color: Colors.black,
-        fontFamily: "Montserrat",
-        fontWeight: FontWeight.w600),
+        fontFamily: "Poppins",
+        fontWeight: FontWeight.w400),
   }) : super(key: key);
   String nama;
   String harga;
@@ -24,7 +24,7 @@ class InfoPemesanan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
+      margin: const EdgeInsets.symmetric(vertical: 3),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

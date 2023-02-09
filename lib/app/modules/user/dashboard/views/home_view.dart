@@ -195,10 +195,26 @@ class HomeView extends GetView<HomeController> {
                                           style: TextStyle(
                                             fontSize: 12,
                                           )),
-                                      Text(Rupiah().format(infoPaket['harga']),
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                          )),
+                                      RichText(
+                                        text: TextSpan(
+                                            text: Rupiah()
+                                                .format(infoPaket['harga']),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium,
+                                            children: [
+                                              infoPaket['min'] != null
+                                                  ? const TextSpan(
+                                                      text: "/orang",
+                                                      style: TextStyle(
+                                                          fontSize: 10))
+                                                  : const TextSpan()
+                                            ]),
+                                      ),
+                                      // Text(Rupiah().format(infoPaket['harga']),
+                                      //     style: const TextStyle(
+                                      //       fontSize: 16,
+                                      //     )),
                                     ],
                                   ),
                                 ),

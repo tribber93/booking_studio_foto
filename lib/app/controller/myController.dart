@@ -24,6 +24,7 @@ class MyController extends GetxController {
   int age = 1;
   Timer? timer;
   bool longPressCanceled = false;
+  int jumlahOrang = 0;
   // String? idJadwal;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -96,30 +97,8 @@ class MyController extends GetxController {
 
   void checkbox(bool? value, int index, List info) {
     info[index]["isCheck"] = value;
-    addTotal(info, index);
+    // addTotal(info, index);
     update();
-  }
-
-  void addTotal(info, int index) {
-    // int harga = info[index]["harga"];
-    // if (info[index]["isCheck"] == true) {
-    //   total = total + harga;
-    // } else {
-    //   total = total - harga;
-    // }
-  }
-
-  addUser() async {
-    // var userId = DateTime.now().toIso8601String();
-    final user = <String, dynamic>{
-      "first": "Isaura",
-      "last": "Anindia",
-      "born": 2011
-    };
-    await db
-        .collection("users")
-        .add(user)
-        .whenComplete(() => Get.snackbar("Berhasil", "Pesan Berhasil dikirim"));
   }
 
   radioButton(val, i, selected, info) {
@@ -167,13 +146,18 @@ class MyController extends GetxController {
   }
 
   sendTransaksi(
-      {String? nama,
+      {String? namaPemesan,
+      String? nama,
       String? user,
       String? email,
       List? extraCek,
-      List? extraCounter}) {
+      List? extraCounter,
+      int? jumlahOrang,
+      int? hargaPaket}) {
     db.collection("usersTransaction").doc(DateTime.now().toString()).set({
       "timestamp": DateTime.now(),
+      "namaPemesan": namaPemesan,
+      "harga": hargaPaket,
       "userEmail": email,
       "user": user,
       "tanggal": tanggalTerpilih,
@@ -184,6 +168,7 @@ class MyController extends GetxController {
       "batal": false,
       "extraCek": extraCek,
       "extraCounter": extraCounter,
+      "jumlahOrang": jumlahOrang
     }).then((value) {
       List waktuBaru = [];
       db
@@ -216,5 +201,9 @@ class MyController extends GetxController {
     // .then((value) => value.docs.forEach((element) {
     //       print(element.data());
     //     }));
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> streamUser({String? id}) {
+    return db.collection('users').doc(id).snapshots();
   }
 }

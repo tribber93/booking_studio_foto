@@ -16,6 +16,7 @@ import 'package:studio_foto/utils/myColor.dart';
 import 'package:studio_foto/utils/myLeading.dart';
 import 'package:ticket_material/ticket_material.dart';
 import 'package:ticket_widget/ticket_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../controllers/transaksi_controller.dart';
 import 'tiket.dart';
@@ -25,6 +26,7 @@ class TransaksiView extends GetView<TransaksiController> {
   int tab = 0;
   final authC = Get.find<AuthController>();
   final myC = Get.find<MyController>();
+  static final Uri urlWhatsapp = Uri.parse("https://wa.me/+6283149857944");
   @override
   Widget build(BuildContext context) {
     Get.put(MyController());
@@ -175,8 +177,8 @@ class TiketTransaksi extends StatelessWidget {
                           child: TicketWidget(
                               // margin: const EdgeInsets.symmetric(vertical: 10),
                               // margin: const EdgeInsets.symmetric(horizontal: 30),
-                              height: 500,
-                              width: context.isPhone ? Get.width - 100 : 400,
+                              height: 550,
+                              width: context.isPhone ? Get.width - 50 : 400,
                               isCornerRounded: true,
                               padding: EdgeInsets.symmetric(
                                   vertical: 20, horizontal: 30),
@@ -205,15 +207,92 @@ class TiketTransaksi extends StatelessWidget {
                                     nama: "Jam",
                                     harga: statusReversed['jam'],
                                   ),
+                                  InfoPemesanan(
+                                    nama: "Harga paket",
+                                    harga: Rupiah()
+                                        .format(statusReversed['harga']),
+                                  ),
+                                  statusReversed['jumlahOrang'] != null
+                                      ? InfoPemesanan(
+                                          nama: "Jumlah Orang",
+                                          harga:
+                                              "${statusReversed['jumlahOrang']}",
+                                        )
+                                      : const SizedBox(),
                                   statusReversed['extraCounter'] != null ||
                                           statusReversed['extraCek'] != null
-                                      ? InfoPemesanan(nama: "Tambahan")
+                                      ? InfoPemesanan(
+                                          nama: "Tambahan",
+                                          style: const TextStyle(
+                                              decoration: TextDecoration.none,
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w600),
+                                        )
                                       : SizedBox(),
+                                  statusReversed['extraCounter'] != null
+                                      ? Column(
+                                          children: List.generate(
+                                              statusReversed['extraCounter']
+                                                  .length, (index) {
+                                            Map data =
+                                                statusReversed['extraCounter']
+                                                    [index];
+                                            return InfoPemesanan(
+                                              nama: "${data['extra']}",
+                                              harga:
+                                                  "${data['jumlah']} * ${Rupiah().format(data['harga'])}",
+                                            );
+                                          }),
+                                        )
+                                      : SizedBox(),
+                                  statusReversed['extraCek'] != null
+                                      ? Column(
+                                          children: List.generate(
+                                              statusReversed['extraCek'].length,
+                                              (index) {
+                                            Map data =
+                                                statusReversed['extraCek']
+                                                    [index];
+                                            return InfoPemesanan(
+                                              nama: "${data['extra']}",
+                                              harga:
+                                                  "${Rupiah().format(data['harga'])}",
+                                            );
+                                          }),
+                                        )
+                                      : SizedBox(),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
                                   InfoPemesanan(
                                     nama: "Total",
                                     harga: Rupiah()
                                         .format(statusReversed['total']),
                                   ),
+                                  Spacer(),
+                                  !statusReversed['batal'] &&
+                                          !statusReversed['sukses']
+                                      ? Center(
+                                          child: TextButton.icon(
+                                            style: ButtonStyle(
+                                                foregroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.green)),
+                                            label:
+                                                Text("Konfirmasi via WhatsApp"),
+                                            // color: Colors.green,
+                                            // iconSize: 20,
+                                            onPressed: () {
+                                              _launchInBrowser(Uri.parse(
+                                                  "https://wa.me/+6283149857944"));
+                                            },
+                                            icon: FaIcon(
+                                                FontAwesomeIcons.whatsapp),
+                                          ),
+                                        )
+                                      : const SizedBox(),
                                   // RichText(
                                   //     text: TextSpan(
                                   //         style: Theme.of(context)
@@ -263,6 +342,7 @@ class TiketTransaksi extends StatelessWidget {
                     child: SizedBox(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           RichText(
                             text: TextSpan(
@@ -305,7 +385,7 @@ class TiketTransaksi extends StatelessWidget {
                                 TextSpan(
                                   text:
                                       Rupiah().format(statusReversed['total']),
-                                  style: TextStyle(fontSize: 15),
+                                  style: const TextStyle(fontSize: 15),
                                 ),
                               ],
                             ),
@@ -316,11 +396,23 @@ class TiketTransaksi extends StatelessWidget {
                   ),
                   rightChild: SizedBox(
                     child: Center(
-                      child: Text(statusReversed['nama']),
+                      child: Text(
+                        statusReversed['nama'],
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   )),
             );
           }),
     );
+  }
+
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalNonBrowserApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
   }
 }

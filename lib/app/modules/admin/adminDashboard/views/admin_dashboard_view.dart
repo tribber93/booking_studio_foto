@@ -6,11 +6,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:studio_foto/app/controller/adminController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/data/classPaket.dart';
+import 'package:studio_foto/app/modules/admin/adminDashboard/views/pesanan.dart';
 import 'package:studio_foto/app/modules/admin/adminDashboard/views/tambah_jadwal.dart';
 import 'package:studio_foto/app/modules/admin/adminDashboard/views/tambah_paket.dart';
+import 'package:studio_foto/app/modules/user/dashboard/views/otp_view.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
@@ -34,7 +37,23 @@ class AdminDashboardView extends GetView<AdminController> {
           adminC.reset();
         },
       },
-      {"icon": "assets/icons/order.png", "title": "Pesanan"},
+      {
+        "icon": "assets/icons/order.png",
+        "title": "Pesanan",
+        "ke": () {
+          Get.to(() => PesananView(),
+              routeName: "${Routes.ADMIN_DASHBOARD}/pesanan");
+          adminC.reset();
+        },
+      },
+      {
+        "icon": "assets/icons/group.png",
+        "title": "OTP",
+        "ke": () {
+          Get.to(() => OTPView(), routeName: "${Routes.ADMIN_DASHBOARD}/otp");
+          adminC.reset();
+        },
+      },
       {
         "icon": "assets/icons/package-box.png",
         "title": "Tambah Paket",
@@ -44,19 +63,28 @@ class AdminDashboardView extends GetView<AdminController> {
           adminC.reset();
         },
       },
+      {
+        "icon": "assets/icons/exit.png",
+        "title": "Keluar",
+        "ke": () async {
+          await QuickAlert.show(
+            context: context,
+            type: QuickAlertType.confirm,
+            title: "Yakin ingin keluar?",
+            onConfirmBtnTap: () async {
+              await FirebaseAuth.instance.signOut();
+              Get.offAllNamed(Routes.LOGIN);
+            },
+            confirmBtnText: "Ya",
+            cancelBtnText: "Kembali",
+          );
+        },
+      },
     ];
     return Scaffold(
       appBar: AppBar(
         title: Text('AdminDashboardView'),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Get.offAllNamed(Routes.LOGIN);
-              },
-              icon: const FaIcon(FontAwesomeIcons.arrowRightFromBracket))
-        ],
       ),
       body: Container(
         child: Center(

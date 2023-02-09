@@ -33,6 +33,10 @@ class MyBottomSheet extends GetView<MyController> {
       return DateTime(sekarang.year, sekarang.month, sekarang.day + tambah);
     }
 
+    if (info['min'] != null) {
+      myCont.jumlahOrang = info['min'];
+    }
+
     return FloatingActionButton.extended(
       label: Row(
         children: [
@@ -218,9 +222,103 @@ class MyBottomSheet extends GetView<MyController> {
                                                 ),
                                               ),
                                               info['min'] != null
-                                                  ? Counter(
-                                                      controller: controller,
-                                                      hasil: 10)
+                                                  ? Divider(
+                                                      thickness: 0.5,
+                                                      color: Colors.grey,
+                                                    )
+                                                  : SizedBox(),
+                                              info['min'] != null
+                                                  ? GetBuilder<MyController>(
+                                                      builder: (myCont) {
+                                                        return Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 9,
+                                                                  left: 20,
+                                                                  right: 20),
+                                                          width:
+                                                              double.infinity,
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(
+                                                                  "Jumlah Orang"),
+                                                              Counter(
+                                                                controller:
+                                                                    myCont,
+                                                                hasil: myCont
+                                                                    .jumlahOrang,
+                                                                onTapMinus: () {
+                                                                  if (myCont
+                                                                          .jumlahOrang >
+                                                                      info[
+                                                                          'min']) {
+                                                                    myCont.jumlahOrang -=
+                                                                        1;
+                                                                    myCont
+                                                                        .update();
+                                                                  }
+                                                                },
+                                                                onTapPlus: () {
+                                                                  if (myCont
+                                                                          .jumlahOrang <
+                                                                      info[
+                                                                          'max']) {
+                                                                    myCont.jumlahOrang +=
+                                                                        1;
+                                                                    myCont
+                                                                        .update();
+                                                                  }
+                                                                },
+                                                                onTapDownMinus:
+                                                                    (TapDownDetails
+                                                                        details) {
+                                                                  myCont.timer =
+                                                                      Timer.periodic(
+                                                                          Duration(
+                                                                              milliseconds: 200),
+                                                                          (t) {
+                                                                    // controller.decrement();
+                                                                    if (myCont
+                                                                            .jumlahOrang >
+                                                                        info[
+                                                                            'min']) {
+                                                                      myCont.jumlahOrang -=
+                                                                          1;
+                                                                      myCont
+                                                                          .update();
+                                                                    }
+                                                                  });
+                                                                },
+                                                                onTapDownPlus:
+                                                                    (TapDownDetails
+                                                                        details) {
+                                                                  myCont.timer =
+                                                                      Timer.periodic(
+                                                                          Duration(
+                                                                              milliseconds: 200),
+                                                                          (t) {
+                                                                    if (myCont
+                                                                            .jumlahOrang <
+                                                                        info[
+                                                                            'max']) {
+                                                                      myCont.jumlahOrang +=
+                                                                          1;
+                                                                      myCont
+                                                                          .update();
+                                                                    }
+                                                                    // controller.decrement();
+                                                                  });
+                                                                },
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      },
+                                                    )
                                                   : const SizedBox()
                                             ],
                                           )
@@ -266,8 +364,14 @@ class MyBottomSheet extends GetView<MyController> {
                               onPressed: () async {
                                 List indexCek = [];
                                 List indexCount = [];
-                                myCont.total =
-                                    (myCont.total + info['harga']).round();
+                                if (info['min'] == null) {
+                                  myCont.total =
+                                      (myCont.total + info['harga']).round();
+                                } else {
+                                  myCont.total = (myCont.total +
+                                          (info['harga'] * myCont.jumlahOrang))
+                                      .round();
+                                }
 
                                 for (var i = 0;
                                     i < myCont.isChecks.length;
