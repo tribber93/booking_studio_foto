@@ -22,6 +22,7 @@ Future<void> main() async {
   );
   Get.put(AuthController(), permanent: true);
   Get.put(AdminController(), permanent: true);
+  final auth = Get.find<AuthController>();
 
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // await initializeDateFormatting('id_ID', null).then((_) =>
@@ -35,9 +36,11 @@ Future<void> main() async {
         }
 
         if (snapshot.hasData) {
-          snapshot.data!.email != "admin@qmstudio.co.id"
-              ? init = Routes.DASHBOARD
-              : init = Routes.ADMIN_DASHBOARD;
+          if (snapshot.data!.email != "admin@qmstudio.co.id") {
+            init = Routes.DASHBOARD;
+          } else if (snapshot.data!.email == "admin@qmstudio.co.id") {
+            init = Routes.ADMIN_DASHBOARD;
+          }
         }
 
         return Center(

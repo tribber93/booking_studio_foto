@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:studio_foto/app/controller/adminController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
+import 'package:studio_foto/app/controller/verifikasiHP.dart';
 import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/app/modules/admin/adminDashboard/views/pesanan.dart';
 import 'package:studio_foto/app/modules/admin/adminDashboard/views/tambah_jadwal.dart';
@@ -26,6 +27,8 @@ class AdminDashboardView extends GetView<AdminController> {
   @override
   Widget build(BuildContext context) {
     Get.put(AdminController());
+    Get.put(VerifyController());
+    final verC = Get.find<VerifyController>();
     final adminC = Get.find<AdminController>();
     List<Map> menu = [
       {
@@ -52,6 +55,7 @@ class AdminDashboardView extends GetView<AdminController> {
         "ke": () {
           Get.to(() => OTPView(), routeName: "${Routes.ADMIN_DASHBOARD}/otp");
           adminC.reset();
+          // verC.reset();
         },
       },
       {

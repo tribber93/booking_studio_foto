@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:studio_foto/app/modules/user/dashboard/views/otp_view.dart';
 
 import '../modules/admin/adminDashboard/bindings/admin_dashboard_binding.dart';
 import '../modules/admin/adminDashboard/views/admin_dashboard_view.dart';
@@ -69,6 +70,10 @@ class AppPages {
       name: _Paths.CHECKOUT,
       page: () => CheckoutView(),
       binding: CheckoutBinding(),
+    ),
+    GetPage(
+      name: _Paths.OTP,
+      page: () => OTPView(),
     ),
   ];
 }

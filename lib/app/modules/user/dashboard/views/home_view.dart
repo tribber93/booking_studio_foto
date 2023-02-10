@@ -14,8 +14,10 @@ import 'package:intl/intl.dart';
 import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/controller/userController.dart';
+import 'package:studio_foto/app/controller/verifikasiHP.dart';
 import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/app/modules/user/dashboard/controllers/home_controller.dart';
+import 'package:studio_foto/app/modules/user/dashboard/views/otp_view.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/formatText.dart';
 import 'package:studio_foto/utils/myColor.dart';
@@ -136,8 +138,8 @@ class HomeView extends GetView<HomeController> {
                   }
                   dynamic paket = snapshot.data;
                   int jmlPaket = paket.docs.length;
-//                   final QuerySnapshot snapshot = await Firestore.instance.collection("collection_name").get();
-// List<String> documentIds = snapshot.documents.map((doc) => doc.documentID).toList();
+                  //                   final QuerySnapshot snapshot = await Firestore.instance.collection("collection_name").get();
+                  // List<String> documentIds = snapshot.documents.map((doc) => doc.documentID).toList();
 
                   return GridView.extent(
                       maxCrossAxisExtent: 300,

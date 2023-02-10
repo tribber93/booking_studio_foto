@@ -13,6 +13,7 @@ abstract class Routes {
   static const ADMIN_LOGIN = _Paths.ADMIN_LOGIN;
   static const ADMIN_DASHBOARD = _Paths.ADMIN_DASHBOARD;
   static const CHECKOUT = _Paths.CHECKOUT;
+  static const OTP = _Paths.OTP;
 }
 
 abstract class _Paths {
@@ -26,4 +27,5 @@ abstract class _Paths {
   static const ADMIN_LOGIN = '/admin-login';
   static const ADMIN_DASHBOARD = '/admin-dashboard';
   static const CHECKOUT = '/checkout';
+  static const OTP = '/otp';
 }

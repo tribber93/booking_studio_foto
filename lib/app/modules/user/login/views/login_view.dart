@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:studio_foto/app/controller/authController.dart';
+import 'package:studio_foto/app/controller/verifikasiHP.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/widgetLoginSignup.dart';
 
@@ -16,6 +17,8 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     Color smallText = Colors.grey.shade600;
+    Get.put(VerifyController());
+    final verC = Get.find<VerifyController>();
     return Scaffold(
       body: BgLoginSignup(
           isi: Column(
@@ -146,7 +149,9 @@ class LoginView extends GetView<LoginController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
                       ),
-                      onPressed: () => authC.signInWithGoogle(),
+                      onPressed: () => authC.signInWithGoogle(
+                          // resetVerify: verC.reset(),
+                          ),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Row(
