@@ -1,12 +1,14 @@
 import 'package:get/get.dart';
-import 'package:studio_foto/app/modules/user/dashboard/views/otp_view.dart';
 
 import '../modules/admin/adminDashboard/bindings/admin_dashboard_binding.dart';
 import '../modules/admin/adminDashboard/views/admin_dashboard_view.dart';
+import '../modules/admin/paket_tersedia/bindings/paket_tersedia_binding.dart';
+import '../modules/admin/paket_tersedia/views/paket_tersedia_view.dart';
 import '../modules/user/checkout/bindings/checkout_binding.dart';
 import '../modules/user/checkout/views/checkout_view.dart';
 import '../modules/user/dashboard/bindings/dashboard_binding.dart';
 import '../modules/user/dashboard/views/dashboard_view.dart';
+import '../modules/user/dashboard/views/otp_view.dart';
 import '../modules/user/detail_paket/bindings/detail_paket_binding.dart';
 import '../modules/user/detail_paket/views/detail_paket_view.dart';
 import '../modules/user/login/bindings/login_binding.dart';
@@ -74,6 +76,11 @@ class AppPages {
     GetPage(
       name: _Paths.OTP,
       page: () => OTPView(),
+    ),
+    GetPage(
+      name: _Paths.PAKET_TERSEDIA,
+      page: () => const PaketTersediaView(),
+      binding: PaketTersediaBinding(),
     ),
   ];
 }

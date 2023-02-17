@@ -9,6 +9,7 @@ import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/controller/verifikasiHP.dart';
 import 'package:studio_foto/app/modules/user/dashboard/views/send_otp_view.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
+import 'package:studio_foto/utils/myColor.dart';
 
 class OTPView extends GetView<VerifyController> {
   final versC = Get.find<VerifyController>();
@@ -73,7 +74,15 @@ class OTP extends StatelessWidget {
                       ),
                       Center(
                         child: ElevatedButton(
-                          child: Text('Submit'),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor),
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            width: 300,
+                            child: const Center(
+                              child: Text('Submit'),
+                            ),
+                          ),
                           onPressed: () async {
                             // controller.formKey.currentState?.validate();
                             if (nomor.length < 12) {
@@ -84,11 +93,7 @@ class OTP extends StatelessWidget {
                               // controller.reset();
                               return;
                             }
-                            // print(controller.nomor);
                             controller.sendOTP(phoneNumber: nomor);
-
-                            // await controller.sendOTP(phoneNumber: controller.nomor);
-                            // controller.reset();
                           },
                         ),
                       ),

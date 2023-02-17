@@ -36,11 +36,9 @@ Future<void> main() async {
         }
 
         if (snapshot.hasData) {
-          if (snapshot.data!.email != "admin@qmstudio.co.id") {
-            init = Routes.DASHBOARD;
-          } else if (snapshot.data!.email == "admin@qmstudio.co.id") {
-            init = Routes.ADMIN_DASHBOARD;
-          }
+          snapshot.data!.email != "admin@qmstudio.co.id"
+              ? init = Routes.DASHBOARD
+              : init = Routes.ADMIN_DASHBOARD;
         }
 
         return Center(

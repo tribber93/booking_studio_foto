@@ -14,6 +14,7 @@ abstract class Routes {
   static const ADMIN_DASHBOARD = _Paths.ADMIN_DASHBOARD;
   static const CHECKOUT = _Paths.CHECKOUT;
   static const OTP = _Paths.OTP;
+  static const PAKET_TERSEDIA = _Paths.PAKET_TERSEDIA;
 }
 
 abstract class _Paths {
@@ -28,4 +29,5 @@ abstract class _Paths {
   static const ADMIN_DASHBOARD = '/admin-dashboard';
   static const CHECKOUT = '/checkout';
   static const OTP = '/otp';
+  static const PAKET_TERSEDIA = '/paket-tersedia';
 }

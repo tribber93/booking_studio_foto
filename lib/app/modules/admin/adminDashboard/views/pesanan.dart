@@ -89,11 +89,16 @@ class StreamPesanan extends StatelessWidget {
 
         var data = snapshot.data!.docs;
         List dataReversed = data.reversed.toList();
+
         // print(data[0].id);
         return ListView.builder(
           shrinkWrap: true,
           itemCount: dataReversed.length,
           itemBuilder: (context, index) {
+            String nomor = dataReversed[index]['phoneNumber'];
+            String phoneNumber =
+                "${nomor.substring(0, 3)} ${nomor.substring(3, 6)}-${nomor.substring(6, 10)}-${nomor.substring(10)}";
+
             return Container(
               margin: const EdgeInsets.all(8),
               // height: 200,
@@ -106,26 +111,56 @@ class StreamPesanan extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Center(
+                          child: Text(
+                            "Paket ${dataReversed[index]['nama']}",
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         InfoPemesanan(
                           nama: "Nama Pemesan",
                           harga: dataReversed[index]['namaPemesan'],
                         ),
+                        // InfoPemesanan(
+                        //   nama: "Email",
+                        //   harga: dataReversed[index]['userEmail'],
+                        // ),
                         InfoPemesanan(
-                          nama: "Email",
-                          harga: dataReversed[index]['userEmail'],
-                        ),
-                        InfoPemesanan(
-                          nama: "Paket",
-                          harga: dataReversed[index]['nama'],
+                          nama: "Nomor Pemesan",
+                          harga: phoneNumber,
                         ),
                         InfoPemesanan(
                           nama: "Tanggal",
                           harga: dataReversed[index]['tanggal'],
                         ),
                         InfoPemesanan(
-                          nama: "Paket",
+                          nama: "Jam",
                           harga: dataReversed[index]['jam'],
                         ),
+                        InfoPemesanan(
+                          nama: "Harga paket",
+                          harga: Rupiah().format(dataReversed[index]['harga']),
+                        ),
+                        dataReversed[index]['jumlahOrang'] != null
+                            ? InfoPemesanan(
+                                nama: "Jumlah orang",
+                                harga: "${dataReversed[index]['jumlahOrang']}",
+                              )
+                            : const SizedBox(),
+                        dataReversed[index]['extraCek'] != null ||
+                                dataReversed[index]['extraCounter'] != null
+                            ? Text(
+                                "Tambahan",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              )
+                            : SizedBox(),
                         SizedBox(
                           width: double.infinity,
                           child: Row(

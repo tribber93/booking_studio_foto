@@ -48,6 +48,10 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
               DateTime dt = (dataUser['createdAt'] as Timestamp).toDate();
               String tglDaftar = DateFormat('dd MMMM yyyy', 'id_ID').format(dt);
 
+              String nomor = dataUser['phoneNumber'];
+              String phoneNumber =
+                  "${nomor.substring(0, 3)} ${nomor.substring(3, 6)}-${nomor.substring(6, 10)}-${nomor.substring(10)}";
+
               return SafeArea(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -125,7 +129,7 @@ class ProfileLengkapView extends GetView<ProfileLengkapController> {
                         ),
                         ProfileInfo(
                           title: "No. Hp",
-                          isi: "+62 858 6457 1300",
+                          isi: phoneNumber,
                         ),
                         ProfileInfo(
                           title: "Tanggal dibuat",

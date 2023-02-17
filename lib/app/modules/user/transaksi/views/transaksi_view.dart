@@ -54,9 +54,7 @@ class TransaksiView extends GetView<TransaksiController> {
                   batal.add(element);
                 }
               }
-              // print(belumBayar.length);
-              // print(berhasil.length);
-              // print(batal.length);
+
               return Container(
                 margin: const EdgeInsets.all(8),
                 child: GetBuilder<MyController>(
@@ -224,11 +222,12 @@ class TiketTransaksi extends StatelessWidget {
                                       ? InfoPemesanan(
                                           nama: "Tambahan",
                                           style: const TextStyle(
-                                              decoration: TextDecoration.none,
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w600),
+                                            decoration: TextDecoration.none,
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                         )
                                       : SizedBox(),
                                   statusReversed['extraCounter'] != null
@@ -266,10 +265,33 @@ class TiketTransaksi extends StatelessWidget {
                                   const SizedBox(
                                     height: 30,
                                   ),
-                                  InfoPemesanan(
-                                    nama: "Total",
-                                    harga: Rupiah()
-                                        .format(statusReversed['total']),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          "Total",
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              decoration: TextDecoration.none,
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          Rupiah()
+                                              .format(statusReversed['total']),
+                                          style: const TextStyle(
+                                              fontFamily: "Poppins",
+                                              decoration: TextDecoration.none,
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   Spacer(),
                                   !statusReversed['batal'] &&

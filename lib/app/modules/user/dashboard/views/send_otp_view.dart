@@ -35,6 +35,11 @@ class SendOTPView extends GetView<VerifyController> {
     );
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => AuthController().logout(),
+          icon: FaIcon(FontAwesomeIcons.arrowLeft),
+          color: Colors.black,
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text('Verifikasi OTP'),
@@ -46,102 +51,102 @@ class SendOTPView extends GetView<VerifyController> {
         ),
       ),
       body: SingleChildScrollView(
-        child: FractionallySizedBox(
-          widthFactor: 1,
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton.icon(
-                    onPressed: () => AuthController().logout(),
-                    icon: FaIcon(FontAwesomeIcons.arrowLeft),
-                    label: Text("Kembali")),
-                Text(
-                  "Kode OTP berhasil dikirim \nke ${phoneNumber}",
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Image.asset(
-                  'assets/icons/pin.png',
-                  height: 200,
-                ),
-                const SizedBox(
-                  height: 70,
-                ),
-                Directionality(
-                  // Specify direction if desired
-                  textDirection: TextDirection.ltr,
-                  child: Pinput(
-                    length: 6,
-                    controller: pinController,
-                    focusNode: focusNode,
-                    androidSmsAutofillMethod:
-                        AndroidSmsAutofillMethod.smsUserConsentApi,
-                    listenForMultipleSmsOnAndroid: true,
-                    defaultPinTheme: defaultPinTheme,
-                    // validator: (value) {
-                    //   return value == '2222' ? null : 'Pin is incorrect';
-                    // },
-                    // onClipboardFound: (value) {
-                    //   debugPrint('onClipboardFound: $value');
-                    //   pinController.setText(value);
-                    // },
-                    hapticFeedbackType: HapticFeedbackType.lightImpact,
-                    onCompleted: (pin) {
-                      debugPrint('onCompleted: $pin');
-                    },
-                    onChanged: (value) {
-                      code = value;
-                      // debugPrint('onChanged: $value');
-                      print(code);
-                    },
-                    cursor: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 9),
-                          width: 22,
-                          height: 1,
-                          color: focusedBorderColor,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30.0),
+          child: FractionallySizedBox(
+            widthFactor: 1,
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Kode OTP berhasil dikirim \nke ${phoneNumber}",
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Image.asset(
+                    'assets/icons/pin.png',
+                    height: 200,
+                  ),
+                  const SizedBox(
+                    height: 70,
+                  ),
+                  Directionality(
+                    // Specify direction if desired
+                    textDirection: TextDirection.ltr,
+                    child: Pinput(
+                      length: 6,
+                      controller: pinController,
+                      focusNode: focusNode,
+                      androidSmsAutofillMethod:
+                          AndroidSmsAutofillMethod.smsUserConsentApi,
+                      listenForMultipleSmsOnAndroid: true,
+                      defaultPinTheme: defaultPinTheme,
+                      // validator: (value) {
+                      //   return value == '2222' ? null : 'Pin is incorrect';
+                      // },
+                      // onClipboardFound: (value) {
+                      //   debugPrint('onClipboardFound: $value');
+                      //   pinController.setText(value);
+                      // },
+                      hapticFeedbackType: HapticFeedbackType.lightImpact,
+                      onCompleted: (pin) {
+                        debugPrint('onCompleted: $pin');
+                      },
+                      onChanged: (value) {
+                        code = value;
+                        print(code);
+                      },
+                      cursor: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 9),
+                            width: 22,
+                            height: 1,
+                            color: focusedBorderColor,
+                          ),
+                        ],
+                      ),
+                      focusedPinTheme: defaultPinTheme.copyWith(
+                        decoration: defaultPinTheme.decoration!.copyWith(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: focusedBorderColor),
                         ),
-                      ],
-                    ),
-                    focusedPinTheme: defaultPinTheme.copyWith(
-                      decoration: defaultPinTheme.decoration!.copyWith(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: focusedBorderColor),
+                      ),
+                      submittedPinTheme: defaultPinTheme.copyWith(
+                        decoration: defaultPinTheme.decoration!.copyWith(
+                          color: fillColor,
+                          borderRadius: BorderRadius.circular(19),
+                          border: Border.all(color: focusedBorderColor),
+                        ),
+                      ),
+                      errorPinTheme: defaultPinTheme.copyBorderWith(
+                        border: Border.all(color: Colors.redAccent),
                       ),
                     ),
-                    submittedPinTheme: defaultPinTheme.copyWith(
-                      decoration: defaultPinTheme.decoration!.copyWith(
-                        color: fillColor,
-                        borderRadius: BorderRadius.circular(19),
-                        border: Border.all(color: focusedBorderColor),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                    onPressed: () => controller.verifyOTP(context, phoneNumber,
+                        code, verify, auth.currentUser!.email),
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      width: 300,
+                      child: const Center(
+                        child: Text('Verifikasi Nomor'),
                       ),
                     ),
-                    errorPinTheme: defaultPinTheme.copyBorderWith(
-                      border: Border.all(color: Colors.redAccent),
-                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: primaryColor),
-                  onPressed: () => controller.verifyOTP(context, phoneNumber,
-                      code, verify, auth.currentUser!.email),
-                  child: const Text(
-                    'Verifikasi Nomor',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500, letterSpacing: 1.3),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

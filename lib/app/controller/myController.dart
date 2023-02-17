@@ -151,6 +151,7 @@ class MyController extends GetxController {
       String? nama,
       String? user,
       String? email,
+      String? phoneNumber,
       List? extraCek,
       List? extraCounter,
       int? jumlahOrang,
@@ -169,7 +170,8 @@ class MyController extends GetxController {
       "batal": false,
       "extraCek": extraCek,
       "extraCounter": extraCounter,
-      "jumlahOrang": jumlahOrang
+      "jumlahOrang": jumlahOrang,
+      "phoneNumber": phoneNumber,
     }).then((value) {
       List waktuBaru = [];
       db

@@ -60,10 +60,9 @@ class AdminDashboardView extends GetView<AdminController> {
       },
       {
         "icon": "assets/icons/package-box.png",
-        "title": "Tambah Paket",
+        "title": "Informasi Paket",
         "ke": () {
-          Get.to(() => TambahPaketView(),
-              routeName: "${Routes.ADMIN_DASHBOARD}/tambah-paket");
+          Get.toNamed(Routes.PAKET_TERSEDIA);
           adminC.reset();
         },
       },

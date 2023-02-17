@@ -129,6 +129,7 @@ class CheckoutView extends GetView<MyController> {
                 var dataUser = snapshot.data!;
                 // print(dataUser['name']);
                 String namaPemesan = dataUser['name'];
+                String noPemesan = dataUser['phoneNumber'];
                 return Container(
                   color: Colors.white,
                   height: 70,
@@ -202,6 +203,7 @@ class CheckoutView extends GetView<MyController> {
                                       ? myC.jumlahOrang
                                       : null,
                                   hargaPaket: data['harga'],
+                                  phoneNumber: noPemesan,
                                 );
                                 // ignore: use_build_context_synchronously
                                 QuickAlert.show(

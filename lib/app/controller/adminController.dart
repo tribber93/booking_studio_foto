@@ -297,11 +297,6 @@ class AdminController extends GetxController {
           .where('batal', isEqualTo: true)
           .snapshots();
     }
-    //     .snapshots()
-    //     .forEach((element) {
-    //   print(element.docs[0]['nama']);
-    // });
-    // print(tes.data);
   }
 
   konfirmasiPesanan(String? id) {
