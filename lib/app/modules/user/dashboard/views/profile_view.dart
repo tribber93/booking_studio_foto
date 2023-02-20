@@ -1,19 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
-import 'package:studio_foto/main.dart';
 import 'package:studio_foto/utils/myColor.dart';
 import 'package:studio_foto/utils/myThemeData.dart';
 
 class ProfileView extends GetView {
   final authC = Get.find<AuthController>();
+
+  ProfileView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,23 +35,23 @@ class ProfileView extends GetView {
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      Text("Yuk Login dulu!"),
-                      SizedBox(
+                      const Text("Yuk Login dulu!"),
+                      const SizedBox(
                         height: 30,
                       ),
-                      Image(
+                      const Image(
                           height: 300,
                           image: AssetImage("assets/images/log-in.png")),
-                      SizedBox(
+                      const SizedBox(
                         height: 30,
                       ),
                       GestureDetector(
                         onTap: () => Get.offAllNamed(Routes.LOGIN),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
-                          constraints: BoxConstraints(maxWidth: 200),
+                          constraints: const BoxConstraints(maxWidth: 200),
                           decoration: BoxDecoration(
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                     offset: Offset(0, 1),
                                     spreadRadius: 0.0001,
@@ -61,7 +61,7 @@ class ProfileView extends GetView {
                               borderRadius: BorderRadius.circular(10)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
+                            children: const [
                               Icon(Icons.arrow_back),
                               SizedBox(
                                 width: 5,
@@ -109,7 +109,7 @@ class ProfileView extends GetView {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             // color: context.isPhone ? Colors.amber : Colors.blue,
                             height: 150,
                             child: Row(
@@ -119,7 +119,7 @@ class ProfileView extends GetView {
                                   : MainAxisAlignment.spaceEvenly,
                               children: [
                                 dataUser["photo"] == ''
-                                    ? CircleAvatar(
+                                    ? const CircleAvatar(
                                         radius: 50,
                                         backgroundColor: Colors.white,
                                         backgroundImage: AssetImage(
@@ -132,11 +132,11 @@ class ProfileView extends GetView {
                                             CachedNetworkImageProvider(
                                           dataUser['photo'],
                                           errorListener: () =>
-                                              Icon(Icons.error),
+                                              const Icon(Icons.error),
                                         ),
                                         // NetworkImage(dataUser['photo']),
                                       ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 20,
                                 ),
                                 const SizedBox(
@@ -158,7 +158,7 @@ class ProfileView extends GetView {
                                       Text(
                                         tglDaftar,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -185,7 +185,7 @@ class ProfileView extends GetView {
                                           color: Colors.grey.shade600)),
                                 ]),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 75,
                           ),
                           ProfileButton(
@@ -246,7 +246,7 @@ class ProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 50,
           child: TextButton(
@@ -264,7 +264,7 @@ class ProfileButton extends StatelessWidget {
                 ),
                 Text(
                   label,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ],
             ),
@@ -273,7 +273,7 @@ class ProfileButton extends StatelessWidget {
         const Divider(
           thickness: 2,
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         )
       ],

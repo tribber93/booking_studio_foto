@@ -168,26 +168,26 @@ class LoginView extends GetView<LoginController> {
                   SizedBox(
                     height: 20,
                   ),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll<Color>(Colors.white)),
-                      onPressed: () {
-                        Get.offAllNamed(Routes.DASHBOARD);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 13),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: const [
-                            Text(
-                              "Masuk sebagai Tamu",
-                              style: TextStyle(color: Colors.black87),
-                            ),
-                          ],
-                        ),
-                      )),
+                  // ElevatedButton(
+                  //     style: ButtonStyle(
+                  //         backgroundColor:
+                  //             MaterialStatePropertyAll<Color>(Colors.white)),
+                  //     onPressed: () {
+                  //       Get.offAllNamed(Routes.DASHBOARD);
+                  //     },
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.symmetric(
+                  //           horizontal: 8, vertical: 13),
+                  //       child: Row(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //         children: const [
+                  //           Text(
+                  //             "Masuk sebagai Tamu",
+                  //             style: TextStyle(color: Colors.black87),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     )),
                 ],
               ),
             ),

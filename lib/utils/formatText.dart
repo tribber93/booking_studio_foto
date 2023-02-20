@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/src/intl/number_format.dart';
 
 NumberFormat Rupiah() {
-  return NumberFormat.simpleCurrency(locale: "id", name: 'Rp. ');
+  return NumberFormat.simpleCurrency(
+      locale: "id", name: 'Rp. ', decimalDigits: 0);
 }
 
 class InfoPemesanan extends StatelessWidget {

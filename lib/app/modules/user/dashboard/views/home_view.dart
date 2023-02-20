@@ -1,23 +1,12 @@
-import 'dart:math' as math;
-
-import 'package:animated_widgets/animated_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
-import 'package:studio_foto/app/controller/userController.dart';
-import 'package:studio_foto/app/controller/verifikasiHP.dart';
-import 'package:studio_foto/app/data/classPaket.dart';
 import 'package:studio_foto/app/modules/user/dashboard/controllers/home_controller.dart';
-import 'package:studio_foto/app/modules/user/dashboard/views/otp_view.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/formatText.dart';
 import 'package:studio_foto/utils/myColor.dart';
@@ -32,7 +21,7 @@ final List<String> imgList = [
 ];
 
 class HomeView extends GetView<HomeController> {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +31,10 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primaryColor,
-        title: Text('QM Photo Studio'),
+        title: const Text('QM Photo Studio'),
         automaticallyImplyLeading: false,
       ),
-      backgroundColor: Color.fromARGB(132, 232, 232, 232),
+      backgroundColor: const Color.fromARGB(132, 232, 232, 232),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -58,7 +47,7 @@ class HomeView extends GetView<HomeController> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: authC.auth.currentUser == null
-                          ? Text(
+                          ? const Text(
                               'Hello, \nSelamat Datang',
                               style: TextStyle(
                                   color: Colors.black87, fontSize: 22),
@@ -77,7 +66,7 @@ class HomeView extends GetView<HomeController> {
                                 return RichText(
                                   text: TextSpan(
                                     text: 'Hello, \n',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.black87, fontSize: 22),
                                     children: [
                                       TextSpan(
@@ -94,7 +83,7 @@ class HomeView extends GetView<HomeController> {
                     ),
                   );
                 }),
-            Container(
+            SizedBox(
               width: double.infinity,
               // height: 200,
               child: CarouselSlider(
@@ -149,7 +138,6 @@ class HomeView extends GetView<HomeController> {
                       physics: const NeverScrollableScrollPhysics(),
                       children: List.generate(jmlPaket, (index) {
                         var infoPaket = paket.docs[index].data();
-                        var id = paket.docs[index].id;
                         return Container(
                           margin: const EdgeInsets.all(10),
                           child: Column(
@@ -159,12 +147,12 @@ class HomeView extends GetView<HomeController> {
                                 flex: 12,
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
+                                    borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(15),
                                         topRight: Radius.circular(15)),
                                     image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        colorFilter: ColorFilter.mode(
+                                        colorFilter: const ColorFilter.mode(
                                           Color.fromARGB(111, 0, 0, 0),
                                           BlendMode.darken,
                                         ),
@@ -175,7 +163,7 @@ class HomeView extends GetView<HomeController> {
                                       child: Text(
                                     infoPaket['nama'],
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500),
@@ -376,7 +364,7 @@ final List<Widget> imageSliders = imgList
                   left: 0.0,
                   right: 0.0,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
                           Color.fromARGB(200, 0, 0, 0),
@@ -386,8 +374,8 @@ final List<Widget> imageSliders = imgList
                         end: Alignment.topCenter,
                       ),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 20.0),
                     child: null,
                   ),
                 ),

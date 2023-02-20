@@ -6,10 +6,12 @@ import 'package:studio_foto/app/controller/adminController.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 class TambahJadwalView extends GetView<AdminController> {
+  const TambahJadwalView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('TambahJadwalPage')),
+        appBar: AppBar(title: const Text('TambahJadwalPage')),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -44,7 +46,7 @@ class TambahJadwalView extends GetView<AdminController> {
                   return null;
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               ElevatedButton(
@@ -52,7 +54,7 @@ class TambahJadwalView extends GetView<AdminController> {
                 onPressed: () {
                   controller.addJadwal(context);
                 },
-                child: Text("Generate Jadwal"),
+                child: const Text("Generate Jadwal"),
               ),
             ],
           ),

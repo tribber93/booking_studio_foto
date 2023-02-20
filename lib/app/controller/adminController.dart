@@ -321,23 +321,9 @@ class AdminController extends GetxController {
           db.collection('jadwal').doc(tanggal).update({
             'waktu': waktu,
           });
-          // print(waktu);
         },
       ),
     );
-    //db.collection('jadwal').doc(tanggal).snapshots().forEach((element) {
-    //     List jadwalJam = element['waktu'];
-    //     for (var jam in jadwalJam) {
-    //       // print(jam['jam']);
-    //       if (jam['jam'] == jam) {
-    //         jam['isBooked'] = false;
-    //         print(jadwalJam);
-    //       }
-    //     }
-    //   }),
-    // );
-
-    // print(tes);
   }
 }
 

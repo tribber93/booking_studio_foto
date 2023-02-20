@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/utils/myColor.dart';
-import 'package:studio_foto/utils/myThemeData.dart';
 // import 'package:studio_foto/utils/widget/myCheckbox.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,10 +17,8 @@ class InfoTempatView extends GetView<MyController> {
 
   @override
   Widget build(BuildContext context) {
-    var sekarang = DateTime.now();
     String lorem =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magn Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magn";
-    MyController controller = Get.put(MyController());
+        "QM Studio Photo adalah sebuah studio fotografi. Studio ini menawarkan berbagai layanan fotografi, mulai dari pemotretan pribadi hingga pemotretan bisnis. Dalam studio ini, para fotografer yang terampil dan berpengalaman dapat membantu Anda mendapatkan hasil foto yang berkualitas tinggi. \n\nStudio ini dilengkapi dengan peralatan fotografi modern dan berkualitas tinggi, sehingga Anda dapat yakin bahwa hasil foto Anda akan terlihat profesional. Selain itu, studio ini memiliki berbagai macam background dan properti untuk memenuhi kebutuhan Anda dalam pemotretan. \n\nSelain itu, QM Studio Photo juga menawarkan layanan penyuntingan foto yang dapat membantu memperbaiki foto Anda agar terlihat lebih baik dan menarik. Layanan ini terbuka bagi siapa saja yang ingin meningkatkan hasil foto mereka. \n\nDalam studio ini, suasana yang nyaman dan ramah akan membuat Anda merasa santai dan tenang selama sesi pemotretan. Para fotografer yang bekerja di QM Studio Photo sangat profesional dan peduli pada kebutuhan klien mereka, sehingga Anda dapat yakin bahwa Anda akan mendapatkan hasil foto yang sesuai dengan keinginan Anda. \n\nJika Anda mencari studio fotografi yang berkualitas tinggi dengan fotografer yang ahli dan ramah, QM Studio Photo adalah pilihan yang tepat untuk Anda.";
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -71,14 +67,14 @@ class InfoTempatView extends GetView<MyController> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.grey, spreadRadius: 0.2, blurRadius: 5),
                   ],
                 ),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 // height: 600,
                 width: double.infinity,
                 child: Column(children: [
@@ -89,14 +85,9 @@ class InfoTempatView extends GetView<MyController> {
                           TextSpan(
                               text: lorem,
                               // "When you try your best, but you don't succeed.\nWhen you get what you want, but not what you need.\nWhen you feel so tired, but you can't sleep.\nStuck in reverse",
-                              style: TextStyle(fontSize: 18)),
+                              style: const TextStyle(fontSize: 18)),
                         ]),
                   ),
-                  Text(DateFormat("EEE, d MMM yyyy", "id_ID").format(DateTime(
-                    sekarang.year,
-                    sekarang.month,
-                    sekarang.day + 2,
-                  ))),
                 ]),
               ),
               Container(
@@ -110,7 +101,7 @@ class InfoTempatView extends GetView<MyController> {
                       onPressed: () {
                         _launchInBrowser(_urlWhatsapp);
                       },
-                      icon: FaIcon(FontAwesomeIcons.whatsapp),
+                      icon: const FaIcon(FontAwesomeIcons.whatsapp),
                     ),
                     IconButton(
                       color: Colors.purple[300],
@@ -118,7 +109,7 @@ class InfoTempatView extends GetView<MyController> {
                       onPressed: () {
                         _launchInBrowser(_urlInstagram);
                       },
-                      icon: FaIcon(FontAwesomeIcons.instagram),
+                      icon: const FaIcon(FontAwesomeIcons.instagram),
                     ),
                     IconButton(
                       color: Colors.red[600],
@@ -126,7 +117,7 @@ class InfoTempatView extends GetView<MyController> {
                       onPressed: () {
                         _launchInBrowser(_urlMap);
                       },
-                      icon: FaIcon(FontAwesomeIcons.locationDot),
+                      icon: const FaIcon(FontAwesomeIcons.locationDot),
                     ),
                   ],
                 ),

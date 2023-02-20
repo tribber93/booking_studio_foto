@@ -1,23 +1,18 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:studio_foto/app/controller/authController.dart';
 import 'package:studio_foto/app/controller/myController.dart';
-import 'package:studio_foto/app/modules/user/detail_paket/controllers/detail_paket_controller.dart';
 import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myButtonItem.dart';
 import 'package:studio_foto/utils/myColor.dart';
 import 'package:studio_foto/utils/widget/extraWidget.dart';
-import 'package:studio_foto/utils/widget/myGroupButton.dart';
 
 class MyBottomSheet extends GetView<MyController> {
   const MyBottomSheet({Key? key, required this.info}) : super(key: key);
@@ -39,7 +34,7 @@ class MyBottomSheet extends GetView<MyController> {
 
     return FloatingActionButton.extended(
       label: Row(
-        children: [
+        children: const [
           FaIcon(FontAwesomeIcons.ticket),
           SizedBox(width: 10),
           Text("Pesan Sekarang"),
@@ -87,7 +82,7 @@ class MyBottomSheet extends GetView<MyController> {
                   ),
                   child: Column(children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         boxShadow: <BoxShadow>[
                           BoxShadow(
                               color: Colors.black54,
@@ -102,7 +97,7 @@ class MyBottomSheet extends GetView<MyController> {
                       height: 70,
                       width: double.infinity,
                       child: Column(children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 50,
                           child: Center(
                             child: Divider(thickness: 4),
@@ -116,7 +111,7 @@ class MyBottomSheet extends GetView<MyController> {
                                 width: double.infinity,
                                 child: Text(
                                   "Paket ${info['nama']}",
-                                  style: TextStyle(fontSize: 20),
+                                  style: const TextStyle(fontSize: 20),
                                 )))
                       ]),
                     ),
@@ -141,7 +136,7 @@ class MyBottomSheet extends GetView<MyController> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
+                                              const Text(
                                                 "Pilih Tanggal",
                                               ),
                                               Container(
@@ -171,7 +166,7 @@ class MyBottomSheet extends GetView<MyController> {
                                                                     .symmetric(
                                                                 horizontal: 15),
                                                         index: index,
-                                                        boxShadow: [
+                                                        boxShadow: const [
                                                           BoxShadow(
                                                             blurRadius: 1,
                                                             offset:
@@ -185,7 +180,7 @@ class MyBottomSheet extends GetView<MyController> {
                                                             text: TextSpan(
                                                               text:
                                                                   "${tanggal["hari"]}\n",
-                                                              style: TextStyle(
+                                                              style: const TextStyle(
                                                                   color: Colors
                                                                       .black54,
                                                                   fontSize: 11,
@@ -196,7 +191,7 @@ class MyBottomSheet extends GetView<MyController> {
                                                                 TextSpan(
                                                                     text:
                                                                         "${tanggal["tanggal"]}",
-                                                                    style: TextStyle(
+                                                                    style: const TextStyle(
                                                                         fontSize:
                                                                             15)),
                                                               ],
@@ -208,11 +203,11 @@ class MyBottomSheet extends GetView<MyController> {
                                                   ),
                                                 ),
                                               ),
-                                              Divider(
+                                              const Divider(
                                                 thickness: 1.5,
                                                 color: Colors.grey,
                                               ),
-                                              Text("Pilih Jam"),
+                                              const Text("Pilih Jam"),
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(20),
@@ -222,11 +217,11 @@ class MyBottomSheet extends GetView<MyController> {
                                                 ),
                                               ),
                                               info['min'] != null
-                                                  ? Divider(
+                                                  ? const Divider(
                                                       thickness: 0.5,
                                                       color: Colors.grey,
                                                     )
-                                                  : SizedBox(),
+                                                  : const SizedBox(),
                                               info['min'] != null
                                                   ? GetBuilder<MyController>(
                                                       builder: (myCont) {
@@ -244,7 +239,7 @@ class MyBottomSheet extends GetView<MyController> {
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
                                                             children: [
-                                                              Text(
+                                                              const Text(
                                                                   "Jumlah Orang"),
                                                               Counter(
                                                                 controller:
@@ -278,7 +273,7 @@ class MyBottomSheet extends GetView<MyController> {
                                                                         details) {
                                                                   myCont.timer =
                                                                       Timer.periodic(
-                                                                          Duration(
+                                                                          const Duration(
                                                                               milliseconds: 200),
                                                                           (t) {
                                                                     // controller.decrement();
@@ -298,7 +293,7 @@ class MyBottomSheet extends GetView<MyController> {
                                                                         details) {
                                                                   myCont.timer =
                                                                       Timer.periodic(
-                                                                          Duration(
+                                                                          const Duration(
                                                                               milliseconds: 200),
                                                                           (t) {
                                                                     if (myCont
@@ -389,7 +384,6 @@ class MyBottomSheet extends GetView<MyController> {
                                             (myCont.counts[i] *
                                                 info['tambahan'][i]['harga']))
                                         .round();
-                                    print(myCont.counts[i]);
                                     indexCount.add(i);
                                   }
                                 }
@@ -473,7 +467,7 @@ class Counter extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<MyController>(
       builder: (_) {
-        return Container(
+        return SizedBox(
           width: 100,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -557,6 +551,8 @@ class Waktu extends StatelessWidget {
                                         myCont.tanggalTerpilih
                                 ? primaryColor
                                 : Colors.white),
+                        onPressed:
+                            myCont.checkWaktu(waktu, data[index]['timeStamp']),
                         child: Text(
                           '${waktu['jam']}',
                           style: TextStyle(
@@ -565,8 +561,6 @@ class Waktu extends StatelessWidget {
                                   ? Colors.black
                                   : Colors.black),
                         ),
-                        onPressed:
-                            myCont.checkWaktu(waktu, data[index]['timeStamp']),
                       );
                     },
                   );

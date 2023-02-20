@@ -1,41 +1,37 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:studio_foto/app/controller/adminController.dart';
+import 'package:studio_foto/app/modules/admin/paket_tersedia/controllers/paket_tersedia_controller.dart';
+import 'package:studio_foto/utils/formatText.dart';
 import 'package:studio_foto/utils/myColor.dart';
 import 'package:studio_foto/utils/widgetLoginSignup.dart';
 
-class TambahPaketView extends GetView<AdminController> {
+class UbahView extends GetView<PaketTersediaController> {
   final formKey = GlobalKey<FormState>();
-
-  TambahPaketView({super.key});
   // bool isChecked = false;
+  final info = Get.arguments;
+
+  UbahView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final infoPaket = info.data();
+    final idPaket = info.id;
     int addForm = 0;
 
     return Scaffold(
-        appBar: AppBar(title: const Text('Tambah Paket')),
+        appBar: AppBar(title: const Text('Ubah Paket')),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
-            bool cek =
-                controller.imageFile == null || controller.imageFile!.isEmpty;
+            // bool cek =
+            //     controller.imageFile == null || controller.imageFile!.isEmpty;
+            // print(controller.imageFile);
 
             if (formKey.currentState!.validate()) {
-              if (cek) {
-                QuickAlert.show(
-                  context: context,
-                  type: QuickAlertType.warning,
-                  title: "Periksa kembali",
-                  text: "Setidaknya menambahkan 1 foto",
-                  // autoCloseDuration: const Duration(seconds: 5)
-                );
-                return;
-              }
               QuickAlert.show(
                 context: context,
                 type: QuickAlertType.confirm,
@@ -45,17 +41,19 @@ class TambahPaketView extends GetView<AdminController> {
                 cancelBtnText: 'Cek lagi',
                 onConfirmBtnTap: () async {
                   Get.back();
-                  await controller.tambahPaket();
+                  await controller.updatePaket(
+                    id: idPaket,
+                    images: infoPaket['foto'],
+                    oldExtras: infoPaket['tambahan'],
+                  );
                   QuickAlert.show(
                     context: context,
                     type: QuickAlertType.success,
-                    text: 'Paket baru sudah ditambahkan',
+                    text: 'Paket berhasil diupdate',
                   );
                 },
               );
             }
-
-            // QuickAlert.show(dva
           },
           backgroundColor: primaryColor,
           label: Row(
@@ -83,6 +81,7 @@ class TambahPaketView extends GetView<AdminController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           MyTextField(
+                            enabled: false,
                             label: '*Nama Paket',
                             controller: controller.namaController,
                             validator: (String? value) {
@@ -189,6 +188,120 @@ class TambahPaketView extends GetView<AdminController> {
                             controller: controller.keteranganController,
                             maxLines: 7,
                           ),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ExpansionTile(
+                              textColor: Colors.black87,
+                              title:
+                                  Text("Gambar (${infoPaket['foto'].length})"),
+                              children: List.generate(
+                                infoPaket['foto'].length,
+                                (imageIndex) => Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.all(8),
+                                  height: 150,
+                                  width: double.infinity,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        height: 125,
+                                        width: 125,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            fit: BoxFit.cover,
+                                            image: CachedNetworkImageProvider(
+                                              infoPaket['foto'][imageIndex],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.deleteImage(
+                                                  context: context,
+                                                  url: infoPaket['foto']
+                                                      [imageIndex],
+                                                  id: idPaket,
+                                                  images: infoPaket['foto']);
+                                            },
+                                            icon: const FaIcon(
+                                                FontAwesomeIcons.trash,
+                                                color: Colors.red),
+                                          ),
+                                          const Text("Hapus")
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
+                          SizedBox(
+                            child: ExpansionTile(
+                              textColor: Colors.black87,
+                              title: Text(
+                                  "Extra paket (${infoPaket['tambahan'].length})"),
+                              children: List.generate(
+                                  infoPaket['tambahan'].length, (extraIndex) {
+                                Map infoExtra =
+                                    infoPaket['tambahan'][extraIndex];
+                                return Container(
+                                  margin: const EdgeInsets.all(8),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            infoExtra['extra'],
+                                          ),
+                                          Text(
+                                            Rupiah().format(infoExtra['harga']),
+                                          ),
+                                          Text(infoExtra['isIterable']
+                                              ? '(Bisa ditambah)'
+                                              : '')
+                                        ],
+                                      ),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.deleteExtras(
+                                                id: idPaket,
+                                                extras: infoPaket['tambahan'],
+                                                dipilih: infoExtra,
+                                                context: context,
+                                              );
+                                            },
+                                            icon: const FaIcon(
+                                                FontAwesomeIcons.trash,
+                                                color: Colors.red),
+                                          ),
+                                          const Text("Hapus")
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
+                          const SizedBox(height: 30),
                           Row(
                             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -202,7 +315,7 @@ class TambahPaketView extends GetView<AdminController> {
                               const SizedBox(
                                 width: 8,
                               ),
-                              GetBuilder<AdminController>(
+                              GetBuilder<PaketTersediaController>(
                                 builder: (_) {
                                   return Text(
                                       "${controller.imageList.length.toString()} file");
@@ -214,7 +327,7 @@ class TambahPaketView extends GetView<AdminController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: const [
-                              Text('Extras (Opsional)'),
+                              Text('Tambahan Extras (Opsional)'),
                               Text(
                                 "✅ Jika iterable",
                                 style: TextStyle(
@@ -225,7 +338,7 @@ class TambahPaketView extends GetView<AdminController> {
                           const SizedBox(
                             height: 10,
                           ),
-                          GetBuilder<AdminController>(
+                          GetBuilder<PaketTersediaController>(
                             builder: (_) {
                               return Column(
                                 children: List.generate(addForm, (index) {
@@ -309,6 +422,22 @@ class TambahPaketView extends GetView<AdminController> {
                               )
                             ],
                           ),
+
+                          // Center(
+                          //   child: ElevatedButton(
+                          //     onPressed: () {
+                          //       print(controller.imageList);
+                          //       if (_formKey.currentState!.validate()) {
+                          //         // If the form is valid, display a snackbar. In the real world,
+                          //         // you'd often call a server or save the information in a database.
+                          //         ScaffoldMessenger.of(context).showSnackBar(
+                          //           const SnackBar(content: Text('Processing Data')),
+                          //         );
+                          //       }
+                          //     },
+                          //     child: Text("test"),
+                          //   ),
+                          // )
                         ],
                       ),
                     ),

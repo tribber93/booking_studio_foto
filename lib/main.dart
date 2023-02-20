@@ -43,7 +43,7 @@ Future<void> main() async {
 
         return Center(
           child: Container(
-            // constraints: const BoxConstraints(maxWidth: 768),
+            constraints: const BoxConstraints(maxWidth: 768),
             child: GetMaterialApp(
               localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,

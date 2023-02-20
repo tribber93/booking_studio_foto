@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sms/flutter_sms.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -117,10 +116,8 @@ class MyController extends GetxController {
         DateTime.fromMillisecondsSinceEpoch(timestampInMilliseconds);
 
 // Menentukan format tanggal dan waktu
-    final dateFormat = DateFormat('dd MMM yyyy HH:mm:ss');
 
 // Merubah DateTime ke string dengan format yang ditentukan
-    final formattedDateTime = dateFormat.format(dateTime);
 
     var format = DateFormat("HH:mm");
     var sekarang = format.format(DateTime.now());
@@ -189,7 +186,6 @@ class MyController extends GetxController {
         db.collection("jadwal").doc(tanggalTerpilih).update({
           'waktu': waktuBaru,
         });
-        print(waktuBaru);
         reset();
       });
     });

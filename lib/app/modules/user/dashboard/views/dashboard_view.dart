@@ -35,7 +35,7 @@ class DashboardView extends GetView<DashboardController> {
                           index: controller.tabIndex,
                           children: [
                             HomeView(),
-                            InfoTempatView(),
+                            const InfoTempatView(),
                             ProfileView(),
                           ],
                         ),
@@ -54,7 +54,7 @@ class DashboardView extends GetView<DashboardController> {
                                 height: 25,
                                 width: 25,
                               ),
-                              title: Text("Home"),
+                              title: const Text("Home"),
                               selectedColor: primaryColor,
                             ),
                             SalomonBottomBarItem(
@@ -63,7 +63,7 @@ class DashboardView extends GetView<DashboardController> {
                                 height: 25,
                                 width: 25,
                               ),
-                              title: Text("Informasi"),
+                              title: const Text("Informasi"),
                               selectedColor: primaryColor,
                             ),
                             SalomonBottomBarItem(
@@ -72,7 +72,7 @@ class DashboardView extends GetView<DashboardController> {
                                 height: 25,
                                 width: 25,
                               ),
-                              title: Text("Profile"),
+                              title: const Text("Profile"),
                               selectedColor: primaryColor,
                             ),
                           ],

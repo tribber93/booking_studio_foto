@@ -61,6 +61,7 @@ class MyTextField extends StatelessWidget {
   List<TextInputFormatter>? inputFormatters;
   TextInputType? keyboardType;
   int? maxLines;
+  bool? enabled;
 
   MyTextField({
     Key? key,
@@ -73,6 +74,7 @@ class MyTextField extends StatelessWidget {
     this.inputFormatters,
     this.keyboardType,
     this.maxLines = 1,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -80,6 +82,7 @@ class MyTextField extends StatelessWidget {
     return Column(
       children: [
         TextFormField(
+          enabled: enabled,
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
           controller: controller,

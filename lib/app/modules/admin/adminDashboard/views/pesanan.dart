@@ -5,6 +5,8 @@ import 'package:studio_foto/app/controller/adminController.dart';
 import 'package:studio_foto/utils/formatText.dart';
 
 class PesananView extends GetView<AdminController> {
+  const PesananView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -12,7 +14,7 @@ class PesananView extends GetView<AdminController> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('PesananView'),
+          title: const Text('PesananView'),
           bottom: const TabBar(
             // isScrollable: true,
             labelColor: Colors.black,
@@ -47,23 +49,6 @@ class PesananView extends GetView<AdminController> {
             ),
           ],
         ),
-        // SafeArea(
-        //   child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        //     stream: controller.streamPesanan(status: 'belum bayar'),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.waiting) {
-        //         return const Center(child: CircularProgressIndicator());
-        //       }
-
-        //       var data = snapshot.data!.docs;
-        //       for (var element in data) {
-        //         print(element['nama']);
-        //       }
-
-        //       return Center(child: Text("Test"));
-        //     },
-        //   ),
-        // ),
       ),
     );
   }
@@ -155,12 +140,12 @@ class StreamPesanan extends StatelessWidget {
                             : const SizedBox(),
                         dataReversed[index]['extraCek'] != null ||
                                 dataReversed[index]['extraCounter'] != null
-                            ? Text(
+                            ? const Text(
                                 "Tambahan",
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w500),
                               )
-                            : SizedBox(),
+                            : const SizedBox(),
                         SizedBox(
                           width: double.infinity,
                           child: Row(
@@ -199,7 +184,7 @@ class StreamPesanan extends StatelessWidget {
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
                                           color: Colors.red,
-                                          child: Text(
+                                          child: const Text(
                                             "Batal",
                                             textAlign: TextAlign.center,
                                           ),
@@ -214,7 +199,7 @@ class StreamPesanan extends StatelessWidget {
                                         child: Container(
                                           padding: const EdgeInsets.all(10),
                                           color: Colors.green,
-                                          child: Text(
+                                          child: const Text(
                                             "Konfirmasi",
                                             textAlign: TextAlign.center,
                                           ),

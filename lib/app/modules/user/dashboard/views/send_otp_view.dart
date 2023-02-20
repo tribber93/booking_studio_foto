@@ -14,6 +14,8 @@ class SendOTPView extends GetView<VerifyController> {
   GlobalKey<FormState> formKey = GlobalKey();
   String phoneNumber = Get.arguments['phoneNumber'];
   String verify = Get.arguments['verify'];
+
+  SendOTPView({super.key});
   @override
   Widget build(BuildContext context) {
     String code = '';
@@ -37,7 +39,7 @@ class SendOTPView extends GetView<VerifyController> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => AuthController().logout(),
-          icon: FaIcon(FontAwesomeIcons.arrowLeft),
+          icon: const FaIcon(FontAwesomeIcons.arrowLeft),
           color: Colors.black,
         ),
         backgroundColor: Colors.white,
@@ -61,7 +63,7 @@ class SendOTPView extends GetView<VerifyController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Kode OTP berhasil dikirim \nke ${phoneNumber}",
+                    "Kode OTP berhasil dikirim \nke $phoneNumber",
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(
@@ -98,7 +100,6 @@ class SendOTPView extends GetView<VerifyController> {
                       },
                       onChanged: (value) {
                         code = value;
-                        print(code);
                       },
                       cursor: Column(
                         mainAxisAlignment: MainAxisAlignment.end,

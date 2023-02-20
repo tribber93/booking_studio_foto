@@ -1,18 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:studio_foto/app/controller/authController.dart';
-import 'package:studio_foto/app/controller/myController.dart';
 import 'package:studio_foto/app/controller/verifikasiHP.dart';
-import 'package:studio_foto/app/modules/user/dashboard/views/send_otp_view.dart';
-import 'package:studio_foto/app/routes/app_pages.dart';
 import 'package:studio_foto/utils/myColor.dart';
 
 class OTPView extends GetView<VerifyController> {
   final versC = Get.find<VerifyController>();
+
+  OTPView({super.key});
   @override
   Widget build(BuildContext context) {
     Get.put(VerifyController());
@@ -69,7 +67,7 @@ class OTP extends StatelessWidget {
                           nomor = phone.completeNumber;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Center(
